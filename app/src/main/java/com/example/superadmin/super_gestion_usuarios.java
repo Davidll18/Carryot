@@ -1,5 +1,6 @@
 package com.example.superadmin;
 
+import android.content.Intent;
 import android.os.Bundle;
 
 import com.google.android.material.appbar.CollapsingToolbarLayout;
@@ -36,4 +37,9 @@ public class super_gestion_usuarios extends AppCompatActivity {
             }
         });
     }
+    public void register_btn(View view){
+        Intent m7intent = new Intent(this, super_register_admin_rest.class);
+        startActivity(m7intent);
+    }
+
 }

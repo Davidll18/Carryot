@@ -64,7 +64,8 @@
                 android:text="Registrar Admin de restaurant"
                 android:backgroundTint="#FF8C04"
                 android:textColor="#FFFFFF"
-                android:layout_marginBottom="16dp"/>
+                android:layout_marginBottom="16dp"
+                android:onClick="btnRegistrarAdmin"/>
 
             <Button
                 android:id="@+id/btnReporteVentas"
@@ -73,7 +74,8 @@
                 android:text="Reporte de ventas"
                 android:backgroundTint="#FF8C04"
                 android:textColor="#FFFFFF"
-                android:layout_marginBottom="16dp"/>
+                android:layout_marginBottom="16dp"
+                android:onClick="btnReporteVentas"/>
 
             <Button
                 android:id="@+id/btnRestaurants"
@@ -82,7 +84,8 @@
                 android:text="Restaurants"
                 android:backgroundTint="#FF8C04"
                 android:textColor="#FFFFFF"
-                android:layout_marginBottom="16dp"/>
+                android:layout_marginBottom="16dp"
+                android:onClick="btnRestaurants"/>
 
             <Button
                 android:id="@+id/btnLogs"

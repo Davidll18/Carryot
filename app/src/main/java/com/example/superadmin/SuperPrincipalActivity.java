@@ -36,5 +36,17 @@ public class SuperPrincipalActivity extends AppCompatActivity {
         Intent m3intent = new Intent(this, super_gestion_usuarios.class);
         startActivity(m3intent);
     }
+    public void btnRegistrarAdmin(View view){
+        Intent m4intent = new Intent(this, super_register_admin_rest.class);
+        startActivity(m4intent);
+    }
+    public void btnReporteVentas(View view){
+        Intent m5intent = new Intent(this, super_estadisticas_general.class);
+        startActivity(m5intent);
+    }
+    public void btnRestaurants(View view){
+        Intent m6intent = new Intent(this, super_rest.class);
+        startActivity(m6intent);
+    }
 
 }
