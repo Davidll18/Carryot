@@ -28,4 +28,10 @@ public class MainActivity extends AppCompatActivity {
         Intent mintent = new Intent(this, SuperPrincipalActivity.class);
         startActivity(mintent);
     }
+    public void register_btn(View view){
+        Intent m2intent = new Intent(this, super_register_admin_rest.class);
+        startActivity(m2intent);
+    }
+
+
 }

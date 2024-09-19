@@ -1,25 +1,30 @@
 package com.example.superadmin;
 
-import android.content.Intent;
 import android.os.Bundle;
+
+import com.google.android.material.appbar.CollapsingToolbarLayout;
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
+import com.google.android.material.snackbar.Snackbar;
+
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
+import androidx.drawerlayout.widget.DrawerLayout;
+
 import android.view.View;
 import android.widget.ImageButton;
 
-import androidx.activity.EdgeToEdge;
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.graphics.Insets;
-import androidx.core.view.ViewCompat;
-import androidx.core.view.WindowInsetsCompat;
-import androidx.drawerlayout.widget.DrawerLayout;
+import com.example.superadmin.databinding.ActivitySuperGestionUsuariosBinding;
 
-public class SuperPrincipalActivity extends AppCompatActivity {
+public class super_gestion_usuarios extends AppCompatActivity {
 
     DrawerLayout drawerLayout;
     ImageButton buttonMenu;
+    private ActivitySuperGestionUsuariosBinding binding;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.super_principal);
+        setContentView(R.layout.activity_super_gestion_usuarios);
 
         drawerLayout = findViewById(R.id.draweLayout);
         buttonMenu = findViewById(R.id.buttonMenu);
@@ -30,11 +35,5 @@ public class SuperPrincipalActivity extends AppCompatActivity {
                 drawerLayout.open();
             }
         });
-
     }
-    public void btnGestionUsuarios(View view){
-        Intent m3intent = new Intent(this, super_gestion_usuarios.class);
-        startActivity(m3intent);
-    }
-
 }
