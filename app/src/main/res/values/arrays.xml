@@ -10,4 +10,10 @@
         <item>Habilitado</item>
         <item>No Habilitado</item>
     </string-array>
+
+    <string-array name="tipoRest_opciones">
+        <item>Comida criolla</item>
+        <item>Comida Rapida</item>
+        <item>Comida China</item>
+    </string-array>
 </resources>
