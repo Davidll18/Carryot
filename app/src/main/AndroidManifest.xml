@@ -43,7 +43,16 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".super_editar_usuarios"
+            android:name=".super_habilitar_usuarios"
+            android:exported="true">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+        <activity
+            android:name=".super_editar"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
