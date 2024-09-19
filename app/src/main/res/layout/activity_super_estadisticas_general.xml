@@ -133,6 +133,15 @@
                     android:layout_height="wrap_content"
                     android:text="14 ventas"/>
             </LinearLayout>
+            <Button
+                android:id="@+id/backButton"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Volver"
+                android:layout_margin="16dp"
+                android:backgroundTint="#FF9800"
+                app:layout_constraintBottom_toBottomOf="parent"
+                android:onClick="backButton"/>
 
         </LinearLayout>
 

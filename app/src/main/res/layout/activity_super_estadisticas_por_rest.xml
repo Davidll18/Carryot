@@ -171,6 +171,7 @@
         android:text="Volver"
         android:layout_margin="16dp"
         android:backgroundTint="#FF9800"
-        app:layout_constraintBottom_toBottomOf="parent"/>
+        app:layout_constraintBottom_toBottomOf="parent"
+        android:onClick="backButton"/>
 
 </androidx.constraintlayout.widget.ConstraintLayout>
