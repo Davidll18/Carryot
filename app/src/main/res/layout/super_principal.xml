@@ -4,13 +4,16 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:openDrawer="start">
+    tools:openDrawer="start"
+    android:id="@+id/draweLayout">
+    <include
+        layout="@layout/activity_main_content"/>
 
     <com.google.android.material.navigation.NavigationView
         android:layout_width="wrap_content"
         android:layout_height="match_parent"
         app:menu="@menu/super_drawer_items"
-        app:headerLayout="@layout/header_drawable_super_admin"
+        app:headerLayout="@layout/super_header"
         android:layout_gravity="start" />
 
 </androidx.drawerlayout.widget.DrawerLayout>
