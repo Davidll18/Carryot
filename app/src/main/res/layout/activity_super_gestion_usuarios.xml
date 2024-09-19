@@ -142,7 +142,10 @@
                     android:layout_gravity="center"
                     android:text="Editar"
                     android:backgroundTint="#CCCCCC"
-                    android:textColor="#000000" />
+                    android:textColor="#000000"
+                    android:id="@+id/Edit_rest"
+                    android:onClick="Edit_rest"/>
+                
             </LinearLayout>
         </androidx.cardview.widget.CardView>
         <androidx.cardview.widget.CardView

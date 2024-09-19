@@ -41,5 +41,9 @@ public class super_gestion_usuarios extends AppCompatActivity {
         Intent m7intent = new Intent(this, super_register_admin_rest.class);
         startActivity(m7intent);
     }
+    public void Edit_rest(View view){
+        Intent m10intent = new Intent(this, super_habilitar_usuarios.class);
+        startActivity(m10intent);
+    }
 
 }

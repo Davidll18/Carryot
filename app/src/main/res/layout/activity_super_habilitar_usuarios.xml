@@ -18,7 +18,8 @@
         android:layout_margin="16dp"
         android:backgroundTint="#FF8C04"
         android:textColor="@color/white"
-        android:textStyle="bold" />
+        android:textStyle="bold"
+        android:onClick="editar_btn"/>
 
     <LinearLayout
         android:layout_width="match_parent"
