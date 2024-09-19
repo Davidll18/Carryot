@@ -1,0 +1,7 @@
+<resources>
+    <string name="app_name">projectIOT</string>
+    <!-- Añade estas dos líneas si no están -->
+    <string name="navigation_drawer_open">Abrir menú</string>
+    <string name="navigation_drawer_close">Cerrar menú</string>
+</resources>
+

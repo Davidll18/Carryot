@@ -1,0 +1,162 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+    <!-- Toolbar -->
+    <include
+        layout="@layout/generaltoolbar_adminrest"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:padding="16dp"
+        android:layout_marginTop="70dp">
+
+        <!-- Título -->
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="¡AGREGA TU RESTAURANTE!"
+            android:textStyle="bold"
+            android:textSize="25sp"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginBottom="8dp"/>
+
+        <!-- Subtítulo de validación -->
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Se validarán los datos"
+            android:textSize="16sp"
+            android:textColor="#000000"
+            android:drawableStart="@drawable/warning_icon"
+            android:gravity="center_horizontal"
+            android:layout_gravity="center_horizontal"/> <!-- Imagen a la izquierda -->
+
+
+
+
+        <!-- Campo: Nombre del Restaurante -->
+
+        <!-- Campo: Categoría y Razón Social -->
+        <EditText
+
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="70dp"
+            android:layout_marginBottom="20dp"
+            android:background="@drawable/gray_box_background"
+            android:hint="NOMBRE DEL RESTAURANTE"
+            android:padding="12dp"
+            android:textSize="20sp" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:layout_marginBottom="20dp"
+            android:layout_marginTop="20dp"
+            android:weightSum="2">
+
+            <!-- Categoría (Spinner) -->
+            <Spinner
+                android:layout_width="0dp"
+                android:layout_height="48dp"
+                android:layout_weight="1"
+                android:layout_marginEnd="8dp"
+                android:background="@drawable/gray_box_background" />
+
+            <!-- Razón Social -->
+            <EditText
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:hint="RAZÓN SOCIAL"
+                android:background="@drawable/gray_box_background"
+                android:padding="12dp"
+                android:textSize="20sp"/>
+
+
+        </LinearLayout>
+
+        <!-- Campo: R.U.C -->
+        <EditText
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="R.U.C."
+            android:background="@drawable/gray_box_background"
+            android:padding="12dp"
+            android:textSize="20sp"
+            android:layout_marginBottom="20dp"
+            android:layout_marginTop="20dp"/>
+
+        <!-- Códigos de Licencia y Permiso -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:layout_marginBottom="80dp"
+            android:layout_marginTop="20dp"
+            android:weightSum="2">
+
+            <!-- Código de licencia -->
+            <EditText
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:hint="Lic. de funcionamiento"
+                android:background="@drawable/gray_box_background"
+                android:padding="12dp"
+                android:textSize="16sp"
+                android:layout_marginEnd="8dp"/>
+
+            <!-- Código de permiso -->
+            <EditText
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:hint="Cód. de permiso sanitario"
+                android:background="@drawable/gray_box_background"
+                android:padding="12dp"
+                android:textSize="16sp"/>
+        </LinearLayout>
+
+        <!-- Botones: Atras y Siguiente -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:weightSum="2">
+
+            <!-- Botón Atras -->
+            <Button
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:layout_marginEnd="8dp"
+                android:text="Atras"
+                android:textStyle="bold"
+                android:textSize="20sp"
+                android:textColor="@android:color/black"
+                android:backgroundTint="#C2928D89"
+            />
+
+            <!-- Botón Siguiente -->
+            <Button
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="Siguiente"
+                android:textStyle="bold"
+                android:textSize="20sp"
+                android:textColor="@color/black"
+                android:backgroundTint="#C2F0791E"
+            />
+        </LinearLayout>
+    </LinearLayout>
+
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>

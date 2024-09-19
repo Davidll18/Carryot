@@ -1,0 +1,95 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+    <!-- Toolbar -->
+    <include
+        layout="@layout/generaltoolbar_adminrest"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:padding="16dp"
+        android:layout_marginTop="70dp">
+
+        <!-- Título -->
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="¡AGREGA TU RESTAURANTE!"
+            android:textStyle="bold"
+            android:textSize="25sp"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginBottom="8dp"/>
+
+
+        <EditText
+
+            android:layout_width="match_parent"
+            android:layout_height="120dp"
+            android:layout_marginTop="40dp"
+            android:background="@drawable/gray_box_background"
+            android:hint="DESCRIPCIÓN (Máx. 100 carácteres)"
+            android:padding="12dp"
+            android:textSize="20sp"
+            android:layout_marginBottom="20dp"/>
+
+        <ImageView
+            android:layout_width="358dp"
+            android:layout_height="195dp"
+            android:layout_gravity="center_horizontal"
+            android:padding="1dp"
+            android:src="@drawable/location_image" />
+
+
+        <!-- Campo: Dirección -->
+        <EditText
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="DIRECCIÓN"
+            android:background="@drawable/gray_box_background"
+            android:padding="12dp"
+            android:textSize="20sp"
+            android:layout_marginBottom="60dp"
+            android:layout_marginTop="20dp"
+            android:drawableRight="@drawable/search_icon"
+         />
+        <!-- Botones: Atras y Siguiente -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:weightSum="2">
+
+            <!-- Botón Atras -->
+            <Button
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:layout_marginEnd="8dp"
+                android:text="Atras"
+                android:textStyle="bold"
+                android:textSize="20sp"
+                android:textColor="@android:color/black"
+                android:backgroundTint="#C2928D89"
+                />
+
+            <!-- Botón Siguiente -->
+            <Button
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="Siguiente"
+                android:textStyle="bold"
+                android:textSize="20sp"
+                android:textColor="@color/black"
+                android:backgroundTint="#C2F0791E"
+                />
+        </LinearLayout>
+    </LinearLayout>
+
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>
