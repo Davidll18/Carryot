@@ -12,6 +12,7 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.SuperAdmin"
         tools:targetApi="31">
+
         <activity
             android:name=".MainActivity"
             android:exported="true">
@@ -70,6 +71,15 @@
         </activity>
         <activity
             android:name=".super_estadisticas_por_rest"
+            android:exported="true">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+        <activity
+            android:name=".super_estadisticas_general"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
