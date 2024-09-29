@@ -2,4 +2,18 @@
 <resources>
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
+    <color name="light_red">#ff0754</color>
+    <color name="light_orange">#ff6547</color>
+    <color name="gray">#d5d5d5</color>
+    <color name="gray_8d8d8d">#9E0000</color>
+    <color name="red_app">#ff4140</color>
+    <color name="blue_dark_app">#001527</color>
+    <color name="blue_app">#0046a0</color>
+    <color name="space_color">#d9d9d9</color>
+    <color name="text_gray">#a8a8a8</color>
+    <color name="green">#06a77d</color>
+    <color name="pastelYellow">#efefe5</color>
+    <color name="red_boton">#FF8C04</color>
+    <color name="dark_gray_hint">#606060</color> <!-- Ajusta este valor según la intensidad deseada -->
+
 </resources>
