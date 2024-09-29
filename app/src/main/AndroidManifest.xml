@@ -12,9 +12,7 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.SuperAdmin"
         tools:targetApi="31">
-        <activity
-            android:name=".User_MainActivity"
-            android:exported="false" />
+
         <activity
             android:name=".MainActivity"
             android:exported="true">
