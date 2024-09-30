@@ -1,0 +1,298 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:fillViewport="true">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/main"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/white"
+        tools:context=".SignUpActivity">
+
+        <include
+            android:id="@+id/toolbar_signup"
+            layout="@layout/toolbar_only_back"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:id="@+id/textView20"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="27dp"
+            android:fontFamily="@font/raleway_bold"
+            android:gravity="center"
+            android:text="Registro"
+            android:textColor="@color/black"
+            android:textSize="16sp"
+            app:layout_constraintEnd_toStartOf="@+id/guideline_end"
+            app:layout_constraintStart_toStartOf="@+id/guideline_start"
+            app:layout_constraintTop_toBottomOf="@+id/toolbar_signup" />
+
+        <TextView
+            android:id="@+id/tv_message_invitation"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="11dp"
+            android:fontFamily="@font/raleway_regular"
+            android:gravity="center"
+            android:text="Completar los siguientes datos para empezar a ordenar tus pedidos"
+            android:textColor="@color/black"
+            android:textSize="14sp"
+            app:layout_constraintEnd_toStartOf="@+id/guideline_end"
+            app:layout_constraintStart_toStartOf="@+id/guideline_start"
+            app:layout_constraintTop_toBottomOf="@+id/textView20" />
+
+        <!-- Nombre -->
+        <androidx.appcompat.widget.LinearLayoutCompat
+            android:id="@+id/lyt_name"
+            android:layout_width="0dp"
+            android:layout_height="70dp"
+            android:layout_marginTop="15dp"
+            android:background="@drawable/round_corner_background_white"
+            android:elevation="2dp"
+            android:orientation="vertical"
+            android:paddingTop="5dp"
+            android:paddingBottom="5dp"
+            app:layout_constraintEnd_toStartOf="@+id/guideline_end"
+            app:layout_constraintStart_toStartOf="@+id/guideline_start"
+            app:layout_constraintTop_toBottomOf="@+id/tv_message_invitation">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="10dp"
+                android:layout_marginTop="8dp"
+                android:fontFamily="@font/raleway_bold"
+                android:text="Nombres"
+                android:textColor="@color/black"
+                android:textSize="12sp" />
+
+            <EditText
+                android:id="@+id/ed_name"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="10dp"
+                android:background="@null"
+                android:layout_marginTop="5dp"
+                android:hint="Ingrese su nombre"
+                android:inputType="textPersonName" />
+        </androidx.appcompat.widget.LinearLayoutCompat>
+
+        <!-- Apellidos (unificado) -->
+        <androidx.appcompat.widget.LinearLayoutCompat
+            android:id="@+id/lyt_surname"
+            android:layout_width="0dp"
+            android:layout_height="70dp"
+            android:layout_marginTop="11dp"
+            android:background="@drawable/round_corner_background_white"
+            android:elevation="2dp"
+            android:orientation="vertical"
+            android:paddingTop="5dp"
+            android:paddingBottom="5dp"
+            app:layout_constraintEnd_toStartOf="@+id/guideline_end"
+            app:layout_constraintStart_toStartOf="@+id/guideline_start"
+            app:layout_constraintTop_toBottomOf="@+id/lyt_name">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="10dp"
+                android:layout_marginTop="8dp"
+                android:fontFamily="@font/raleway_bold"
+                android:text="Apellidos"
+                android:textColor="@color/black"
+                android:textSize="12sp" />
+
+            <EditText
+                android:id="@+id/ed_surname"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="10dp"
+                android:background="@null"
+                android:layout_marginTop="5dp"
+                android:hint="Ingrese sus apellidos"
+                android:inputType="textPersonName" />
+        </androidx.appcompat.widget.LinearLayoutCompat>
+
+        <!-- Correo Electrónico -->
+        <androidx.appcompat.widget.LinearLayoutCompat
+            android:id="@+id/lyt_email"
+            android:layout_width="0dp"
+            android:layout_height="70dp"
+            android:layout_marginTop="11dp"
+            android:background="@drawable/round_corner_background_white"
+            android:elevation="2dp"
+            android:orientation="vertical"
+            android:paddingTop="5dp"
+            android:paddingBottom="5dp"
+            app:layout_constraintEnd_toStartOf="@+id/guideline_end"
+            app:layout_constraintStart_toStartOf="@+id/guideline_start"
+            app:layout_constraintTop_toBottomOf="@+id/lyt_surname">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="10dp"
+                android:layout_marginTop="8dp"
+                android:fontFamily="@font/raleway_bold"
+                android:text="Correo Electrónico"
+                android:textColor="@color/black"
+                android:textSize="12sp" />
+
+            <EditText
+                android:id="@+id/ed_email"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="10dp"
+                android:background="@null"
+                android:layout_marginTop="5dp"
+                android:hint="Ingrese su correo electrónico"
+                android:inputType="textEmailAddress" />
+        </androidx.appcompat.widget.LinearLayoutCompat>
+
+        <!-- DNI -->
+        <androidx.appcompat.widget.LinearLayoutCompat
+            android:id="@+id/lyt_dni"
+            android:layout_width="0dp"
+            android:layout_height="70dp"
+            android:layout_marginTop="11dp"
+            android:background="@drawable/round_corner_background_white"
+            android:elevation="2dp"
+            android:orientation="vertical"
+            android:paddingTop="5dp"
+            android:paddingBottom="5dp"
+            app:layout_constraintEnd_toStartOf="@+id/guideline_end"
+            app:layout_constraintStart_toStartOf="@+id/guideline_start"
+            app:layout_constraintTop_toBottomOf="@+id/lyt_email">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="10dp"
+                android:layout_marginTop="8dp"
+                android:fontFamily="@font/raleway_bold"
+                android:text="DNI"
+                android:textColor="@color/black"
+                android:textSize="12sp" />
+
+            <EditText
+                android:id="@+id/ed_dni"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="10dp"
+                android:background="@null"
+                android:layout_marginTop="5dp"
+                android:hint="Ingrese su DNI"
+                android:inputType="number"
+                android:maxLength="8" />
+        </androidx.appcompat.widget.LinearLayoutCompat>
+
+        <!-- Teléfono -->
+        <androidx.appcompat.widget.LinearLayoutCompat
+            android:id="@+id/lyt_phone"
+            android:layout_width="0dp"
+            android:layout_height="70dp"
+            android:layout_marginTop="11dp"
+            android:background="@drawable/round_corner_background_white"
+            android:elevation="2dp"
+            android:orientation="vertical"
+            android:paddingTop="5dp"
+            android:paddingBottom="5dp"
+            app:layout_constraintEnd_toStartOf="@+id/guideline_end"
+            app:layout_constraintStart_toStartOf="@+id/guideline_start"
+            app:layout_constraintTop_toBottomOf="@+id/lyt_dni">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="10dp"
+                android:layout_marginTop="8dp"
+                android:fontFamily="@font/raleway_bold"
+                android:text="Teléfono"
+                android:textColor="@color/black"
+                android:textSize="12sp" />
+
+            <EditText
+                android:id="@+id/ed_phone"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="10dp"
+                android:background="@null"
+                android:layout_marginTop="5dp"
+                android:hint="Ingrese su número de teléfono"
+                android:inputType="phone"
+                android:maxLength="9" />
+        </androidx.appcompat.widget.LinearLayoutCompat>
+
+        <!-- Dirección -->
+        <androidx.appcompat.widget.LinearLayoutCompat
+            android:id="@+id/lyt_address"
+            android:layout_width="0dp"
+            android:layout_height="70dp"
+            android:layout_marginTop="11dp"
+            android:background="@drawable/round_corner_background_white"
+            android:elevation="2dp"
+            android:orientation="vertical"
+            android:paddingTop="5dp"
+            android:paddingBottom="5dp"
+            app:layout_constraintEnd_toStartOf="@+id/guideline_end"
+            app:layout_constraintStart_toStartOf="@+id/guideline_start"
+            app:layout_constraintTop_toBottomOf="@+id/lyt_phone">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="10dp"
+                android:layout_marginTop="8dp"
+                android:fontFamily="@font/raleway_bold"
+                android:text="Dirección"
+                android:textColor="@color/black"
+                android:textSize="12sp" />
+
+            <EditText
+                android:id="@+id/ed_address"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="10dp"
+                android:background="@null"
+                android:hint="Ingrese su dirección"
+                android:inputType="textPostalAddress" />
+        </androidx.appcompat.widget.LinearLayoutCompat>
+
+        <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/btn_signup_init"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="27dp"
+            android:layout_marginBottom="27dp"
+            android:background="@drawable/round_corner_background_boton"
+            android:fontFamily="@font/raleway_bold"
+            android:text="Registrarse"
+            android:textColor="@color/white"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toStartOf="@+id/guideline_end"
+            app:layout_constraintStart_toStartOf="@+id/guideline_start"
+            app:layout_constraintTop_toBottomOf="@+id/lyt_address" />
+
+        <androidx.constraintlayout.widget.Guideline
+            android:id="@+id/guideline_start"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            app:layout_constraintGuide_begin="15dp" />
+
+        <androidx.constraintlayout.widget.Guideline
+            android:id="@+id/guideline_end"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            app:layout_constraintGuide_end="15dp" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</ScrollView>

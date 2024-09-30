@@ -1,0 +1,406 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/main"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".ProfileActivity">
+    <include
+        android:id="@+id/toolbar_profile"
+        layout="@layout/toolbar_only_back"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <ImageView
+        android:id="@+id/imageView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:scaleType="centerCrop"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/toolbar_profile"
+        app:srcCompat="@drawable/img_top" />
+
+
+    <com.google.android.material.card.MaterialCardView
+        android:id="@+id/materialCardView"
+        android:layout_width="120dp"
+        android:layout_height="120dp"
+        android:layout_marginTop="32dp"
+        app:cardCornerRadius="24dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/imageView">
+
+        <ImageView
+            android:id="@+id/imageView4"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:srcCompat="@drawable/avatar" />
+    </com.google.android.material.card.MaterialCardView>
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="24dp"
+        android:layout_marginEnd="16dp"
+        android:orientation="vertical"
+        app:layout_constraintEnd_toStartOf="@+id/guideline_end_personal_information_client"
+        app:layout_constraintStart_toStartOf="@+id/guideline_init_personal_information_client"
+        app:layout_constraintTop_toBottomOf="@+id/materialCardView"
+        tools:ignore="MissingConstraints,NotSibling">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            app:layout_constraintEnd_toStartOf="@+id/guideline_end_personal_information_client"
+            app:layout_constraintStart_toStartOf="@+id/guideline_init_personal_information_client"
+            app:layout_constraintTop_toBottomOf="@+id/linearLayoutCompat"
+            app:layout_constraintVertical_bias="0">
+
+            <TextView
+                android:id="@+id/tv_title_personal_data"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="1dp"
+                android:layout_marginTop="24dp"
+                android:fontFamily="@font/roboto_black"
+                android:text="Datos personales"
+                android:textColor="@color/blue_dark_app"
+                android:textSize="20sp"
+                app:layout_constraintEnd_toStartOf="@+id/guideline_end_personal_information_client"
+                app:layout_constraintStart_toStartOf="@+id/guideline_init_personal_information_client"
+                app:layout_constraintVertical_bias="0" />
+
+            <androidx.appcompat.widget.LinearLayoutCompat
+                android:id="@+id/lyt_name_client_personal_information"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="24dp"
+                android:elevation="0dp"
+
+                android:orientation="vertical"
+                app:layout_constraintEnd_toStartOf="@+id/guideline_end_personal_information_client"
+                app:layout_constraintHorizontal_bias="0.0"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintRight_toRightOf="parent"
+                app:layout_constraintStart_toStartOf="@+id/guideline_init_personal_information_client"
+                app:layout_constraintTop_toBottomOf="@+id/tv_title_personal_data">
+
+                <TextView
+                    android:id="@+id/tv_lbl_name_client_personal_information"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="0dp"
+                    android:layout_marginTop="16dp"
+                    android:fontFamily="@font/raleway_bold"
+                    android:text="Nombre"
+                    android:textColor="@color/blue_dark_app"
+                    android:textSize="18sp"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintHorizontal_bias="0.054"
+                    app:layout_constraintLeft_toLeftOf="parent"
+                    app:layout_constraintRight_toRightOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintVertical_bias="0.323" />
+
+                <TextView
+                    android:id="@+id/et_name_client_personal_information"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="0dp"
+                    android:layout_marginTop="0dp"
+                    android:layout_marginEnd="0dp"
+                    android:layout_marginBottom="13dp"
+                    android:background="@null"
+                    android:fontFamily="@font/roboto_black"
+                    android:hint="Jose"
+                    android:importantForAutofill="no"
+                    android:inputType="text"
+                    android:maxLength="50"
+                    android:textSize="16sp"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintHorizontal_bias="0.0"
+                    app:layout_constraintLeft_toLeftOf="parent"
+                    app:layout_constraintRight_toRightOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintVertical_bias="0.362"
+                    tools:ignore="TouchTargetSizeCheck,DuplicateSpeakableTextCheck,TextContrastCheck" />
+            </androidx.appcompat.widget.LinearLayoutCompat>
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:background="@color/gray"
+                app:layout_constraintEnd_toStartOf="@+id/guideline_end_personal_information_client"
+                app:layout_constraintStart_toStartOf="@+id/guideline_init_personal_information_client"
+                app:layout_constraintTop_toBottomOf="@+id/lyt_name_client_personal_information" />
+
+            <androidx.appcompat.widget.LinearLayoutCompat
+                android:id="@+id/lyt_last_name_personal_information"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="1dp"
+                android:elevation="0dp"
+                android:orientation="vertical"
+                app:layout_constraintEnd_toStartOf="@+id/guideline_end_personal_information_client"
+                app:layout_constraintHorizontal_bias="0.0"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintRight_toRightOf="parent"
+                app:layout_constraintStart_toStartOf="@+id/guideline_init_personal_information_client"
+                app:layout_constraintTop_toBottomOf="@+id/lyt_name_client_personal_information">
+
+                <TextView
+                    android:id="@+id/tv_lbl_last_name_personal_information"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="0dp"
+                    android:layout_marginTop="16dp"
+                    android:fontFamily="@font/raleway_bold"
+                    android:text="Apellido paterno"
+                    android:textColor="@color/blue_dark_app"
+                    android:textSize="18sp"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintHorizontal_bias="0.054"
+                    app:layout_constraintLeft_toLeftOf="parent"
+                    app:layout_constraintRight_toRightOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintVertical_bias="0.323" />
+
+                <TextView
+                    android:id="@+id/et_last_name_personal_information"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="0dp"
+                    android:layout_marginTop="0dp"
+                    android:layout_marginEnd="0dp"
+                    android:layout_marginBottom="13dp"
+                    android:background="@null"
+                    android:fontFamily="@font/roboto_black"
+                    android:hint="Martinez"
+                    android:importantForAutofill="no"
+                    android:inputType="text"
+                    android:maxLength="50"
+                    android:textSize="16sp"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintHorizontal_bias="0.0"
+                    app:layout_constraintLeft_toLeftOf="parent"
+                    app:layout_constraintRight_toRightOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintVertical_bias="0.362"
+                    tools:ignore="TouchTargetSizeCheck,DuplicateSpeakableTextCheck,TextContrastCheck" />
+
+            </androidx.appcompat.widget.LinearLayoutCompat>
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:background="@color/gray"
+                app:layout_constraintEnd_toStartOf="@+id/guideline_end_personal_information_client"
+                app:layout_constraintStart_toStartOf="@+id/guideline_init_personal_information_client"
+                app:layout_constraintTop_toBottomOf="@+id/lyt_last_name_personal_information" />
+
+            <androidx.appcompat.widget.LinearLayoutCompat
+                android:id="@+id/lyt_mother_last_name_personal_information"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="1dp"
+                android:elevation="0dp"
+                android:orientation="vertical"
+                app:layout_constraintEnd_toStartOf="@+id/guideline_end_personal_information_client"
+                app:layout_constraintHorizontal_bias="0.0"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintRight_toRightOf="parent"
+                app:layout_constraintStart_toStartOf="@+id/guideline_init_personal_information_client"
+                app:layout_constraintTop_toBottomOf="@+id/lyt_last_name_personal_information">
+
+                <TextView
+                    android:id="@+id/tv_lbl_mother_last_name_personal_information"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="0dp"
+                    android:layout_marginTop="16dp"
+                    android:fontFamily="@font/raleway_bold"
+                    android:text="Apellido materno"
+                    android:textColor="@color/blue_dark_app"
+                    android:textSize="18sp"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintHorizontal_bias="0.054"
+                    app:layout_constraintLeft_toLeftOf="parent"
+                    app:layout_constraintRight_toRightOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintVertical_bias="0.323" />
+
+                <TextView
+                    android:id="@+id/et_mother_last_name_personal_information"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="0dp"
+                    android:layout_marginTop="0dp"
+                    android:layout_marginEnd="0dp"
+                    android:layout_marginBottom="13dp"
+                    android:background="@null"
+                    android:fontFamily="@font/roboto_black"
+                    android:hint="Rojas"
+                    android:importantForAutofill="no"
+                    android:inputType="text"
+                    android:maxLength="50"
+                    android:textSize="16sp"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintHorizontal_bias="0.0"
+                    app:layout_constraintLeft_toLeftOf="parent"
+                    app:layout_constraintRight_toRightOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintVertical_bias="0.362"
+                    tools:ignore="TouchTargetSizeCheck,DuplicateSpeakableTextCheck,TextContrastCheck" />
+            </androidx.appcompat.widget.LinearLayoutCompat>
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:background="@color/gray"
+                app:layout_constraintTop_toBottomOf="@+id/lyt_mother_last_name_personal_information" />
+
+
+            <androidx.appcompat.widget.LinearLayoutCompat
+                android:id="@+id/lyt_email_personal_information"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="1dp"
+                android:elevation="0dp"
+                android:orientation="vertical"
+                app:layout_constraintHorizontal_bias="0.0"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintRight_toRightOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/lyt_mother_last_name_personal_information">
+
+                <TextView
+                    android:id="@+id/tv_lbl_email_personal_information"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="0dp"
+                    android:layout_marginTop="16dp"
+                    android:fontFamily="@font/raleway_bold"
+                    android:text="Correo electrónico"
+                    android:textColor="@color/blue_dark_app"
+                    android:textSize="18sp"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintHorizontal_bias="0.054"
+                    app:layout_constraintLeft_toLeftOf="parent"
+                    app:layout_constraintRight_toRightOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintVertical_bias="0.323" />
+
+                <TextView
+                    android:id="@+id/et_email_personal_information"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="0dp"
+                    android:layout_marginTop="0dp"
+                    android:layout_marginEnd="0dp"
+                    android:layout_marginBottom="13dp"
+                    android:background="@null"
+                    android:fontFamily="@font/roboto_black"
+                    android:hint="martin@gmail.com"
+                    android:importantForAutofill="no"
+                    android:inputType="text"
+                    android:maxLength="50"
+                    android:textSize="16sp"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintHorizontal_bias="0.0"
+                    app:layout_constraintLeft_toLeftOf="parent"
+                    app:layout_constraintRight_toRightOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintVertical_bias="0.362"
+                    tools:ignore="TouchTargetSizeCheck,DuplicateSpeakableTextCheck,TextContrastCheck" />
+            </androidx.appcompat.widget.LinearLayoutCompat>
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:background="@color/gray"
+                 app:layout_constraintTop_toBottomOf="@+id/lyt_email_personal_information" />
+
+            <androidx.appcompat.widget.LinearLayoutCompat
+                android:id="@+id/lyt_phone_number_personal_information"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="1dp"
+                android:elevation="0dp"
+                android:orientation="horizontal"
+                android:weightSum="5"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.0"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintRight_toRightOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/lyt_email_personal_information">
+
+                <androidx.appcompat.widget.LinearLayoutCompat
+                    android:id="@+id/lyt_phone_number_personal_information_v"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="1dp"
+                    android:layout_weight="5"
+                    android:elevation="0dp"
+                    android:orientation="vertical"
+                    app:layout_constraintEnd_toStartOf="@+id/guideline_end_personal_information_client"
+                    app:layout_constraintHorizontal_bias="0.0"
+                    app:layout_constraintLeft_toLeftOf="parent"
+                    app:layout_constraintRight_toRightOf="parent"
+                    app:layout_constraintStart_toStartOf="@+id/guideline_init_personal_information_client"
+                    app:layout_constraintTop_toBottomOf="@+id/lyt_email_personal_information">
+
+                    <TextView
+                        android:id="@+id/tv_lbl_phone_number_personal_information"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="0dp"
+                        android:layout_marginTop="16dp"
+                        android:fontFamily="@font/raleway_bold"
+                        android:text="Teléfono"
+                        android:textColor="@color/blue_dark_app"
+                        android:textSize="18sp"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintHorizontal_bias="0.054"
+                        app:layout_constraintLeft_toLeftOf="parent"
+                        app:layout_constraintRight_toRightOf="parent"
+                        app:layout_constraintTop_toTopOf="parent"
+                        app:layout_constraintVertical_bias="0.323" />
+
+                    <TextView
+                        android:id="@+id/et_phoner_number_personal_information"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="0dp"
+                        android:layout_marginTop="0dp"
+                        android:layout_marginEnd="0dp"
+                        android:layout_marginBottom="13dp"
+                        android:background="@null"
+                        android:fontFamily="@font/roboto_black"
+                        android:hint="954258884"
+                        android:importantForAutofill="no"
+                        android:inputType="text"
+                        android:maxLength="50"
+                        android:textSize="16sp"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintHorizontal_bias="0.0"
+                        app:layout_constraintLeft_toLeftOf="parent"
+                        app:layout_constraintRight_toRightOf="parent"
+                        app:layout_constraintTop_toTopOf="parent"
+                        app:layout_constraintVertical_bias="0.362"
+                        tools:ignore="TouchTargetSizeCheck,DuplicateSpeakableTextCheck,TextContrastCheck" />
+
+                </androidx.appcompat.widget.LinearLayoutCompat>
+
+
+            </androidx.appcompat.widget.LinearLayoutCompat>
+
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+    </ScrollView>
+
+</androidx.constraintlayout.widget.ConstraintLayout>
