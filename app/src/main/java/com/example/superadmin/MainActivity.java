@@ -29,7 +29,7 @@ public class MainActivity extends AppCompatActivity {
         startActivity(mintent);
     }
     public void register_btn(View view){
-        Intent m2intent = new Intent(this, super_register_admin_rest.class);
+        Intent m2intent = new Intent(this, SignUpActivity.class);
         startActivity(m2intent);
     }
 

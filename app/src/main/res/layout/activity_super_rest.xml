@@ -9,14 +9,14 @@
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="vertical"
-        android:padding="16dp">
+        android:layout_height="match_parent"
+        android:orientation="vertical">
 
-        <Toolbar
+        <androidx.appcompat.widget.Toolbar
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="#FF8C04">
+            android:background="@color/green"
+            >
 
             <FrameLayout
                 android:layout_width="match_parent"
@@ -27,19 +27,19 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:src="@drawable/menu"
-                    android:background="#FDC17B"
-                    android:padding="5dp"
-                    android:layout_gravity="start|center_vertical" />
+                    android:background="@color/space_color"
+                    android:padding="12dp"
+                    android:layout_gravity="start|center_vertical"
+                    android:contentDescription="Abrir menú" />
 
                 <ImageView
                     android:layout_width="50dp"
                     android:layout_height="50dp"
                     android:src="@drawable/logo"
-                    android:layout_marginLeft="160dp"/>
-
+                    android:layout_gravity="center" />
             </FrameLayout>
+        </androidx.appcompat.widget.Toolbar>
 
-        </Toolbar>
 
         <!-- Header con logo y filtros -->
         <LinearLayout

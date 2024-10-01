@@ -38,7 +38,7 @@ public class super_gestion_usuarios extends AppCompatActivity {
         });
     }
     public void register_btn(View view){
-        Intent m7intent = new Intent(this, super_register_admin_rest.class);
+        Intent m7intent = new Intent(this, SignUpActivity.class);
         startActivity(m7intent);
     }
     public void Edit_rest(View view){

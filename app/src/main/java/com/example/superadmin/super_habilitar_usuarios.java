@@ -14,9 +14,6 @@ public class super_habilitar_usuarios extends AppCompatActivity {
         setContentView(R.layout.activity_super_habilitar_usuarios);
     }
 
-    public void editar_btn(View view){
-        Intent mintent = new Intent(this, super_editar.class);
-        startActivity(mintent);
-    }
+
 
 }
