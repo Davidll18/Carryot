@@ -51,7 +51,7 @@
             android:gravity="right"
             android:text="ITEM MENU"
             android:textSize="16sp"
-            android:textColor="@color/white"
+            android:textColor="@color/black"
             android:fontFamily="@font/raleway_bold"/>
 
 
