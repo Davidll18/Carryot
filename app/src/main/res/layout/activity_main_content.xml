@@ -20,7 +20,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:src="@drawable/menu"
-                android:background="@color/green"
+                android:background="@color/light_red"
                 android:padding="12dp"
                 android:contentDescription="Abrir menú"
                 android:layout_gravity="start|center_vertical" />
@@ -38,7 +38,7 @@
     <View
         android:layout_width="match_parent"
         android:layout_height="2dp"
-        android:background="#34FF4140" />
+        android:background="@color/space_color" />
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
@@ -59,7 +59,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="Gestion de usuarios"
-                android:backgroundTint="@color/green"
+                android:backgroundTint="@color/light_red"
                 android:textColor="#FFFFFF"
                 android:layout_marginBottom="16dp"
                 android:onClick="btnGestionUsuarios" />
@@ -69,7 +69,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="Registrar Admin de restaurant"
-                android:backgroundTint="@color/green"
+                android:backgroundTint="@color/light_red"
                 android:textColor="#FFFFFF"
                 android:layout_marginBottom="16dp"
                 android:onClick="btnRegistrarAdmin" />
@@ -79,7 +79,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="Reporte de ventas"
-                android:backgroundTint="@color/green"
+                android:backgroundTint="@color/light_red"
                 android:textColor="#FFFFFF"
                 android:layout_marginBottom="16dp"
                 android:onClick="btnReporteVentas" />
@@ -89,7 +89,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="Restaurants"
-                android:backgroundTint="@color/green"
+                android:backgroundTint="@color/light_red"
                 android:textColor="#FFFFFF"
                 android:layout_marginBottom="16dp"
                 android:onClick="btnRestaurants" />
@@ -99,7 +99,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="Logs"
-                android:backgroundTint="@color/green"
+                android:backgroundTint="@color/light_red"
                 android:textColor="#FFFFFF" />
 
         </LinearLayout>

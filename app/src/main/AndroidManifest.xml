@@ -12,19 +12,17 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.SuperAdmin"
         tools:targetApi="31">
-
-
+        <activity
+            android:name=".Super_registro_admin_rest"
+            android:exported="false" />
         <activity
             android:name=".super_register_admin_rest"
             android:exported="false" />
-
-
         <activity
             android:name=".super_gestion_usuarios"
             android:exported="false"
             android:label="@string/title_activity_super_gestion_usuarios"
             android:theme="@style/Theme.SuperAdmin.NoActionBar" />
-
         <activity
             android:name=".super_habilitar_usuarios"
             android:exported="false" />
@@ -39,14 +37,8 @@
             android:exported="true" />
         <activity
             android:name=".super_estadisticas_general"
-            android:exported="false"/>
-
-        <!-- esta declarado pero ni idea que hace -->
+            android:exported="false" /> <!-- esta declarado pero ni idea que hace -->
         <activity android:name=".SuperPrincipalActivity" />
-
-
-
-
         <activity
             android:name=".splashActivity"
             android:exported="true">
@@ -63,10 +55,6 @@
         <meta-data
             android:name="preloaded_fonts"
             android:resource="@array/preloaded_fonts" />
-
-
-
-
 
         <activity
             android:name=".SummaryActivity"
@@ -98,7 +86,6 @@
         <activity
             android:name=".PasswordCodeActivity"
             android:exported="false" />
-
         <activity
             android:name=".PutPasswordActivity"
             android:exported="false" />

@@ -15,7 +15,7 @@
         <androidx.appcompat.widget.Toolbar
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="@color/green"
+            android:background="@color/light_red"
             >
 
             <FrameLayout
@@ -62,6 +62,7 @@
 
 
         <androidx.cardview.widget.CardView
+            android:id="@+id/cardKFC"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="16dp"
@@ -92,30 +93,17 @@
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="Nombre: KFC"
+                        android:text="KFC"
                         android:textSize="16sp"
-                        android:textColor="#000000" />
+                        android:textColor="#000000"
+                        android:foregroundGravity="center"/>
 
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="Ventas: 50"
-                        android:textSize="16sp"
-                        android:textColor="#000000" />
                 </LinearLayout>
 
-                <Button
-                    android:id="@+id/VerRest"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center"
-                    android:text="Ver"
-                    android:backgroundTint="#CCCCCC"
-                    android:textColor="#000000"
-                    android:onClick="VerRest"/>
             </LinearLayout>
         </androidx.cardview.widget.CardView>
         <androidx.cardview.widget.CardView
+            android:id="@+id/cardBembos"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="16dp"
@@ -139,35 +127,22 @@
                 <LinearLayout
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:orientation="vertical"
-                    android:layout_gravity="center">
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="Nombre: KFC"
-                        android:textSize="16sp"
-                        android:textColor="#000000" />
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="Ventas: 50"
-                        android:textSize="16sp"
-                        android:textColor="#000000" />
-                </LinearLayout>
-
-                <Button
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
                     android:layout_gravity="center"
-                    android:text="Ver"
-                    android:backgroundTint="#CCCCCC"
-                    android:textColor="#000000" />
+                    android:layout_weight="1"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Bembos"
+                        android:textColor="#000000"
+                        android:textSize="16sp" />
+
+                </LinearLayout>
             </LinearLayout>
         </androidx.cardview.widget.CardView>
         <androidx.cardview.widget.CardView
+            android:id="@+id/cardPizzaHut"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="16dp"
@@ -198,28 +173,14 @@
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="Nombre: KFC"
-                        android:textSize="16sp"
-                        android:textColor="#000000" />
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="Ventas: 50"
+                        android:text="Pizza Hut"
                         android:textSize="16sp"
                         android:textColor="#000000" />
                 </LinearLayout>
-
-                <Button
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center"
-                    android:text="Ver"
-                    android:backgroundTint="#CCCCCC"
-                    android:textColor="#000000" />
             </LinearLayout>
         </androidx.cardview.widget.CardView>
         <androidx.cardview.widget.CardView
+            android:id="@+id/cardRokys"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="16dp"
@@ -250,28 +211,15 @@
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="Nombre: KFC"
+                        android:text="Rokys"
                         android:textSize="16sp"
                         android:textColor="#000000" />
 
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="Ventas: 50"
-                        android:textSize="16sp"
-                        android:textColor="#000000" />
                 </LinearLayout>
-
-                <Button
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center"
-                    android:text="Ver"
-                    android:backgroundTint="#CCCCCC"
-                    android:textColor="#000000" />
             </LinearLayout>
         </androidx.cardview.widget.CardView>
         <androidx.cardview.widget.CardView
+            android:id="@+id/cardToku"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="16dp"
@@ -302,28 +250,15 @@
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="Nombre: KFC"
+                        android:text="Toku"
                         android:textSize="16sp"
                         android:textColor="#000000" />
 
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="Ventas: 50"
-                        android:textSize="16sp"
-                        android:textColor="#000000" />
                 </LinearLayout>
-
-                <Button
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center"
-                    android:text="Ver"
-                    android:backgroundTint="#CCCCCC"
-                    android:textColor="#000000" />
             </LinearLayout>
         </androidx.cardview.widget.CardView>
         <androidx.cardview.widget.CardView
+            android:id="@+id/cardBuguerKing"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="16dp"
@@ -354,28 +289,15 @@
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="Nombre: KFC"
+                        android:text="Burguer King"
                         android:textSize="16sp"
                         android:textColor="#000000" />
 
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="Ventas: 50"
-                        android:textSize="16sp"
-                        android:textColor="#000000" />
                 </LinearLayout>
-
-                <Button
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center"
-                    android:text="Ver"
-                    android:backgroundTint="#CCCCCC"
-                    android:textColor="#000000" />
             </LinearLayout>
         </androidx.cardview.widget.CardView>
         <androidx.cardview.widget.CardView
+            android:id="@+id/cardPopeyes"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="16dp"
@@ -406,25 +328,10 @@
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="Nombre: KFC"
-                        android:textSize="16sp"
-                        android:textColor="#000000" />
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="Ventas: 50"
+                        android:text="Popeyes"
                         android:textSize="16sp"
                         android:textColor="#000000" />
                 </LinearLayout>
-
-                <Button
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center"
-                    android:text="Ver"
-                    android:backgroundTint="#CCCCCC"
-                    android:textColor="#000000" />
             </LinearLayout>
         </androidx.cardview.widget.CardView>
 
