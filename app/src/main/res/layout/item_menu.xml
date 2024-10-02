@@ -23,37 +23,125 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
 
-
-        <ImageView
-            android:id="@+id/img_menu_item"
+        <RelativeLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:scaleType="centerInside"
-            app:srcCompat="@drawable/comida" />
+            android:layout_height="match_parent">
 
+            <!-- Imagen de fondo del menú -->
+            <ImageView
+                android:id="@+id/img_menu_item"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:scaleType="centerInside"
+                app:srcCompat="@drawable/comida" />
 
-        <androidx.constraintlayout.widget.ConstraintLayout
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:visibility="visible"
-            android:background="@drawable/background_item_menus">
+            <!-- Nombre del menú -->
+            <TextView
+                android:id="@+id/text_menu_name"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentStart="true"
+                android:layout_marginStart="8dp"
+                android:layout_marginTop="8dp"
+                android:fontFamily="@font/raleway_bold"
+                android:text="Restaurante 1"
+                android:textColor="@color/black"
+                android:textSize="18sp" />
 
-        </androidx.constraintlayout.widget.ConstraintLayout>
+            <!-- Layout horizontal para la información de estrellas, delivery y tiempo -->
+            <LinearLayout
+                android:id="@+id/info_layout"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:layout_alignParentBottom="true"
+                android:layout_marginStart="8dp"
+                android:layout_marginBottom="8dp">
 
-        <TextView
-            android:id="@+id/text_menu_name"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="right|bottom"
-            android:layout_marginEnd="16dp"
-            android:layout_marginStart="16dp"
-            android:layout_marginBottom="8dp"
-            android:gravity="right"
-            android:text="ITEM MENU"
-            android:textSize="16sp"
-            android:textColor="@color/white"
-            android:fontFamily="@font/raleway_bold"/>
+                <!-- Estrellas -->
+                <ImageView
+                    android:id="@+id/star_icon"
+                    android:layout_width="16dp"
+                    android:layout_height="16dp"
+                    android:layout_gravity="center_vertical"
+                    android:layout_marginEnd="4dp"
+                    app:srcCompat="@drawable/ic_star" />
+
+                <TextView
+                    android:id="@+id/text_stars"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="4.1"
+                    android:textColor="@android:color/black"
+                    android:textSize="14sp" />
+
+                <!-- categoria -->
+                <ImageView
+                    android:id="@+id/categoria_icon"
+                    android:layout_width="16dp"
+                    android:layout_height="16dp"
+                    android:layout_gravity="center_vertical"
+                    android:layout_marginStart="16dp"
+                    android:layout_marginEnd="4dp"
+                    app:srcCompat="@drawable/ic_categoria" />
+
+                <TextView
+                    android:id="@+id/categoria"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="categoria"
+                    android:textColor="@android:color/black"
+                    android:textSize="14sp" />
+
+                <!-- Delivery -->
+                <ImageView
+                    android:id="@+id/delivery_icon"
+                    android:layout_width="16dp"
+                    android:layout_height="16dp"
+                    android:layout_gravity="center_vertical"
+                    android:layout_marginStart="16dp"
+                    android:layout_marginEnd="4dp"
+                    app:srcCompat="@drawable/ic_delivery" />
+
+                <TextView
+                    android:id="@+id/text_delivery_cost"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="S/. 2.5"
+                    android:textColor="@android:color/black"
+                    android:textSize="14sp" />
+
+                <!-- Tiempo de demora -->
+                <ImageView
+                    android:id="@+id/time_icon"
+                    android:layout_width="16dp"
+                    android:layout_height="16dp"
+                    android:layout_gravity="center_vertical"
+                    android:layout_marginStart="16dp"
+                    android:layout_marginEnd="4dp"
+                    app:srcCompat="@drawable/ic_time" />
+
+                <TextView
+                    android:id="@+id/text_time"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="15 min"
+                    android:textColor="@android:color/black"
+                    android:textSize="14sp" />
+
+            </LinearLayout>
+        </RelativeLayout>
 
 
     </androidx.cardview.widget.CardView>
+    <View
+        android:id="@+id/divider_line"
+        android:layout_width="0dp"
+        android:layout_height="1dp"
+        android:background="#949191"
+        app:layout_constraintTop_toBottomOf="@+id/container_img"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent" />
+
 </androidx.constraintlayout.widget.ConstraintLayout>
