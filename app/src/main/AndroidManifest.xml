@@ -12,6 +12,7 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.ProjectIOT"
         tools:targetApi="31">
+
         <activity
             android:name=".MainActivity"
             android:exported="true">
@@ -21,7 +22,13 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".PedidosAdminRestActivity"></activity>
+        <activity android:name=".PedidosActivity" android:exported="false" />
+        <activity android:name=".ProfileActivity" android:exported="false" />
+        <activity android:name=".DishesActivity" android:exported="false" />
+        <activity android:name=".GananciaActivity" android:exported="false" />
+        <activity android:name=".StatisticsActivity" android:exported="false" />
+        <activity android:name=".EditDishesActivity" android:exported="false" />
+        <activity android:name=".NewDishActivity" android:exported="false" />
     </application>
 
 </manifest>

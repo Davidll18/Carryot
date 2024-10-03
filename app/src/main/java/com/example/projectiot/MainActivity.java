@@ -2,27 +2,32 @@ package com.example.projectiot;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.LinearLayout;
+import android.widget.TextView;
 
-import androidx.activity.EdgeToEdge;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.ActionBarDrawerToggle;
-import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
+
+
+import androidx.activity.EdgeToEdge;
+import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.graphics.Insets;
 import androidx.core.view.GravityCompat;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
-
 import com.google.android.material.navigation.NavigationView;
 
-public class MainActivity extends AppCompatActivity {
 
-    private DrawerLayout drawerLayout;
-    private ActionBarDrawerToggle drawerToggle;
+public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
+
+    DrawerLayout drawerLayout;
+    NavigationView navigationView;
+    Toolbar toolbar;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -30,67 +35,55 @@ public class MainActivity extends AppCompatActivity {
         EdgeToEdge.enable(this);
         setContentView(R.layout.home_adminrest);
 
-        // Configurar la Toolbar
-        Toolbar toolbar = findViewById(R.id.toolbar);
+        drawerLayout = findViewById(R.id.drawer_layout);
+        navigationView = findViewById(R.id.nav_view);
+        toolbar = findViewById(R.id.toolbar);
+
         setSupportActionBar(toolbar);
 
-        // Configurar el DrawerLayout y NavigationView
-        drawerLayout = findViewById(R.id.drawer_layout);
-        NavigationView navigationView = findViewById(R.id.nav_view);
+        Menu menu = navigationView.getMenu();
+        menu.findItem(R.id.nav_logout).setVisible(false);
 
-        // Configurar el botón de menú en la Toolbar
-        drawerToggle = new ActionBarDrawerToggle(
-                this, drawerLayout, toolbar,
-                R.string.navigation_drawer_open,
-                R.string.navigation_drawer_close
-        );
-        drawerLayout.addDrawerListener(drawerToggle);
-        drawerToggle.syncState();
+        navigationView.bringToFront();
+        ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(this, drawerLayout, toolbar,R.string.navigation_drawer_open,R.string.navigation_drawer_close);
+        drawerLayout.addDrawerListener(toggle);
+        toggle.syncState();
+        navigationView.setNavigationItemSelectedListener(this);
 
-        // Configurar padding para insets
+        navigationView.setCheckedItem(R.id.nav_home);
+
+
         ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.drawer_layout), (v, insets) -> {
             Insets systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars());
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
             return insets;
         });
 
-        // Manejar clics en los elementos del menú de NavigationView
-        navigationView.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() {
-            @Override
-            public boolean onNavigationItemSelected(@NonNull MenuItem item) {
-                int id = item.getItemId();
-
-                if (id == R.id.nav_home) {
-                    // Acción para el ítem "Inicio"
-                } else if (id == R.id.nav_pedidos) {
-                    // Acción para el ítem "Pedidos"
-                    startActivity(new Intent(MainActivity.this, PedidosAdminRestActivity.class));
-                } else if (id == R.id.nav_profile) {
-                    // Acción para el ítem "Perfil"
-                    startActivity(new Intent(MainActivity.this, ProfileActivity.class));
-                } else if (id == R.id.nav_dishes) {
-                    // Acción para el ítem "Platos"
-                    startActivity(new Intent(MainActivity.this, DishesActivity.class));
-                } else if (id == R.id.nav_ganancia) {
-                    // Acción para el ítem "Ganancias"
-                } else if (id == R.id.nav_popular) {
-                    // Acción para el ítem "Platos Populares"
-                } else if (id == R.id.nav_users) {
-                    // Acción para el ítem "Ventas por usuario"
-                }
-
-                drawerLayout.closeDrawer(GravityCompat.START);
-                return true;
-            }
-        });
-
-        // Enlace a pedidos pendientes
+        //PEDIDOS PENDIENTES REDIGIR
         LinearLayout llPedidosPendientes = findViewById(R.id.llPedidosPendientes);
         llPedidosPendientes.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View v) {
-                // Redirige a la actividad PedidosAdminRestActivity
-                Intent intent = new Intent(MainActivity.this, PedidosAdminRestActivity.class);
+            public void onClick(View view) {
+                Intent intent = new Intent(MainActivity.this, PedidosActivity.class);
+                startActivity(intent);
+            }
+        });
+        //PEDIDOS ACTIVOS REDIGIR
+        LinearLayout llPedidosActivos = findViewById(R.id.llPedidosActivos);
+        llPedidosPendientes.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(MainActivity.this, PedidosActivity.class);
+                startActivity(intent);
+            }
+        });
+
+        //PLATOS POPULARES REDIGIR
+        TextView populardetails = findViewById(R.id.detallespopular);
+        populardetails.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(MainActivity.this, StatisticsActivity.class);
                 startActivity(intent);
             }
         });
@@ -98,10 +91,42 @@ public class MainActivity extends AppCompatActivity {
 
     @Override
     public void onBackPressed() {
-        if (drawerLayout.isDrawerOpen(GravityCompat.START)) {
+        if (drawerLayout.isDrawerOpen(GravityCompat.START)){
             drawerLayout.closeDrawer(GravityCompat.START);
-        } else {
+        } else{
             super.onBackPressed();
         }
+
+        super.onBackPressed();
     }
+
+    @Override
+    public boolean onNavigationItemSelected(@NonNull MenuItem menuItem) {
+        int menu = menuItem.getItemId();
+        if (menu == R.id.nav_home){
+            Intent intent = new Intent(MainActivity.this, MainActivity.class);
+            startActivity(intent);
+        } else if (menu == R.id.nav_pedidos) {
+            Intent intent = new Intent(MainActivity.this, PedidosActivity.class);
+            startActivity(intent);
+        } else if (menu == R.id.nav_profile) {
+            Intent intent = new Intent(MainActivity.this, ProfileActivity.class);
+            startActivity(intent);
+        } else if (menu == R.id.nav_dishes) {
+            Intent intent = new Intent(MainActivity.this, DishesActivity.class);
+            startActivity(intent);
+        } else if (menu == R.id.nav_ganancia) {
+            Intent intent = new Intent(MainActivity.this, GananciaActivity.class);
+            startActivity(intent);
+        } else if (menu == R.id.nav_popular) {
+            Intent intent = new Intent(MainActivity.this, StatisticsActivity.class);
+            startActivity(intent);
+        } else if (menu == R.id.nav_users) {
+            Intent intent = new Intent(MainActivity.this, StatisticsActivity.class);
+            startActivity(intent);
+        }
+        drawerLayout.closeDrawer(GravityCompat.START);
+        return true;
+    }
+
 }

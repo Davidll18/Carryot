@@ -1,14 +1,21 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.drawerlayout.widget.DrawerLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
-    <!-- Toolbar -->
-    <include
-        layout="@layout/generaltoolbar_adminrest"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content" />
+    android:layout_height="match_parent"
+    tools:context="com.example.projectiot.DishesActivity"
+    android:fitsSystemWindows="true"
+    tools:openDrawer="end">
+    <com.google.android.material.navigation.NavigationView
+        android:layout_width="250dp"
+        android:layout_height="match_parent"
+        android:id="@+id/nav_view"
+        app:headerLayout="@layout/header"
+        app:menu="@menu/main_menu"
+        android:layout_gravity="start">
+    </com.google.android.material.navigation.NavigationView>
+
 
     <!-- ScrollView para agregar la barra de desplazamiento -->
     <ScrollView
@@ -20,11 +27,16 @@
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
+            <!-- Toolbar -->
+            <include
+                layout="@layout/generaltoolbar_adminrest"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
 
-            <!-- Aquí va todo tu contenido actual -->
 
             <!-- Pestañas -->
             <LinearLayout
+                android:id="@+id/cotainertittle"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="vertical"
@@ -32,29 +44,48 @@
                 tools:ignore="MissingConstraints"
                 tools:layout_editor_absoluteX="0dp"
                 tools:layout_editor_absoluteY="76dp">
-
-                <!-- Título de la sección -->
-                <TextView
-                    android:id="@+id/tvPlatos"
-                    android:layout_width="wrap_content"
+                <LinearLayout
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_gravity="center"
-                    android:layout_marginBottom="16dp"
                     android:gravity="center"
-                    android:text="LISTA DE PLATOS"
-                    android:textColor="#000000"
-                    android:textSize="25sp"
-                    android:textStyle="bold" />
+                    android:orientation="vertical">
+                    <!-- Título de la sección -->
 
-                <!-- TabLayout para las categorías de estado -->
+                    <TextView
+                        android:id="@+id/tvPlatos"
+                        android:layout_width="332dp"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:layout_marginBottom="16dp"
+                        android:layout_weight="1"
+                        android:gravity="center"
+                        android:text="LISTA DE PLATOS"
+                        android:textColor="#000000"
+                        android:textSize="30sp"
+                        android:textStyle="bold" />
+
+                    <Button
+                        android:id="@+id/btAñadirPlato"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="16dp"
+                        android:contentDescription="Añadir Plato"
+                        android:padding="8dp"
+                        android:text="  Añadir plato  "
+                        android:textSize="18dp"
+                        android:backgroundTint="@color/red_app"
+                        />
+
+                </LinearLayout>
+
                 <com.google.android.material.tabs.TabLayout
                     android:id="@+id/tabLayoutEstados"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:background="#FFFFFF"
-                    app:tabIndicatorColor="#FFA500"
+                    app:tabIndicatorColor="@color/red_app"
                     app:tabIndicatorHeight="4dp"
-                    app:tabSelectedTextColor="#FFA500"
+                    app:tabSelectedTextColor="@color/red_app"
                     app:tabTextColor="#888888">
 
                     <!-- Pestaña Pendientes -->
@@ -62,7 +93,7 @@
                         android:id="@+id/tabTodo"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
-                        android:text="Todo"
+                        android:text="TODO"
                         />
 
                     <com.google.android.material.tabs.TabItem
@@ -104,458 +135,19 @@
             </LinearLayout>
 
             <!-- Pedidos-->
-            <LinearLayout
-                android:id="@+id/linearLayout1"
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/recyclerView"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:background="#FFFFFF"
-                android:gravity="center_vertical"
-                android:orientation="horizontal"
-                android:padding="16dp"
+                android:layout_marginTop="10dp"
+                app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="0.0"
                 app:layout_constraintStart_toStartOf="parent"
-                tools:ignore="MissingConstraints"
-                tools:layout_editor_absoluteY="199dp">
-
-                <!-- Imagen a la izquierda -->
-                <ImageView
-                    android:id="@+id/imgFood1"
-                    android:layout_width="50dp"
-                    android:layout_height="50dp"
-                    android:layout_marginEnd="16dp"
-                    android:src="@drawable/lomo" />
-
-                <!-- Contenedor para las líneas de texto -->
-                <LinearLayout
-                    android:layout_width="241dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:orientation="vertical">
-
-                    <!-- Número de orden y estado -->
-                    <TextView
-                        android:id="@+id/tvOrderNumber1"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="LOMO SALTADO"
-                        android:textColor="#000000"
-                        android:textSize="14sp"
-                        android:textStyle="bold" />
-
-                    <!-- Estado del pedido -->
-                    <TextView
-                        android:id="@+id/tvOrderStatus1"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:background="@drawable/background_orange"
-                        android:text="Almuerzo"
-                        android:textColor="#FF5722"
-                        android:textSize="14sp"
-                        android:textStyle="bold" />
-
-                    <!-- Descripción del pedido -->
-                    <TextView
-                        android:id="@+id/tvOrderDescription1"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="Cantidad: 50 und"
-                        android:textColor="#000000"
-                        android:textSize="14sp" />
-
-                </LinearLayout>
-
-                <!-- Contenedor para el icono de ojo y el precio -->
-                <LinearLayout
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:gravity="end"
-                    android:orientation="vertical">
-
-                    <!-- Icono de ojo -->
-                    <ImageView
-                        android:id="@+id/imgViewDetails1"
-                        android:layout_width="40dp"
-                        android:layout_height="32dp"
-                        android:layout_gravity="center"
-                        android:src="@drawable/more_icon" />
-
-                    <!-- Precio -->
-                    <TextView
-                        android:id="@+id/tvPrice1"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="3dp"
-                        android:gravity="end"
-                        android:text="S/ 24.00"
-                        android:textColor="#000000"
-                        android:textSize="16sp"
-                        android:textStyle="bold" />
-                </LinearLayout>
-
-            </LinearLayout>
-            <LinearLayout
-                android:id="@+id/linearLayout2"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:background="#FFFFFF"
-                android:gravity="center_vertical"
-                android:orientation="horizontal"
-                android:padding="16dp"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintHorizontal_bias="0.0"
-                app:layout_constraintStart_toStartOf="parent"
-                tools:ignore="MissingConstraints"
-                tools:layout_editor_absoluteY="289dp">
-
-                <!-- Imagen a la izquierda -->
-                <ImageView
-                    android:id="@+id/imgFood2"
-                    android:layout_width="50dp"
-                    android:layout_height="50dp"
-                    android:layout_marginEnd="16dp"
-                    android:src="@drawable/lomo" />
-
-                <!-- Contenedor para las líneas de texto -->
-                <LinearLayout
-                    android:layout_width="241dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:orientation="vertical">
-
-                    <!-- Número de orden y estado -->
-                    <TextView
-                        android:id="@+id/tvNameDishes2"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="LOMO SALTADO"
-                        android:textColor="#000000"
-                        android:textSize="14sp"
-                        android:textStyle="bold" />
-
-                    <!-- Estado del pedido -->
-                    <TextView
-                        android:id="@+id/type2"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:background="@drawable/background_orange"
-                        android:text="Almuerzo"
-                        android:textColor="#FF5722"
-                        android:textSize="14sp"
-                        android:textStyle="bold" />
-
-                    <!-- Descripción del pedido -->
-                    <TextView
-                        android:id="@+id/tvStock2"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="Cantidad: 50 und"
-                        android:textColor="#000000"
-                        android:textSize="14sp" />
-
-                </LinearLayout>
-
-                <!-- Contenedor para el icono de ojo y el precio -->
-                <LinearLayout
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:gravity="end"
-                    android:orientation="vertical">
-
-                    <!-- Icono de ojo -->
-                    <ImageView
-                        android:id="@+id/imgViewDetails2"
-                        android:layout_width="40dp"
-                        android:layout_height="32dp"
-                        android:layout_gravity="center"
-                        android:src="@drawable/more_icon" />
-
-                    <!-- Precio -->
-                    <TextView
-                        android:id="@+id/tvPrice2"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="3dp"
-                        android:gravity="end"
-                        android:text="S/ 24.00"
-                        android:textColor="#000000"
-                        android:textSize="16sp"
-                        android:textStyle="bold" />
-                </LinearLayout>
-
-            </LinearLayout>
-            <LinearLayout
-                android:id="@+id/linearLayout3"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:background="#FFFFFF"
-                android:gravity="center_vertical"
-                android:orientation="horizontal"
-                android:padding="16dp"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintHorizontal_bias="0.0"
-                app:layout_constraintStart_toStartOf="parent"
-                tools:ignore="MissingConstraints"
-                tools:layout_editor_absoluteY="379dp">
-
-                <!-- Imagen a la izquierda -->
-                <ImageView
-                    android:id="@+id/imgFood3"
-                    android:layout_width="50dp"
-                    android:layout_height="50dp"
-                    android:layout_marginEnd="16dp"
-                    android:src="@drawable/lomo" />
-
-                <!-- Contenedor para las líneas de texto -->
-                <LinearLayout
-                    android:layout_width="241dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:orientation="vertical">
-
-                    <!-- Número de orden y estado -->
-                    <TextView
-                        android:id="@+id/tvNameDishes3"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="LOMO SALTADO"
-                        android:textColor="#000000"
-                        android:textSize="14sp"
-                        android:textStyle="bold" />
-
-                    <!-- Estado del pedido -->
-                    <TextView
-                        android:id="@+id/type3"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:background="@drawable/background_orange"
-                        android:text="Almuerzo"
-                        android:textColor="#FF5722"
-                        android:textSize="14sp"
-                        android:textStyle="bold" />
-
-                    <!-- Descripción del pedido -->
-                    <TextView
-                        android:id="@+id/tvStock3"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="Cantidad: 50 und"
-                        android:textColor="#000000"
-                        android:textSize="14sp" />
-
-                </LinearLayout>
-
-                <!-- Contenedor para el icono de ojo y el precio -->
-                <LinearLayout
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:gravity="end"
-                    android:orientation="vertical">
-
-                    <!-- Icono de ojo -->
-                    <ImageView
-                        android:id="@+id/imgViewDetails3"
-                        android:layout_width="40dp"
-                        android:layout_height="32dp"
-                        android:layout_gravity="center"
-                        android:src="@drawable/more_icon" />
-
-                    <!-- Precio -->
-                    <TextView
-                        android:id="@+id/tvPrice3"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="3dp"
-                        android:gravity="end"
-                        android:text="S/ 24.00"
-                        android:textColor="#000000"
-                        android:textSize="16sp"
-                        android:textStyle="bold" />
-                </LinearLayout>
-
-            </LinearLayout>
-            <LinearLayout
-                android:id="@+id/linearLayout4"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:background="#FFFFFF"
-                android:gravity="center_vertical"
-                android:orientation="horizontal"
-                android:padding="16dp"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintHorizontal_bias="0.0"
-                app:layout_constraintStart_toStartOf="parent"
-                tools:ignore="MissingConstraints"
-                tools:layout_editor_absoluteY="469dp">
-
-                <!-- Imagen a la izquierda -->
-                <ImageView
-                    android:id="@+id/imgFood4"
-                    android:layout_width="50dp"
-                    android:layout_height="50dp"
-                    android:layout_marginEnd="16dp"
-                    android:src="@drawable/lomo" />
-
-                <!-- Contenedor para las líneas de texto -->
-                <LinearLayout
-                    android:layout_width="241dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:orientation="vertical">
-
-                    <!-- Número de orden y estado -->
-                    <TextView
-                        android:id="@+id/tvNameDishes4"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="LOMO SALTADO"
-                        android:textColor="#000000"
-                        android:textSize="14sp"
-                        android:textStyle="bold" />
-
-                    <!-- Estado del pedido -->
-                    <TextView
-                        android:id="@+id/type4"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:background="@drawable/background_orange"
-                        android:text="Almuerzo"
-                        android:textColor="#FF5722"
-                        android:textSize="14sp"
-                        android:textStyle="bold" />
-
-                    <!-- Descripción del pedido -->
-                    <TextView
-                        android:id="@+id/tvStock4"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="Cantidad: 50 und"
-                        android:textColor="#000000"
-                        android:textSize="14sp" />
-
-                </LinearLayout>
-
-                <!-- Contenedor para el icono de ojo y el precio -->
-                <LinearLayout
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:gravity="end"
-                    android:orientation="vertical">
-
-                    <!-- Icono de ojo -->
-                    <ImageView
-                        android:id="@+id/imgViewDetails4"
-                        android:layout_width="40dp"
-                        android:layout_height="32dp"
-                        android:layout_gravity="center"
-                        android:src="@drawable/more_icon" />
-
-                    <!-- Precio -->
-                    <TextView
-                        android:id="@+id/tvPrice4"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="3dp"
-                        android:gravity="end"
-                        android:text="S/ 24.00"
-                        android:textColor="#000000"
-                        android:textSize="16sp"
-                        android:textStyle="bold" />
-                </LinearLayout>
-
-            </LinearLayout>
-            <LinearLayout
-                android:id="@+id/linearLayout5"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:background="#FFFFFF"
-                android:gravity="center_vertical"
-                android:orientation="horizontal"
-                android:padding="16dp"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintHorizontal_bias="0.0"
-                app:layout_constraintStart_toStartOf="parent"
-                tools:ignore="MissingConstraints"
-                tools:layout_editor_absoluteY="559dp">
-
-                <!-- Imagen a la izquierda -->
-                <ImageView
-                    android:id="@+id/imgFood5"
-                    android:layout_width="50dp"
-                    android:layout_height="50dp"
-                    android:layout_marginEnd="16dp"
-                    android:src="@drawable/lomo" />
-
-                <!-- Contenedor para las líneas de texto -->
-                <LinearLayout
-                    android:layout_width="241dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:orientation="vertical">
-
-                    <!-- Número de orden y estado -->
-                    <TextView
-                        android:id="@+id/tvNameDishes5"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="LOMO SALTADO"
-                        android:textColor="#000000"
-                        android:textSize="14sp"
-                        android:textStyle="bold" />
-
-                    <!-- Estado del pedido -->
-                    <TextView
-                        android:id="@+id/type5"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:background="@drawable/background_orange"
-                        android:text="Almuerzo"
-                        android:textColor="#FF5722"
-                        android:textSize="14sp"
-                        android:textStyle="bold" />
-
-                    <!-- Descripción del pedido -->
-                    <TextView
-                        android:id="@+id/tvStock5"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="Cantidad: 50 und"
-                        android:textColor="#000000"
-                        android:textSize="14sp" />
-
-                </LinearLayout>
-
-                <!-- Contenedor para el icono de ojo y el precio -->
-                <LinearLayout
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:gravity="end"
-                    android:orientation="vertical">
-
-                    <!-- Icono de ojo -->
-                    <ImageView
-                        android:id="@+id/imgViewDetails5"
-                        android:layout_width="40dp"
-                        android:layout_height="32dp"
-                        android:layout_gravity="center"
-                        android:src="@drawable/more_icon" />
-
-                    <!-- Precio -->
-                    <TextView
-                        android:id="@+id/tvPrice5"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="3dp"
-                        android:gravity="end"
-                        android:text="S/ 24.00"
-                        android:textColor="#000000"
-                        android:textSize="16sp"
-                        android:textStyle="bold" />
-                </LinearLayout>
-
-            </LinearLayout>
+                app:layout_constraintTop_toBottomOf="@+id/cotainertittle"
+                app:layout_constraintVertical_bias="0.0" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
     </ScrollView>
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+</androidx.drawerlayout.widget.DrawerLayout>
