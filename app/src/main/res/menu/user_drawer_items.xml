@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <item
+        android:icon="@drawable/perfil_icon"
+        android:id="@+id/btn_Perfil"
+        android:title="Perfil"
+        android:onClick="btnperfil"/>
+
+    <item
+        android:icon="@drawable/registrar_admin_rest"
+        android:id="@+id/btn_historial"
+        android:title="Historial de Pedidos"/>
+
+    <item
+        android:icon="@drawable/gestion_usuarios"
+        android:id="@+id/btn_direcciones"
+        android:title="Direcciones"/>
+
+    <item
+        android:icon="@drawable/report_ventas"
+        android:id="@+id/btn_ayuda"
+        android:title="Centro de ayuda"/>
+
+
+</menu>

@@ -108,6 +108,10 @@
         <activity
             android:name=".CategoriesFragment"
             android:exported="false" />
+        <activity
+            android:name=".UserDesplegableActivity"
+            android:exported="false" />
+
     </application>
 
 </manifest>
