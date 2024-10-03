@@ -1,46 +1,49 @@
 package com.example.superadmin;
 
-import android.content.Intent;
 import android.os.Bundle;
-import android.view.View;
 
-import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.cardview.widget.CardView;
-import androidx.core.graphics.Insets;
-import androidx.core.view.ViewCompat;
-import androidx.core.view.WindowInsetsCompat;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
+
+import com.example.superadmin.adapters.RestaurantAdapter;
+import com.example.superadmin.model.Restaurante;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class super_rest extends AppCompatActivity {
+
+    private RecyclerView recyclerView;
+    private RecyclerView.Adapter adapter;
+    private RecyclerView.LayoutManager layoutManager;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_super_rest);
-        // Obtener los CardView por su ID
-        CardView cardKFC = findViewById(R.id.cardKFC);
-        CardView cardBembos = findViewById(R.id.cardBembos);
-        // Agrega otros CardView según lo necesites
 
-        // Listener para el CardView de KFC
-        cardKFC.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                // Redirigir a otra pestaña o actividad
-                Intent intent = new Intent(super_rest.this, super_estadisticas_por_rest.class); // Reemplaza con la actividad o fragmento correcto
-                startActivity(intent);
-            }
-        });
+        recyclerView = findViewById(R.id.recyclerViewRestaurants);
+        recyclerView.setHasFixedSize(true);
 
-        // Listener para el CardView de Bembos
-        cardBembos.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                // Redirigir a otra pestaña o actividad
-                Intent intent = new Intent(super_rest.this, super_estadisticas_por_rest.class); // Reemplaza con la actividad o fragmento correcto
-                startActivity(intent);
-            }
-        });
+        // Usar LinearLayout para el RecyclerView
+        layoutManager = new LinearLayoutManager(this);
+        recyclerView.setLayoutManager(layoutManager);
+
+        // Lista de restaurantes de ejemplo
+        List<Restaurante> restaurants = new ArrayList<>();
+        restaurants.add(new Restaurante("KFC", R.drawable.kfc_logo));
+        restaurants.add(new Restaurante("Bembos", R.drawable.bembos_logo));
+        restaurants.add(new Restaurante("Pizza Hut", R.drawable.pizzahut_logo));
+        restaurants.add(new Restaurante("Roky's", R.drawable.rokys_logo));
+        restaurants.add(new Restaurante("Toku", R.drawable.toku__logo));
+        restaurants.add(new Restaurante("Burger King", R.drawable.burgerking_logo));
+        restaurants.add(new Restaurante("Popeyes", R.drawable.popeyes_logo));
+
+        // Crear y configurar el adapter
+        adapter = new RestaurantAdapter(restaurants);
+        recyclerView.setAdapter(adapter);
+
 
     }
 

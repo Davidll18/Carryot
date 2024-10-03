@@ -3,7 +3,7 @@
     <style name="Base.Theme.SuperAdmin" parent="Theme.MaterialComponents.DayNight.NoActionBar">
         <!-- Customize your light theme here. -->
         <!-- <item name="colorPrimary">@color/my_light_primary</item> -->
-        <item name="android:statusBarColor">@color/red_app</item>
+        <item name="android:statusBarColor">@color/light_red</item>
     </style>
 
     <style name="Theme.SuperAdmin" parent="Base.Theme.SuperAdmin" />
