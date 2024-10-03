@@ -1,5 +1,6 @@
 package com.example.superadmin;
 
+import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
@@ -12,6 +13,7 @@ import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 
+@SuppressLint("CustomSplashScreen")
 public class splashActivity extends AppCompatActivity {
 
     @Override
@@ -25,16 +27,19 @@ public class splashActivity extends AppCompatActivity {
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
             return insets;
         });
-//prueba aaa
+
         new Handler(Looper.getMainLooper()).postDelayed(new Runnable() {
             @Override
             public void run() {
                 Intent intent = new Intent(splashActivity.this, LoginActivity.class);
                 startActivity(intent);
+
+                // Aplica la animación suave
+                overridePendingTransition(R.anim.fade_in, R.anim.fade_out);
+
                 finish();
-                overridePendingTransition(0, 0);
             }
-        }, 1500);
+        }, 2500);
     }
 
     private void fullScreen() {

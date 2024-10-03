@@ -4,7 +4,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    tools:context=".CategoriesFragment">
+    tools:context=".CategoriesFragmentRepartidor">
     <ImageView
         android:id="@+id/img_fill"
         android:layout_width="match_parent"
@@ -31,7 +31,7 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="16dp"
             android:layout_marginBottom="16dp"
-            android:orientation="horizontal"
+            android:orientation="vertical"
             android:visibility="visible"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
@@ -39,26 +39,25 @@
             app:layout_constraintTop_toTopOf="parent">
 
             <TextView
-                android:id="@+id/textView7"
+                android:id="@+id/text_greeting"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="16dp"
-                android:fontFamily="@font/raleway_regular"
-                android:text="Hola"
+                android:layout_marginStart="8dp"
+                android:fontFamily="@font/raleway_bold"
+                android:text="Hola, Roberto - Repartidor"
                 android:textColor="@color/white"
-                android:textSize="24sp" />
+                android:textSize="28sp" />
 
             <TextView
                 android:id="@+id/text_name_client"
-                android:layout_width="0dp"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="8dp"
-                android:layout_weight="1"
+                android:layout_marginTop="8dp"
                 android:fontFamily="@font/raleway_bold"
-                android:text="Roberto"
+                android:text="Restaurantes:"
                 android:textColor="@color/white"
                 android:textSize="24sp" />
-
         </LinearLayout>
 
 
@@ -86,7 +85,7 @@
             app:layout_constraintTop_toBottomOf="@+id/constraintLayout">
 
             <androidx.recyclerview.widget.RecyclerView
-                android:id="@+id/rv_menu"
+                android:id="@+id/rv_menu_repartidor"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
@@ -96,10 +95,10 @@
                 android:layout_marginBottom="6sp"
                 android:orientation="vertical"
                 app:layoutManager="androidx.recyclerview.widget.StaggeredGridLayoutManager"
-                app:spanCount="2"
+                app:spanCount="1"
                 tools:itemCount="12"
                 app:layout_constrainedHeight="true"
-                tools:listitem="@layout/item_menu" />
+                tools:listitem="@layout/item_restaurante" />
 
         </LinearLayout>
 

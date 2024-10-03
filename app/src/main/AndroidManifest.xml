@@ -95,6 +95,14 @@
         <activity
             android:name=".CategoriesFragment"
             android:exported="false" />
+
+
+        <activity
+            android:name=".HomeRepartidorActivity"
+            android:exported="false" />
+        <activity
+            android:name=".CategoriesFragmentRepartidor"
+            android:exported="false" />
     </application>
 
 </manifest>
