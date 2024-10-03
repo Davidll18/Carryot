@@ -60,8 +60,8 @@ public class super_gestion_usuarios extends AppCompatActivity {
     private List<user> generateDummyData() {
         List<user> users = new ArrayList<>();
         users.add(new user("Juan", "Pérez", "12345678", "juan.perez@example.com", "987654321", "Av. Principal 123", "Admin", true));
-        users.add(new user("Ana", "García", "87654321", "ana.garcia@example.com", "123456789", "Calle Secundaria 456", "Usuario", false));
-        users.add(new user("Luis", "Martínez", "12345679", "luis.martinez@example.com", "456789123", "Calle Terciaria 789", "Usuario", true));
+        users.add(new user("Ana", "García", "87654321", "ana.garcia@example.com", "123456789", "Calle Secundaria 456", "Admin", false));
+        users.add(new user("Luis", "Martínez", "12345679", "luis.martinez@example.com", "456789123", "Calle Terciaria 789", "Admin", true));
         // Agrega más usuarios según sea necesario
         return users;
     }

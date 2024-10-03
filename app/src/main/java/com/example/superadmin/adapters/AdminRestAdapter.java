@@ -1,5 +1,6 @@
 package com.example.superadmin.adapters;
 
+import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -9,6 +10,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.superadmin.R;
 import com.example.superadmin.model.user;
+import com.example.superadmin.super_habilitar_usuarios;
 
 import java.util.List;
 
@@ -34,6 +36,24 @@ public class AdminRestAdapter extends RecyclerView.Adapter<AdminRestAdapter.Admi
         holder.nameTextView.setText(user.getName());
         holder.rolTextView.setText(user.getRol());
         holder.statusTextView.setText(user.isStatus() ? "Habilitado" : "No Habilitado");
+
+        holder.itemView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                // Aquí puedes manejar la redirección a otras pestañas o actividades
+                Intent intent = new Intent(v.getContext(), super_habilitar_usuarios.class);
+                // Puedes pasar datos si es necesario
+                // Pasar los datos del usuario como extras
+                intent.putExtra("name", user.getName());
+                intent.putExtra("lastName", user.getLastName());
+                intent.putExtra("dni", user.getDNI());
+                intent.putExtra("correo", user.getCorreo());
+                intent.putExtra("telefono", user.getNumberPhone());
+                intent.putExtra("habilitado", user.isStatus());
+
+                v.getContext().startActivity(intent);
+            }
+        });
     }
 
     @Override
@@ -54,5 +74,7 @@ public class AdminRestAdapter extends RecyclerView.Adapter<AdminRestAdapter.Admi
             statusTextView = itemView.findViewById(R.id.textViewStatus);
         }
     }
+
+
 }
 
