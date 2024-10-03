@@ -13,11 +13,12 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.example.superadmin.adapters.CategoryAdapter;
+import com.example.superadmin.adapters.CategoryRepartidorAdapter;
 
 import java.util.Arrays;
 import java.util.List;
 
-public class CategoriesFragmentRepartidor extends Fragment implements CategoryAdapter.OnItemClickListener{
+public class CategoriesFragmentRepartidor extends Fragment implements CategoryRepartidorAdapter.OnItemClickListener{
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -31,12 +32,12 @@ public class CategoriesFragmentRepartidor extends Fragment implements CategoryAd
         super.onViewCreated(view, savedInstanceState);
         RecyclerView recyclerView = view.findViewById(R.id.rv_menu_repartidor);
         List<String> categories = Arrays.asList("Bembos", "La Casona", "KFC", "McDonalds", "Pizzahut", "Fusión Perú", "Delicias");
-        CategoryAdapter adapter = new CategoryAdapter(categories, this);
+        CategoryRepartidorAdapter adapter = new CategoryRepartidorAdapter(categories, this);
         recyclerView.setAdapter(adapter);
     }
 
     @Override
     public void onItemClick(String category) {
-        requireActivity().startActivity(new Intent(requireContext(),ProductsActivity.class));
+        requireActivity().startActivity(new Intent(requireContext(),ProductsRepartidorActivity.class));
     }
 }

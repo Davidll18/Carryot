@@ -44,7 +44,7 @@ public class LoginActivity extends AppCompatActivity {
 
         // Inicializar lista de usuarios y contraseñas
         users = new HashMap<>();
-        users.put("user1@example.com", "password123");
+        users.put("b", "c");
         users.put("a", "b");
         users.put("user3@example.com", "password123");
         users.put("user4@example.com", "pass456");
@@ -66,7 +66,7 @@ public class LoginActivity extends AppCompatActivity {
 
                 if (validateCredentials(email, password)) {
                     // para repartidor
-                    if (email.equals("user1@example.com")) {
+                    if (email.equals("b")) {
                         startActivity(new Intent(LoginActivity.this, HomeActivity.class));
                     }
                     // para cliente, csambiar a tu actividad correspondiente [reeplace CategoriesFragment.class]

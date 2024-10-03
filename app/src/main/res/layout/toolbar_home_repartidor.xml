@@ -41,7 +41,7 @@
                     android:id="@+id/btn_profile"
                     android:layout_width="38dp"
                     android:layout_height="38dp"
-                    android:background="@color/white"
+                    android:background="@drawable/button_tripple_effect"
                     app:srcCompat="@drawable/baseline_person_24"
                     app:tint="@color/red_app" />
 

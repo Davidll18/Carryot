@@ -103,6 +103,10 @@
         <activity
             android:name=".CategoriesFragmentRepartidor"
             android:exported="false" />
+
+        <activity
+            android:name=".ProductsRepartidorActivity"
+            android:exported="false" />
     </application>
 
 </manifest>
