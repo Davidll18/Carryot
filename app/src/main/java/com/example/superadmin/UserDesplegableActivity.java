@@ -20,6 +20,7 @@ public class UserDesplegableActivity extends AppCompatActivity {
 
         buttonMenu = findViewById(R.id.btn_menu);
         drawerLayout = findViewById(R.id.draweLayout);
+
         buttonMenu.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -34,6 +35,11 @@ public class UserDesplegableActivity extends AppCompatActivity {
         startActivity(m3intent);
     }
 
+
+    public void btnhistorial(MenuItem item){
+        Intent m3intent = new Intent(this, HomePedidosActivity.class);
+        startActivity(m3intent);
+    }
 
     /*
     public void btnGestionUsuarios(View view){

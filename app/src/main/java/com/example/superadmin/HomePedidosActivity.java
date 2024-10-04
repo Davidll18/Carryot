@@ -9,5 +9,7 @@ public class HomePedidosActivity extends AppCompatActivity {
         setContentView(R.layout.activity_home_pedidos);
 
         // Aquí puede inicializar sus vistas y configurar los listeners
+
+
     }
 }

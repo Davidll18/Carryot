@@ -9,17 +9,19 @@
     <item
         android:icon="@drawable/registrar_admin_rest"
         android:id="@+id/btn_historial"
-        android:title="Historial de Pedidos"/>
-
-    <item
-        android:icon="@drawable/gestion_usuarios"
-        android:id="@+id/btn_direcciones"
-        android:title="Direcciones"/>
-
-    <item
-        android:icon="@drawable/report_ventas"
-        android:id="@+id/btn_ayuda"
-        android:title="Centro de ayuda"/>
+        android:title="Historial de Pedidos"
+        android:onClick="btnhistorial"/>
 
 
-</menu>
+        <item
+            android:icon="@drawable/gestion_usuarios"
+            android:id="@+id/btn_direcciones"
+            android:title="Direcciones"/>
+
+        <item
+            android:icon="@drawable/report_ventas"
+            android:id="@+id/btn_ayuda"
+            android:title="Centro de ayuda"/>
+
+
+    </menu>
