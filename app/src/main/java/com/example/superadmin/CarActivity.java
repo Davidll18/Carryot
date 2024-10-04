@@ -51,6 +51,8 @@ public class CarActivity extends AppCompatActivity implements ProductCarAdapter.
         btnBack.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                startActivity(new Intent(CarActivity.this, HomeActivity.class));
+
                 finish();
             }
         });

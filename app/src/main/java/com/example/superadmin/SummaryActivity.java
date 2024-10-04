@@ -1,5 +1,6 @@
 package com.example.superadmin;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 
@@ -38,6 +39,8 @@ public class SummaryActivity extends AppCompatActivity {
         btnFinish.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                startActivity(new Intent(SummaryActivity.this, HomeActivity.class));
+
                 finish();
             }
         });

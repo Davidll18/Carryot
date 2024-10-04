@@ -24,6 +24,7 @@ public class ProductDetailActivity extends AppCompatActivity {
     ImageButton btnBack;
     ImageButton btnCar;
     ImageButton btnProfile;
+    ConstraintLayout btnPay;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -39,6 +40,7 @@ public class ProductDetailActivity extends AppCompatActivity {
         btnBack = toolbar.findViewById(R.id.btn_back);
         btnCar = toolbar.findViewById(R.id.btn_shopping_bag);
         btnProfile = toolbar.findViewById(R.id.btn_profile);
+        btnPay= findViewById(R.id.container_payment);
 
         btnProfile.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -60,6 +62,16 @@ public class ProductDetailActivity extends AppCompatActivity {
                 finish();
             }
         });
+
+        btnPay.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(ProductDetailActivity.this, CarActivity.class));
+            }
+        });
+
+
+
 
         RecyclerView recyclerViewImages = findViewById(R.id.rv_slide_detail_product);
         RecyclerView recyclerViewDots = findViewById(R.id.rv_dots);
