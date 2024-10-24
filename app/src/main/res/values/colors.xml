@@ -5,6 +5,8 @@
     <color name="light_red">#ff0754</color>
     <color name="light_orange">#ff6547</color>
     <color name="gray">#d5d5d5</color>
+    <color name="light_gray">#f0f0f0</color>
+
     <color name="gray_8d8d8d">#9E0000</color>
     <color name="red_app">#ff4140</color>
     <color name="blue_dark_app">#001527</color>

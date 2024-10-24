@@ -55,7 +55,7 @@ public class LoginActivity extends AppCompatActivity {
         btnLogin = findViewById(R.id.btn_get_into_login);
         btnSignUp = findViewById(R.id.btn_signup);
         tvForgetPassword = findViewById(R.id.tv_forget_password);
-        btnBypass = findViewById(R.id.btn_bypass);
+
 
         // Manejar clic en el botón de inicio de sesión
         btnLogin.setOnClickListener(new View.OnClickListener() {
@@ -71,7 +71,7 @@ public class LoginActivity extends AppCompatActivity {
                     }
                     // para cliente, csambiar a tu actividad correspondiente [reeplace CategoriesFragment.class]
                     else if (email.equals("a")) {
-                        startActivity(new Intent(LoginActivity.this, HomeRepartidorActivity.class));
+                        startActivity(new Intent(LoginActivity.this, ProductsRepartidorActivity.class));
                     } else if (email.equals("user3@example.com")) {
                         startActivity(new Intent(LoginActivity.this, CategoriesFragment.class));
                     } else if (email.equals("user4@example.com")) {
@@ -102,13 +102,7 @@ public class LoginActivity extends AppCompatActivity {
             }
         });
 
-        // Manejar clic en el botón de omitir (bypass)
-        btnBypass.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                startActivity(new Intent(LoginActivity.this, HomePedidosActivity.class));
-            }
-        });
+
     }
 
     // Método para validar las credenciales ingresadas

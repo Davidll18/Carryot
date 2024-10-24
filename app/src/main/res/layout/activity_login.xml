@@ -242,21 +242,7 @@
                 app:layout_constraintGuide_end="15dp" />
 
 
-            <androidx.appcompat.widget.AppCompatButton
-                android:id="@+id/btn_bypass"
-                android:layout_width="0dp"
-                android:layout_height="48dp"
-                android:layout_marginTop="16dp"
-                android:background="@drawable/round_corner_background_white"
-                android:fontFamily="@font/raleway_bold"
-                android:text="BYPASS"
-                android:textAllCaps="false"
-                android:textColor="@color/black"
-                app:layout_constraintEnd_toStartOf="@+id/guideline_end_login_affiliate"
-                app:layout_constraintHorizontal_bias="1.0"
-                app:layout_constraintStart_toStartOf="@+id/guideline_init_login_affiliate"
-                app:layout_constraintTop_toBottomOf="@+id/btn_get_into_login"
-                tools:ignore="MissingConstraints,TextContrastCheck" />
+
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 

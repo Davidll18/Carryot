@@ -10,7 +10,7 @@
     <androidx.appcompat.widget.Toolbar
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@color/light_red">
+        android:background="@color/red_boton">
 
         <FrameLayout
             android:layout_width="match_parent"
@@ -21,7 +21,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:src="@drawable/menu"
-                android:background="@color/space_color"
+                android:background="@color/light_orange"
                 android:padding="12dp"
                 android:layout_gravity="start|center_vertical"
                 android:contentDescription="Abrir menú" />

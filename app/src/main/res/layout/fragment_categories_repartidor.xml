@@ -85,7 +85,7 @@
             app:layout_constraintTop_toBottomOf="@+id/constraintLayout">
 
             <androidx.recyclerview.widget.RecyclerView
-                android:id="@+id/rv_menu_repartidor"
+                android:id="@+id/rv_prod_repartidor"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
@@ -98,7 +98,7 @@
                 app:spanCount="1"
                 tools:itemCount="12"
                 app:layout_constrainedHeight="true"
-                tools:listitem="@layout/item_restaurante" />
+                tools:listitem="@layout/item_products_repartidor" />
 
         </LinearLayout>
 

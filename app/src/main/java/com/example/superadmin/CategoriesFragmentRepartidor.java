@@ -30,7 +30,7 @@ public class CategoriesFragmentRepartidor extends Fragment implements CategoryRe
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        RecyclerView recyclerView = view.findViewById(R.id.rv_menu_repartidor);
+        RecyclerView recyclerView = view.findViewById(R.id.rv_prod_repartidor);
         List<String> categories = Arrays.asList("Bembos", "La Casona", "KFC", "McDonalds", "Pizzahut", "Fusión Perú", "Delicias");
         CategoryRepartidorAdapter adapter = new CategoryRepartidorAdapter(categories, this);
         recyclerView.setAdapter(adapter);
