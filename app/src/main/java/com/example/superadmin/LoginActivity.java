@@ -75,7 +75,7 @@ public class LoginActivity extends AppCompatActivity {
                     } else if (email.equals("user3@example.com")) {
                         startActivity(new Intent(LoginActivity.this, CategoriesFragment.class));
                     } else if (email.equals("user4@example.com")) {
-                        startActivity(new Intent(LoginActivity.this, SuperPrincipalActivity.class));
+                        startActivity(new Intent(LoginActivity.this, super_estadisticas_general.class));
 
                     }
                     finish();

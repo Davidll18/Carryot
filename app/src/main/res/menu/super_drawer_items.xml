@@ -1,9 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
-    <item
-        android:icon="@drawable/perfil_icon"
-        android:id="@+id/navPerfil"
-        android:title="Perfil"/>
 
     <item
         android:icon="@drawable/gestion_usuarios"
@@ -15,6 +11,10 @@
         android:id="@+id/navRegistrarAdminRest"
         android:title="Registrar Admin de Restaurant"/>
 
+    <item
+        android:icon="@drawable/report_ventas_por_rest"
+        android:id="@+id/navReporteVentas_por_rest"
+        android:title="Reporte de Ventas por Restaunt"/>
     <item
         android:icon="@drawable/report_ventas"
         android:id="@+id/navReporteVentas"

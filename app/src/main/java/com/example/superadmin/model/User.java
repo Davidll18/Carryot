@@ -1,8 +1,6 @@
 package com.example.superadmin.model;
 
-import android.content.Intent;
-
-public class user {
+public class User {
     private String name;
     private String lastName;     // Estilo de nombres en camelCase
     private String  DNI;            // Si el DNI es numérico
@@ -12,7 +10,7 @@ public class user {
     private String rol;
     private boolean status;      // Cambiado a boolean para activo/inactivo
 
-    public user(String name, String lastName, String  DNI, String correo, String numberPhone, String direction, String rol, boolean status) {
+    public User(String name, String lastName, String  DNI, String correo, String numberPhone, String direction, String rol, boolean status) {
         this.name = name;
         this.lastName = lastName;
         this.DNI = DNI;

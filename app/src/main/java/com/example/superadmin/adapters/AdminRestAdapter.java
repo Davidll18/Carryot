@@ -9,16 +9,16 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.superadmin.R;
-import com.example.superadmin.model.user;
+import com.example.superadmin.model.User;
 import com.example.superadmin.super_habilitar_usuarios;
 
 import java.util.List;
 
 public class AdminRestAdapter extends RecyclerView.Adapter<AdminRestAdapter.AdminViewHolder> {
-    private List<user> userList; // Lista de usuarios
+    private List<User> userList; // Lista de usuarios
 
     // Constructor para inicializar la lista de usuarios
-    public AdminRestAdapter(List<user> userList) {
+    public AdminRestAdapter(List<User> userList) {
         this.userList = userList;
     }
 
@@ -32,7 +32,7 @@ public class AdminRestAdapter extends RecyclerView.Adapter<AdminRestAdapter.Admi
 
     @Override
     public void onBindViewHolder(@NonNull AdminViewHolder holder, int position) {
-        user user = userList.get(position);
+        User user = userList.get(position);
         holder.nameTextView.setText(user.getName());
         holder.rolTextView.setText(user.getRol());
         holder.statusTextView.setText(user.isStatus() ? "Habilitado" : "No Habilitado");
