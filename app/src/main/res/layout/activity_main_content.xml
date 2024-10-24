@@ -100,7 +100,9 @@
                 android:layout_height="wrap_content"
                 android:text="Logs"
                 android:backgroundTint="@color/light_red"
-                android:textColor="#FFFFFF" />
+                android:textColor="#FFFFFF"
+                android:onClick="btnLogs"
+                />
 
         </LinearLayout>
 

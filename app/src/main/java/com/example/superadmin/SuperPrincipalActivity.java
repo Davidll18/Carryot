@@ -49,4 +49,9 @@ public class SuperPrincipalActivity extends AppCompatActivity {
         startActivity(m6intent);
     }
 
+    public void btnLogs(View view){
+        Intent m7intent = new Intent(this, super_logs.class);
+        startActivity(m7intent);
+    }
+
 }

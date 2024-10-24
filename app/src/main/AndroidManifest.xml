@@ -16,9 +16,6 @@
             android:name=".Super_registro_admin_rest"
             android:exported="false" />
         <activity
-            android:name=".super_register_admin_rest"
-            android:exported="false" />
-        <activity
             android:name=".super_gestion_usuarios"
             android:exported="false"
             android:label="@string/title_activity_super_gestion_usuarios"
@@ -30,11 +27,11 @@
             android:name=".super_rest"
             android:exported="false" />
         <activity
-            android:name=".super_editar"
-            android:exported="false" />
-        <activity
             android:name=".super_estadisticas_por_rest"
             android:exported="true" />
+        <activity
+            android:name=".super_logs"
+            android:exported="false" />
         <activity
             android:name=".super_estadisticas_general"
             android:exported="false" /> <!-- esta declarado pero ni idea que hace -->
@@ -95,15 +92,12 @@
         <activity
             android:name=".CategoriesFragment"
             android:exported="false" />
-
-
         <activity
             android:name=".HomeRepartidorActivity"
             android:exported="false" />
         <activity
             android:name=".CategoriesFragmentRepartidor"
             android:exported="false" />
-
         <activity
             android:name=".ProductsRepartidorActivity"
             android:exported="false" />
