@@ -15,6 +15,8 @@ import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 
+import com.example.superadmin.adminrest.RestaurantActivity;
+
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Objects;
@@ -48,6 +50,7 @@ public class LoginActivity extends AppCompatActivity {
         users.put("a", "b");
         users.put("user3@example.com", "password123");
         users.put("user4@example.com", "pass456");
+        users.put("user5@example.com", "pass456");
 
         // Inicializar vistas
         etEmail = findViewById(R.id.et_email);
@@ -76,8 +79,10 @@ public class LoginActivity extends AppCompatActivity {
                         startActivity(new Intent(LoginActivity.this, CategoriesFragment.class));
                     } else if (email.equals("user4@example.com")) {
                         startActivity(new Intent(LoginActivity.this, super_estadisticas_general.class));
-
+                    } else if (email.equals("user5@example.com")) {
+                        startActivity(new Intent(LoginActivity.this, RestaurantActivity.class));
                     }
+
                     finish();
                 } else {
 
