@@ -3,6 +3,7 @@ package com.example.superadmin.adapters;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -36,11 +37,22 @@ public class ProductRepartidorAdapter extends RecyclerView.Adapter<ProductRepart
         holder.textPrice.setText(product.getPrice());
         holder.imgMenuItem.setImageResource(product.getImageResourceId());
 
-        holder.itemView.setOnClickListener(new View.OnClickListener() {
+        // Clic en el botón 2 (actuando como clic en la card)
+        holder.button1.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 if (listener != null) {
-                    listener.onItemClick(product);
+                    listener.onItemClick(product);  // Mantener funcionalidad de clic en la card para el botón 2
+                }
+            }
+        });
+
+        // Clic en el botón 3 (con id "button3" en el layout del card)
+        holder.button3.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (listener != null) {
+                    listener.onButton3Click(product); // Método nuevo para el botón 3
                 }
             }
         });
@@ -55,16 +67,21 @@ public class ProductRepartidorAdapter extends RecyclerView.Adapter<ProductRepart
         TextView textNameProduct;
         TextView textPrice;
         ImageView imgMenuItem;
+        ImageButton button3;  // Referencia al botón 3
+        ImageButton button1;
 
         public ProductViewHolder(View itemView) {
             super(itemView);
             textNameProduct = itemView.findViewById(R.id.text_name_product);
             textPrice = itemView.findViewById(R.id.text_price);
             imgMenuItem = itemView.findViewById(R.id.img_menu_item);
+            button3 = itemView.findViewById(R.id.button3);  // Enlazar el botón 3
+            button1 = itemView.findViewById(R.id.button1);  // Enlazar el botón 2
         }
     }
 
     public interface OnItemClickListener {
-        void onItemClick(Product product);
+        void onItemClick(Product product);    // Para manejar el clic en el botón 2
+        void onButton3Click(Product product); // Para manejar el clic en el botón 3
     }
 }

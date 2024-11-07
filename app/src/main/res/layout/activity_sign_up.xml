@@ -52,7 +52,7 @@
         <androidx.appcompat.widget.LinearLayoutCompat
             android:id="@+id/lyt_name"
             android:layout_width="0dp"
-            android:layout_height="70dp"
+            android:layout_height="wrap_content"
             android:layout_marginTop="15dp"
             android:background="@drawable/round_corner_background_white"
             android:elevation="2dp"
@@ -88,7 +88,7 @@
         <androidx.appcompat.widget.LinearLayoutCompat
             android:id="@+id/lyt_surname"
             android:layout_width="0dp"
-            android:layout_height="70dp"
+            android:layout_height="wrap_content"
             android:layout_marginTop="11dp"
             android:background="@drawable/round_corner_background_white"
             android:elevation="2dp"
@@ -124,7 +124,7 @@
         <androidx.appcompat.widget.LinearLayoutCompat
             android:id="@+id/lyt_email"
             android:layout_width="0dp"
-            android:layout_height="70dp"
+            android:layout_height="wrap_content"
             android:layout_marginTop="11dp"
             android:background="@drawable/round_corner_background_white"
             android:elevation="2dp"
@@ -160,7 +160,7 @@
         <androidx.appcompat.widget.LinearLayoutCompat
             android:id="@+id/lyt_dni"
             android:layout_width="0dp"
-            android:layout_height="70dp"
+            android:layout_height="wrap_content"
             android:layout_marginTop="11dp"
             android:background="@drawable/round_corner_background_white"
             android:elevation="2dp"
@@ -197,7 +197,7 @@
         <androidx.appcompat.widget.LinearLayoutCompat
             android:id="@+id/lyt_phone"
             android:layout_width="0dp"
-            android:layout_height="70dp"
+            android:layout_height="wrap_content"
             android:layout_marginTop="11dp"
             android:background="@drawable/round_corner_background_white"
             android:elevation="2dp"
@@ -234,7 +234,7 @@
         <androidx.appcompat.widget.LinearLayoutCompat
             android:id="@+id/lyt_address"
             android:layout_width="0dp"
-            android:layout_height="70dp"
+            android:layout_height="wrap_content"
             android:layout_marginTop="11dp"
             android:background="@drawable/round_corner_background_white"
             android:elevation="2dp"
@@ -265,6 +265,42 @@
                 android:inputType="textPostalAddress" />
         </androidx.appcompat.widget.LinearLayoutCompat>
 
+        <!-- Contraseña -->
+        <androidx.appcompat.widget.LinearLayoutCompat
+            android:id="@+id/lyt_password"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="11dp"
+            android:background="@drawable/round_corner_background_white"
+            android:elevation="2dp"
+            android:orientation="vertical"
+            android:paddingTop="5dp"
+            android:paddingBottom="5dp"
+            app:layout_constraintEnd_toStartOf="@+id/guideline_end"
+            app:layout_constraintStart_toStartOf="@+id/guideline_start"
+            app:layout_constraintTop_toBottomOf="@+id/lyt_address">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="10dp"
+                android:layout_marginTop="8dp"
+                android:fontFamily="@font/raleway_bold"
+                android:text="Contraseña"
+                android:textColor="@color/black"
+                android:textSize="12sp" />
+
+            <EditText
+                android:id="@+id/ed_password"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="10dp"
+                android:background="@null"
+                android:layout_marginTop="5dp"
+                android:hint="Ingrese su contraseña"
+                android:inputType="textPassword" />
+        </androidx.appcompat.widget.LinearLayoutCompat>
+
         <androidx.appcompat.widget.AppCompatButton
             android:id="@+id/btn_signup_init"
             android:layout_width="0dp"
@@ -278,7 +314,7 @@
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toStartOf="@+id/guideline_end"
             app:layout_constraintStart_toStartOf="@+id/guideline_start"
-            app:layout_constraintTop_toBottomOf="@+id/lyt_address" />
+            app:layout_constraintTop_toBottomOf="@+id/lyt_password" />
 
         <androidx.constraintlayout.widget.Guideline
             android:id="@+id/guideline_start"

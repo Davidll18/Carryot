@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.ImageButton;
+import android.widget.Toast;
 
 import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
@@ -16,11 +17,12 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.superadmin.adapters.ProductRepartidorAdapter;
 import com.example.superadmin.model.Product;
+import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 
 import java.util.Arrays;
 import java.util.List;
 
-public class ProductsRepartidorActivity extends AppCompatActivity implements ProductRepartidorAdapter.OnItemClickListener{
+public class ProductsRepartidorActivity extends AppCompatActivity implements ProductRepartidorAdapter.OnItemClickListener {
     ConstraintLayout toolbar;
     ImageButton btnBack;
 
@@ -71,5 +73,19 @@ public class ProductsRepartidorActivity extends AppCompatActivity implements Pro
     @Override
     public void onItemClick(Product product) {
         startActivity(new Intent(ProductsRepartidorActivity.this,ProductDetailActivity.class));
+    }
+
+    @Override
+    public void onButton3Click(Product product) {
+        // Mostrar un diálogo de confirmación al presionar el botón 3
+        new MaterialAlertDialogBuilder(this)
+                .setTitle("Confirmación")
+                .setMessage("¿Deseas tomar el pedido N°: " + product.getName() + "?")
+                .setPositiveButton("Aceptar", (dialog, which) -> {
+                    // Acción al presionar aceptar
+                  //  Toast.makeText(this, "Acción confirmada para " + product.getName(), Toast.LENGTH_SHORT).show();
+                })
+                .setNegativeButton("Cancelar", (dialog, which) -> dialog.dismiss())
+                .show();
     }
 }
