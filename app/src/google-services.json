@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "126866892595",
+    "project_id": "projectiot-cb5b2",
+    "storage_bucket": "projectiot-cb5b2.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:126866892595:android:76f6304a8604e0cd26c046",
+        "android_client_info": {
+          "package_name": "com.example.superadmin"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyB7bI7AvmZYszzpkFCTZQje6GaVRRRWeeM"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
