@@ -106,6 +106,20 @@
         <activity
             android:name=".ProductsRepartidorActivity"
             android:exported="false" />
+
+
+        <activity android:name=".adminrest.RestaurantActivity" android:exported="false" />
+        <activity android:name=".adminrest.MainActivity" android:exported="false" />
+        <activity android:name=".adminrest.PedidosActivity" android:exported="false" />
+        <activity android:name=".adminrest.DishesActivity" android:exported="false" />
+        <activity android:name=".adminrest.GananciaActivity" android:exported="false" />
+        <activity android:name=".adminrest.StatisticsActivity" android:exported="false" />
+        <activity android:name=".adminrest.EditDishesActivity" android:exported="false" />
+        <activity android:name=".adminrest.NewDishActivity" android:exported="false" />
+        <activity android:name=".adminrest.OrderDetailsActivity" android:exported="false" />
+        <activity android:name=".adminrest.NewRestaurantActivity" android:exported="false" />
+        <activity android:name=".adminrest.ProfileRestActivity" android:exported="false" />
+
     </application>
 
 </manifest>
