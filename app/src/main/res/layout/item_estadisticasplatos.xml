@@ -1,0 +1,171 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+    <androidx.cardview.widget.CardView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:cardBackgroundColor="@color/white"
+        app:cardCornerRadius="8dp"
+        app:cardElevation="12dp"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        android:layout_margin="8dp">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:padding="8dp">
+
+            <!-- Food Name and Price -->
+            <TextView
+                android:id="@+id/text_name_product"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/roboto_medium"
+                android:text="PLATOS MÁS VENDIDOS"
+                android:textColor="@color/black"
+                android:textSize="23sp"
+                android:textStyle="bold"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toStartOf="@+id/text_details"/>
+
+            <TextView
+                android:id="@+id/text_details"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/roboto_black"
+                android:text="Ver detalles"
+                android:textColor="#F44336"
+                android:textSize="18sp"
+                app:layout_constraintTop_toTopOf="@id/text_name_product"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintBottom_toBottomOf="@id/text_name_product"/>
+
+            <!-- Food Image -->
+            <!-- Food Image -->
+            <androidx.cardview.widget.CardView
+                android:id="@+id/cardView"
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_marginTop="8dp"
+                app:cardBackgroundColor="@color/white"
+                app:cardCornerRadius="8dp"
+                app:cardElevation="0dp"
+                app:layout_constraintDimensionRatio="16:9"
+                app:layout_constraintTop_toBottomOf="@id/text_name_product"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:gravity="center"
+                    android:padding="8dp"
+                    android:layout_marginTop="16dp"
+                    android:weightSum="3">
+
+                    <!-- Layout for Lomo image and name -->
+                    <LinearLayout
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:orientation="vertical"
+                        android:gravity="center">
+
+                        <ImageView
+                            android:id="@+id/img_lomo"
+                            android:layout_width="wrap_content"
+                            android:layout_height="150dp"
+                            android:layout_marginBottom="8dp"
+                            android:contentDescription="@null"
+                            android:scaleType="centerCrop"
+                            app:srcCompat="@drawable/lomo"
+                            android:layout_marginRight="2dp"/>
+
+                        <TextView
+                            android:id="@+id/text_lomo"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Lomo Saltado"
+                            android:textSize="16sp"
+                            android:textColor="@android:color/black"
+                            android:gravity="center" />
+                    </LinearLayout>
+
+                    <!-- Layout for Ceviche image and name -->
+                    <LinearLayout
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:orientation="vertical"
+                        android:gravity="center">
+
+                        <ImageView
+                            android:id="@+id/img_menu_ceviche"
+                            android:layout_width="wrap_content"
+                            android:layout_height="150dp"
+                            android:layout_marginBottom="8dp"
+                            android:contentDescription="@null"
+                            android:scaleType="centerCrop"
+                            app:srcCompat="@drawable/ceviche"
+                            android:layout_marginLeft="2dp"
+                            android:layout_marginRight="2dp"/>
+
+                        <TextView
+                            android:id="@+id/text_ceviche"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Ceviche"
+                            android:textSize="16sp"
+                            android:textColor="@android:color/black"
+                            android:gravity="center" />
+                    </LinearLayout>
+
+                    <!-- Layout for Pollo image and name -->
+                    <LinearLayout
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:orientation="vertical"
+                        android:gravity="center">
+
+                        <ImageView
+                            android:id="@+id/img_menu_pollo"
+                            android:layout_width="wrap_content"
+                            android:layout_height="150dp"
+                            android:layout_marginBottom="8dp"
+                            android:contentDescription="@null"
+                            android:scaleType="centerCrop"
+                            app:srcCompat="@drawable/pollito"
+                            android:layout_marginLeft="2dp"/>
+
+                        <TextView
+                            android:id="@+id/text_pollo"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Pollo a la Brasa"
+                            android:textSize="16sp"
+                            android:textColor="@android:color/black"
+                            android:gravity="center" />
+                    </LinearLayout>
+
+                </LinearLayout>
+
+            </androidx.cardview.widget.CardView>
+
+
+
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+    </androidx.cardview.widget.CardView>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

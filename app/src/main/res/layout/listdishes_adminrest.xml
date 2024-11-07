@@ -1,0 +1,158 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.drawerlayout.widget.DrawerLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/drawer_layout"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="com.example.projectiot.DishesActivity"
+    android:fitsSystemWindows="true"
+    tools:openDrawer="end">
+    <com.google.android.material.navigation.NavigationView
+        android:layout_width="250dp"
+        android:layout_height="match_parent"
+        android:id="@+id/nav_view"
+        app:headerLayout="@layout/header"
+        app:menu="@menu/main_menu"
+        android:layout_gravity="start">
+    </com.google.android.material.navigation.NavigationView>
+
+
+    <!-- ScrollView para agregar la barra de desplazamiento -->
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:fillViewport="true">
+
+        <!-- ConstraintLayout envuelto dentro del ScrollView -->
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+            <!-- Toolbar -->
+            <include
+                android:id="@+id/toolbar"
+                layout="@layout/generaltoolbar_adminrest"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
+
+
+            <!-- Pestañas -->
+            <LinearLayout
+                android:id="@+id/cotainertittle"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:padding="16dp"
+                tools:ignore="MissingConstraints"
+                app:layout_constraintTop_toBottomOf="@id/toolbar"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent">
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+
+                    android:gravity="center"
+                    android:orientation="vertical"
+                    >
+                    <!-- Título de la sección -->
+
+                    <TextView
+                        android:id="@+id/tvPlatos"
+                        android:layout_width="332dp"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:layout_marginBottom="16dp"
+                        android:layout_weight="1"
+                        android:gravity="center"
+                        android:text="LISTA DE PLATOS"
+                        android:textColor="#000000"
+                        android:textSize="30sp"
+                        android:textStyle="bold" />
+
+                    <Button
+                        android:id="@+id/btAñadirPlato"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="16dp"
+                        android:contentDescription="Añadir Plato"
+                        android:padding="8dp"
+                        android:text="  Añadir plato  "
+                        android:textSize="18dp"
+                        android:backgroundTint="@color/red_app"
+                        />
+
+                </LinearLayout>
+
+                <com.google.android.material.tabs.TabLayout
+                    android:id="@+id/tabLayoutEstados"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="#FFFFFF"
+                    app:tabIndicatorColor="@color/red_app"
+                    app:tabIndicatorHeight="4dp"
+                    app:tabSelectedTextColor="@color/red_app"
+                    app:tabTextColor="#888888">
+
+                    <!-- Pestaña Pendientes -->
+                    <com.google.android.material.tabs.TabItem
+                        android:id="@+id/tabTodo"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:text="TODO"
+                        />
+
+                    <com.google.android.material.tabs.TabItem
+                        android:id="@+id/tabDesayuno"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="DES" />
+
+                    <!-- Pestaña Almuerzo -->
+                    <com.google.android.material.tabs.TabItem
+                        android:id="@+id/tabAlmuerzo"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="ALM" />
+
+                    <!-- Pestaña Cena -->
+                    <com.google.android.material.tabs.TabItem
+                        android:id="@+id/tabCena"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="CEN" />
+
+                    <!-- Pestaña Bebidas -->
+                    <com.google.android.material.tabs.TabItem
+                        android:id="@+id/tabBebidas"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="BDAS" />
+
+                    <!-- Pestaña Postres -->
+                    <com.google.android.material.tabs.TabItem
+                        android:id="@+id/tabPostres"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="POST" />
+
+                </com.google.android.material.tabs.TabLayout>
+
+            </LinearLayout>
+
+            <!-- Pedidos-->
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/recyclerView"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.0"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/cotainertittle"
+                app:layout_constraintVertical_bias="0.0" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+    </ScrollView>
+
+</androidx.drawerlayout.widget.DrawerLayout>

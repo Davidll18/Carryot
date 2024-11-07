@@ -16,6 +16,7 @@
     <color name="green">#06a77d</color>
     <color name="pastelYellow">#efefe5</color>
     <color name="red_boton">#FF8C04</color>
-    <color name="dark_gray_hint">#606060</color> <!-- Ajusta este valor según la intensidad deseada -->
-
+    <color name="dark_gray_hint">#606060</color>
+    <color name="light_red_app">#DEFF4140</color>
+    <color name="light_red_background">#DEEB6060</color>
 </resources>

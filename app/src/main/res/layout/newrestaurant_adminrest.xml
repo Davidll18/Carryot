@@ -1,0 +1,286 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+    <!-- Toolbar -->
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:padding="16dp"
+        android:layout_marginTop="70dp">
+
+        <!-- Título -->
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="¡AGREGA TU RESTAURANTE!"
+            android:textStyle="bold"
+            android:textSize="25sp"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginBottom="8dp"/>
+
+        <!-- Subtítulo de validación -->
+        <TextView
+            android:id="@+id/warning_validation"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Se validarán los datos"
+            android:textSize="16sp"
+            android:textColor="#000000"
+            android:drawableStart="@drawable/warning_icon"
+            android:gravity="center_horizontal"
+            android:layout_gravity="center_horizontal"/> <!-- Imagen a la izquierda -->
+
+
+        <!-- Campo: Nombre del Restaurante -->
+        <androidx.appcompat.widget.LinearLayoutCompat
+            android:id="@+id/lyt_name"
+            android:layout_width="match_parent"
+            android:layout_height="70dp"
+            android:layout_marginTop="15dp"
+            android:background="@drawable/round_corner_background_white"
+            android:elevation="2dp"
+            android:orientation="vertical"
+            android:paddingTop="5dp"
+            android:paddingBottom="5dp">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="10dp"
+                android:layout_marginTop="8dp"
+                android:fontFamily="@font/raleway_bold"
+                android:text="Nombre del restaurante"
+                android:textColor="@color/black"
+                android:textSize="15sp" />
+
+            <EditText
+                android:id="@+id/ed_name"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="10dp"
+                android:background="@null"
+                android:layout_marginTop="5dp"
+                android:textSize="20dp"
+                android:hint="Ingrese el nombre de restaurente"
+                android:inputType="textPersonName" />
+        </androidx.appcompat.widget.LinearLayoutCompat>
+        <!-- Categoría (Spinner) -->
+        <androidx.appcompat.widget.LinearLayoutCompat
+            android:id="@+id/lyt_categoria"
+            android:layout_width="match_parent"
+            android:layout_height="70dp"
+            android:background="@drawable/round_corner_background_white"
+            android:elevation="2dp"
+            android:orientation="vertical"
+            android:paddingTop="5dp"
+            android:paddingBottom="5dp"
+            android:layout_marginTop="8dp">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="10dp"
+                android:layout_marginTop="8dp"
+                android:fontFamily="@font/raleway_bold"
+                android:text="Categoría"
+                android:textColor="@color/black"
+                android:textSize="15sp" />
+
+            <EditText
+                android:id="@+id/ed_categoria"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textSize="20dp"
+                android:layout_marginStart="10dp"
+                android:background="@null"
+                android:layout_marginTop="5dp"
+                android:hint="Criollo, Comida rapida, Oriental, etc."
+                android:inputType="textPersonName" />
+        </androidx.appcompat.widget.LinearLayoutCompat>
+
+        <!-- Razón Social -->
+        <androidx.appcompat.widget.LinearLayoutCompat
+            android:id="@+id/lyt_rs"
+            android:layout_width="match_parent"
+            android:layout_height="70dp"
+            android:background="@drawable/round_corner_background_white"
+            android:elevation="2dp"
+            android:orientation="vertical"
+            android:paddingTop="5dp"
+            android:paddingBottom="5dp"
+            android:layout_marginTop="8dp">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="10dp"
+                android:layout_marginTop="8dp"
+                android:fontFamily="@font/raleway_bold"
+                android:text="Razón Social"
+                android:textColor="@color/black"
+                android:textSize="15sp" />
+
+            <EditText
+                android:id="@+id/ed_rs"
+                android:textSize="20dp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="10dp"
+                android:background="@null"
+                android:layout_marginTop="5dp"
+                android:hint="Ingrese la razón social"
+                android:inputType="textPersonName" />
+        </androidx.appcompat.widget.LinearLayoutCompat>
+
+        <!-- Campo: R.U.C -->
+        <androidx.appcompat.widget.LinearLayoutCompat
+            android:id="@+id/lyt_ruc"
+            android:layout_width="match_parent"
+            android:layout_height="70dp"
+            android:background="@drawable/round_corner_background_white"
+            android:elevation="2dp"
+            android:orientation="vertical"
+            android:paddingTop="5dp"
+            android:paddingBottom="5dp"
+            android:layout_marginTop="8dp">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="10dp"
+                android:layout_marginTop="8dp"
+                android:fontFamily="@font/raleway_bold"
+                android:text="R.U.C."
+                android:textColor="@color/black"
+                android:textSize="15sp" />
+
+            <EditText
+                android:id="@+id/ed_ruc"
+                android:textSize="20dp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="10dp"
+                android:background="@null"
+                android:layout_marginTop="5dp"
+                android:hint="Ingreser 10 dígitos"
+                android:inputType="textPersonName" />
+        </androidx.appcompat.widget.LinearLayoutCompat>
+
+        <!-- Códigos de Licencia y Permiso -->
+        <androidx.appcompat.widget.LinearLayoutCompat
+            android:id="@+id/lyt_func"
+            android:layout_width="match_parent"
+            android:layout_height="70dp"
+            android:background="@drawable/round_corner_background_white"
+            android:elevation="2dp"
+            android:orientation="vertical"
+            android:paddingTop="5dp"
+            android:paddingBottom="5dp"
+            android:layout_marginTop="8dp">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="10dp"
+                android:layout_marginTop="8dp"
+                android:fontFamily="@font/raleway_bold"
+                android:text="Licencia de funcionamiento"
+                android:textColor="@color/black"
+                android:textSize="15sp" />
+
+            <EditText
+                android:id="@+id/ed_func"
+                android:textSize="20dp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="10dp"
+                android:background="@null"
+                android:layout_marginTop="5dp"
+                android:hint="Ingreser 7 dígitos"
+                android:inputType="textPersonName" />
+        </androidx.appcompat.widget.LinearLayoutCompat>
+
+        <!-- Código de permiso -->
+
+        <androidx.appcompat.widget.LinearLayoutCompat
+            android:id="@+id/lyt_sanit"
+            android:layout_width="match_parent"
+            android:layout_height="70dp"
+            android:background="@drawable/round_corner_background_white"
+            android:elevation="2dp"
+            android:orientation="vertical"
+            android:paddingTop="5dp"
+            android:paddingBottom="5dp"
+            android:layout_marginTop="8dp">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="10dp"
+                android:layout_marginTop="8dp"
+                android:fontFamily="@font/raleway_bold"
+                android:text="Permiso sanitario"
+                android:textColor="@color/black"
+                android:textSize="15sp" />
+
+            <EditText
+                android:id="@+id/ed_sanit"
+                android:textSize="20dp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="10dp"
+                android:background="@null"
+                android:layout_marginTop="5dp"
+                android:hint="Ingreser 5 dígitos"
+                android:inputType="textPersonName" />
+        </androidx.appcompat.widget.LinearLayoutCompat>
+
+
+        <!-- Botones: Atras y Siguiente -->
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <!-- Botón 1 -->
+            <androidx.appcompat.widget.AppCompatButton
+                android:id="@+id/btn_signup_init"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginRight="5dp"
+                android:background="@drawable/round_corner_background_boton_gray"
+                android:fontFamily="@font/raleway_bold"
+                android:text="Cancelar"
+                android:textColor="@color/white"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toStartOf="@+id/btn_cancelar"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintWidth_percent="0.5" />
+
+            <!-- Botón 2 -->
+            <androidx.appcompat.widget.AppCompatButton
+                android:id="@+id/btn_login"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="27dp"
+                android:layout_marginBottom="27dp"
+                android:background="@drawable/round_corner_background_boton"
+                android:fontFamily="@font/raleway_bold"
+                android:text="SIGUIENTE"
+                android:textColor="@color/white"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toEndOf="@+id/btn_signup_init"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintWidth_percent="0.5" />
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+    </LinearLayout>
+
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>

@@ -1,0 +1,4 @@
+<shape xmlns:android="http://schemas.android.com/apk/res/android">
+    <corners android:radius="10dp"/> <!-- Cambia el valor de "16dp" para agrandar las esquinas -->
+    <solid android:color="@color/light_red_background"/> <!-- Color de fondo, cámbialo si es necesario -->
+</shape>

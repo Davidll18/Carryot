@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <!-- res/menu/popup_menu.xml -->
+        <item
+            android:id="@+id/action_enable_disable"
+            android:title="Deshabilitar / Habilitar"
+            android:icon="@drawable/disables_icon" />
+        <item
+            android:id="@+id/action_delete"
+            android:title="Eliminar"
+            android:icon="@drawable/delete_icon" />
+        <item
+            android:id="@+id/action_edit"
+            android:title="Editar"
+            android:icon="@drawable/edit_icon" />
+</menu>
