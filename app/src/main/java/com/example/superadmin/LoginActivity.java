@@ -15,22 +15,16 @@ import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 
-import com.example.superadmin.adminrest.RestaurantActivity;
-
-import java.util.HashMap;
-import java.util.Map;
-import java.util.Objects;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 
 public class LoginActivity extends AppCompatActivity {
 
     AppCompatButton btnLogin;
     AppCompatButton btnSignUp;
-    AppCompatButton btnBypass;
     TextView tvForgetPassword;
     EditText etEmail, etPassword;
-
-    // Lista hardcodeada de usuarios y contraseñas
-    Map<String, String> users;
+    private FirebaseAuth firebaseAuth;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -44,13 +38,8 @@ public class LoginActivity extends AppCompatActivity {
             return insets;
         });
 
-        // Inicializar lista de usuarios y contraseñas
-        users = new HashMap<>();
-        users.put("b", "c");
-        users.put("a", "b");
-        users.put("user3@example.com", "password123");
-        users.put("user4@example.com", "pass456");
-        users.put("user5@example.com", "pass456");
+        // Inicializar FirebaseAuth
+        firebaseAuth = FirebaseAuth.getInstance();
 
         // Inicializar vistas
         etEmail = findViewById(R.id.et_email);
@@ -59,35 +48,36 @@ public class LoginActivity extends AppCompatActivity {
         btnSignUp = findViewById(R.id.btn_signup);
         tvForgetPassword = findViewById(R.id.tv_forget_password);
 
-
         // Manejar clic en el botón de inicio de sesión
         btnLogin.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                String email = etEmail.getText().toString();
-                String password = etPassword.getText().toString();
+                String email = etEmail.getText().toString().trim();
+                String password = etPassword.getText().toString().trim();
 
-                if (validateCredentials(email, password)) {
-                    // para repartidor
-                    if (email.equals("b")) {
-                        startActivity(new Intent(LoginActivity.this, HomeActivity.class));
-                    }
-                    // para cliente, csambiar a tu actividad correspondiente [reeplace CategoriesFragment.class]
-                    else if (email.equals("a")) {
-                        startActivity(new Intent(LoginActivity.this, ProductsRepartidorActivity.class));
-                    } else if (email.equals("user3@example.com")) {
-                        startActivity(new Intent(LoginActivity.this, CategoriesFragment.class));
-                    } else if (email.equals("user4@example.com")) {
-                        startActivity(new Intent(LoginActivity.this, super_estadisticas_general.class));
-                    } else if (email.equals("user5@example.com")) {
-                        startActivity(new Intent(LoginActivity.this, RestaurantActivity.class));
-                    }
-
-                    finish();
-                } else {
-
-                    showCustomToast();
+                if (email.isEmpty() || password.isEmpty()) {
+                    Toast.makeText(LoginActivity.this, "Por favor, complete todos los campos", Toast.LENGTH_SHORT).show();
+                    return;
                 }
+
+                // Iniciar sesión con Firebase Authentication
+                firebaseAuth.signInWithEmailAndPassword(email, password)
+                        .addOnCompleteListener(task -> {
+                            if (task.isSuccessful()) {
+                                // Inicio de sesión exitoso
+                                FirebaseUser user = firebaseAuth.getCurrentUser();
+                                if (user != null && user.isEmailVerified()) {
+                                    Toast.makeText(LoginActivity.this, "Inicio de sesión exitoso", Toast.LENGTH_SHORT).show();
+                                    startActivity(new Intent(LoginActivity.this, HomeActivity.class)); // Redirigir a la actividad deseada
+                                    finish(); // Finalizar la actividad actual
+                                } else {
+                                    Toast.makeText(LoginActivity.this, "Por favor, verifique su correo electrónico", Toast.LENGTH_SHORT).show();
+                                }
+                            } else {
+                                // Error en el inicio de sesión
+                                Toast.makeText(LoginActivity.this, "Error al iniciar sesión: " + task.getException().getMessage(), Toast.LENGTH_SHORT).show();
+                            }
+                        });
             }
         });
 
@@ -106,16 +96,7 @@ public class LoginActivity extends AppCompatActivity {
                 startActivity(new Intent(LoginActivity.this, PasswordRecoveryActivity.class));
             }
         });
-
-
     }
-
-    // Método para validar las credenciales ingresadas
-    private boolean validateCredentials(String email, String password) {
-        // Validar si el email existe en la lista y la contraseña coincide
-        return users.containsKey(email) && Objects.equals(users.get(email), password);
-    }
-
 
     private void showCustomToast() {
         // Inflar el layout personalizado
@@ -128,5 +109,4 @@ public class LoginActivity extends AppCompatActivity {
         toast.setView(toastView);
         toast.show();
     }
-
 }
