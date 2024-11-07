@@ -91,21 +91,11 @@
         <activity
             android:name=".PutPasswordActivity"
             android:exported="false" />
-        <activity
-            android:name=".HomePedidosActivity"
-            android:exported="false" />
-        <activity
-            android:name=".CategoriesFragment"
-            android:exported="false" />
-        <activity
-            android:name=".HomeRepartidorActivity"
-            android:exported="false" />
-        <activity
-            android:name=".CategoriesFragmentRepartidor"
-            android:exported="false" />
-        <activity
-            android:name=".ProductsRepartidorActivity"
-            android:exported="false" />
+        <activity android:name=".HomePedidosActivity" android:exported="false" />
+        <activity android:name=".CategoriesFragment" android:exported="false" />
+        <activity android:name=".HomeRepartidorActivity" android:exported="false" />
+        <activity android:name=".CategoriesFragmentRepartidor" android:exported="false" />
+        <activity android:name=".ProductsRepartidorActivity" android:exported="false" />
 
 
         <activity android:name=".adminrest.RestaurantActivity" android:exported="false" />
