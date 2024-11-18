@@ -15,8 +15,11 @@ import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 
+import com.example.superadmin.adminrest.RestaurantActivity;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.firestore.DocumentSnapshot;
+import com.google.firebase.firestore.FirebaseFirestore;
 
 public class LoginActivity extends AppCompatActivity {
 
@@ -25,6 +28,7 @@ public class LoginActivity extends AppCompatActivity {
     TextView tvForgetPassword;
     EditText etEmail, etPassword;
     private FirebaseAuth firebaseAuth;
+    private FirebaseFirestore db;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -38,8 +42,9 @@ public class LoginActivity extends AppCompatActivity {
             return insets;
         });
 
-        // Inicializar FirebaseAuth
+        // Inicializar FirebaseAuth y Firestore
         firebaseAuth = FirebaseAuth.getInstance();
+        db = FirebaseFirestore.getInstance();
 
         // Inicializar vistas
         etEmail = findViewById(R.id.et_email);
@@ -49,64 +54,75 @@ public class LoginActivity extends AppCompatActivity {
         tvForgetPassword = findViewById(R.id.tv_forget_password);
 
         // Manejar clic en el botón de inicio de sesión
-        btnLogin.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                String email = etEmail.getText().toString().trim();
-                String password = etPassword.getText().toString().trim();
+        btnLogin.setOnClickListener(v -> {
+            String email = etEmail.getText().toString().trim();
+            String password = etPassword.getText().toString().trim();
 
-                if (email.isEmpty() || password.isEmpty()) {
-                    Toast.makeText(LoginActivity.this, "Por favor, complete todos los campos", Toast.LENGTH_SHORT).show();
-                    return;
-                }
-
-                // Iniciar sesión con Firebase Authentication
-                firebaseAuth.signInWithEmailAndPassword(email, password)
-                        .addOnCompleteListener(task -> {
-                            if (task.isSuccessful()) {
-                                // Inicio de sesión exitoso
-                                FirebaseUser user = firebaseAuth.getCurrentUser();
-                                if (user != null && user.isEmailVerified()) {
-                                    Toast.makeText(LoginActivity.this, "Inicio de sesión exitoso", Toast.LENGTH_SHORT).show();
-                                    startActivity(new Intent(LoginActivity.this, HomeActivity.class)); // Redirigir a la actividad deseada
-                                    finish(); // Finalizar la actividad actual
-                                } else {
-                                    Toast.makeText(LoginActivity.this, "Por favor, verifique su correo electrónico", Toast.LENGTH_SHORT).show();
-                                }
-                            } else {
-                                // Error en el inicio de sesión
-                                Toast.makeText(LoginActivity.this, "Error al iniciar sesión: " + task.getException().getMessage(), Toast.LENGTH_SHORT).show();
-                            }
-                        });
+            if (email.isEmpty() || password.isEmpty()) {
+                Toast.makeText(LoginActivity.this, "Por favor, complete todos los campos", Toast.LENGTH_SHORT).show();
+                return;
             }
+
+            // Iniciar sesión con Firebase Authentication
+            firebaseAuth.signInWithEmailAndPassword(email, password)
+                    .addOnCompleteListener(task -> {
+                        if (task.isSuccessful()) {
+                            FirebaseUser user = firebaseAuth.getCurrentUser();
+                            if (user != null && user.isEmailVerified()) {
+                                // Consultar Firestore para obtener el rol del usuario
+                                db.collection("users").document(user.getUid()).get()
+                                        .addOnCompleteListener(roleTask -> {
+                                            if (roleTask.isSuccessful() && roleTask.getResult() != null) {
+                                                DocumentSnapshot document = roleTask.getResult();
+                                                if (document.exists()) {
+                                                    String role = document.getString("role");
+                                                    redirectToRoleSpecificActivity(role);
+                                                } else {
+                                                    Toast.makeText(LoginActivity.this, "Error: No se encontró el rol del usuario", Toast.LENGTH_SHORT).show();
+                                                }
+                                            } else {
+                                                Toast.makeText(LoginActivity.this, "Error al obtener los datos del usuario: " + roleTask.getException().getMessage(), Toast.LENGTH_SHORT).show();
+                                            }
+                                        });
+                            } else {
+                                Toast.makeText(LoginActivity.this, "Por favor, verifique su correo electrónico", Toast.LENGTH_SHORT).show();
+                            }
+                        } else {
+                            Toast.makeText(LoginActivity.this, "Error al iniciar sesión: " + task.getException().getMessage(), Toast.LENGTH_SHORT).show();
+                        }
+                    });
         });
 
         // Manejar clic en el botón de registro
-        btnSignUp.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                startActivity(new Intent(LoginActivity.this, SignUpActivity.class));
-            }
-        });
+        btnSignUp.setOnClickListener(v -> startActivity(new Intent(LoginActivity.this, SignUpActivity.class)));
 
         // Manejar clic en el texto de "olvidé mi contraseña"
-        tvForgetPassword.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                startActivity(new Intent(LoginActivity.this, PasswordRecoveryActivity.class));
-            }
-        });
+        tvForgetPassword.setOnClickListener(v -> startActivity(new Intent(LoginActivity.this, PasswordRecoveryActivity.class)));
     }
 
-    private void showCustomToast() {
-        // Inflar el layout personalizado
-        LayoutInflater inflater = getLayoutInflater();
-        View toastView = inflater.inflate(R.layout.custom_toast, null);
+    private void redirectToRoleSpecificActivity(String role) {
+        if (role == null) {
+            Toast.makeText(this, "Rol no definido. Contacte al administrador", Toast.LENGTH_SHORT).show();
+            return;
+        }
 
-        // Crear el Toast personalizado
-        Toast toast = new Toast(getApplicationContext());
-        toast.setDuration(Toast.LENGTH_SHORT);
-        toast.setView(toastView);
-        toast.show();
+        switch (role) {
+            case "CLIENTE":
+                startActivity(new Intent(this, HomeActivity.class));
+                break;
+            case "ADMIN REST":
+                startActivity(new Intent(this, RestaurantActivity.class));
+                break;
+            case "REPARTIDOR":
+                startActivity(new Intent(this, ProductsRepartidorActivity.class));
+                break;
+            case "SUPERADMIN":
+                startActivity(new Intent(this, super_estadisticas_general.class));
+                break;
+            default:
+                Toast.makeText(this, "Rol desconocido: " + role, Toast.LENGTH_SHORT).show();
+        }
+
+        finish(); // Finalizar LoginActivity
     }
 }

@@ -1,8 +1,11 @@
 package com.example.superadmin;
 
+import android.app.NotificationChannel;
+import android.app.NotificationManager;
+import android.content.Context;
 import android.content.Intent;
+import android.os.Build;
 import android.os.Bundle;
-import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.Toast;
@@ -11,13 +14,15 @@ import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.AppCompatButton;
 import androidx.constraintlayout.widget.ConstraintLayout;
+import androidx.core.app.NotificationCompat;
 import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 
+import com.example.superadmin.dtos.User;
+import com.example.superadmin.util.Constants;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
-import com.example.superadmin.dtos.User;
 import com.google.firebase.auth.UserProfileChangeRequest;
 import com.google.firebase.firestore.FirebaseFirestore;
 
@@ -28,6 +33,9 @@ public class SignUpActivity extends AppCompatActivity {
     private FirebaseAuth firebaseAuth;
     ConstraintLayout toolbar;
     ImageButton btnBack;
+
+    private static final String CHANNEL_ID = "verification_channel";
+    private static final int NOTIFICATION_ID = 1;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -57,6 +65,9 @@ public class SignUpActivity extends AppCompatActivity {
         btnBack = toolbar.findViewById(R.id.btn_back);
 
         btnBack.setOnClickListener(v -> finish());
+
+        // Crear el canal de notificación
+        createNotificationChannel();
 
         // Manejar clic en el botón de registro
         btnInit.setOnClickListener(v -> {
@@ -93,6 +104,9 @@ public class SignUpActivity extends AppCompatActivity {
                                             if (verificationTask.isSuccessful()) {
                                                 Toast.makeText(SignUpActivity.this, "Registro exitoso. Verifique su correo electrónico para completar el proceso.", Toast.LENGTH_LONG).show();
 
+                                                // Mostrar la notificación
+                                                showVerificationNotification();
+
                                                 // Redirigir al usuario a la pantalla de inicio de sesión
                                                 Intent intent = new Intent(SignUpActivity.this, LoginActivity.class);
                                                 startActivity(intent);
@@ -104,7 +118,7 @@ public class SignUpActivity extends AppCompatActivity {
 
                                 // Guardar datos adicionales en Firestore usando el UID
                                 String uid = currentUser.getUid();
-                                User user = new User(name, surname, email, dni, phone, address);
+                                User user = User.registrousuario(name, surname, email, dni, phone, address, uid); // Pasar UID
                                 db.collection("users").document(uid).set(user)
                                         .addOnSuccessListener(unused -> {
                                             // Datos guardados exitosamente
@@ -119,5 +133,39 @@ public class SignUpActivity extends AppCompatActivity {
                         }
                     });
         });
+    }
+
+    private void createNotificationChannel() {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            CharSequence name = "Canal de Verificación";
+            String description = "Canal para notificaciones de verificación de cuenta";
+            int importance = NotificationManager.IMPORTANCE_DEFAULT;
+            NotificationChannel channel = new NotificationChannel(CHANNEL_ID, name, importance);
+            channel.setDescription(description);
+
+            // Registrar el canal en el sistema
+            NotificationManager notificationManager = getSystemService(NotificationManager.class);
+            if (notificationManager != null) {
+                notificationManager.createNotificationChannel(channel);
+            }
+        }
+    }
+
+    private void showVerificationNotification() {
+        NotificationCompat.Builder builder = new NotificationCompat.Builder(this, CHANNEL_ID)
+                .setSmallIcon(R.drawable.baseline_notifications_24) // Asegúrate de tener un icono en tu carpeta drawable
+                .setContentTitle("Esperando la activación de tu cuenta")
+                .setContentText("Revisa tu correo electrónico para activar tu cuenta.")
+                .setPriority(NotificationCompat.PRIORITY_DEFAULT)
+                .setAutoCancel(true);
+
+        NotificationManager notificationManager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
+        if (notificationManager != null) {
+            // Mostrar la notificación
+            notificationManager.notify(NOTIFICATION_ID, builder.build());
+
+            // Programar la cancelación de la notificación después de 10 segundos
+            new android.os.Handler().postDelayed(() -> notificationManager.cancel(NOTIFICATION_ID), 10000);
+        }
     }
 }
