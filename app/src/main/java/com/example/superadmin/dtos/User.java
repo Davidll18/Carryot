@@ -13,16 +13,14 @@ public class User {
     private String role;
     private Boolean status;
     private String uid;
-    private String recoveryCode;
-    private long recoveryCodeTimestamp; // Momento en que se generó el código
-    private long recoveryCodeValidity; // Tiempo de validez en milisegundos
+
 
     // Constructor vacío requerido por Firestore
     public User() {
     }
 
     // Constructor con todos los parámetros
-    public User(String name, String surname, String email, String dni, String phone, String address, String role,Boolean status, String uid, String recoveryCode, long recoveryCodeTimestamp, long recoveryCodeValidity) {
+    public User(String name, String surname, String email, String dni, String phone, String address, String role, Boolean status, String uid) {
         this.name = name;
         this.surname = surname;
         this.email = email;
@@ -32,14 +30,13 @@ public class User {
         this.role = role;
         this.status = (status != null) ? status : true;  // Si no se pasa un valor, se asigna true
         this.uid = uid;
-        this.recoveryCode = recoveryCode;
-        this.recoveryCodeTimestamp = recoveryCodeTimestamp;
-        this.recoveryCodeValidity = recoveryCodeValidity;
     }
+
+
 
     // Método estático para el registro de usuario
     public static User registrousuario(String name, String surname, String email, String dni, String phone, String address, String uid) {
-        return new User(name, surname, email, dni, phone, address, Constants.ROLE_CLIENTE ,true,uid, null, 0, 0);
+        return new User(name, surname, email, dni, phone, address, Constants.ROLE_CLIENTE, true, uid);
     }
 
     // Getters y setters
@@ -107,29 +104,6 @@ public class User {
         this.uid = uid;
     }
 
-    public String getRecoveryCode() {
-        return recoveryCode;
-    }
-
-    public void setRecoveryCode(String recoveryCode) {
-        this.recoveryCode = recoveryCode;
-    }
-
-    public long getRecoveryCodeTimestamp() {
-        return recoveryCodeTimestamp;
-    }
-
-    public void setRecoveryCodeTimestamp(long recoveryCodeTimestamp) {
-        this.recoveryCodeTimestamp = recoveryCodeTimestamp;
-    }
-
-    public long getRecoveryCodeValidity() {
-        return recoveryCodeValidity;
-    }
-
-    public void setRecoveryCodeValidity(long recoveryCodeValidity) {
-        this.recoveryCodeValidity = recoveryCodeValidity;
-    }
 
     public Boolean getStatus() {
         return status;

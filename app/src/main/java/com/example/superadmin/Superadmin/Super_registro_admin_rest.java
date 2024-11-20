@@ -108,10 +108,7 @@ public class Super_registro_admin_rest extends AppCompatActivity {
                                 address,
                                 "ADMIN REST", // Rol del usuario
                                 true, // Activo
-                                uid,
-                                null, // Recovery code
-                                0,    // Recovery code timestamp
-                                0     // Recovery code validity
+                                uid
                         );
 
                         // Guardar en Firestore
