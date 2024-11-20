@@ -35,8 +35,8 @@ public class User {
 
 
     // Método estático para el registro de cliente (solo cliente la cual proviene de registro al inicio de la app)-
-    public static User registrousuario(String name, String surname, String email, String dni, String phone, String address, String uid) {
-        return new User(name, surname, email, dni, phone, address, Constants.ROLE_CLIENTE, true, uid);
+    public static User registrousuario(String name, String surname, String email, String dni, String phone, String address, String role, String uid) {
+        return new User(name, surname, email, dni, phone, address, role, true, uid);
     }
 
     // Getters y setters

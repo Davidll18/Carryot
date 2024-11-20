@@ -118,7 +118,8 @@ public class SignUpActivity extends AppCompatActivity {
 
                                 // Guardar datos adicionales en Firestore usando el UID
                                 String uid = currentUser.getUid();
-                                User user = User.registrousuario(name, surname, email, dni, phone, address, uid); // Pasar UID
+                                String role_cliente = Constants.ROLE_CLIENTE; // Define el rol aquí
+                                User user = User.registrousuario(name, surname, email, dni, phone, address, role_cliente, uid);
                                 db.collection("users").document(uid).set(user)
                                         .addOnSuccessListener(unused -> {
                                             // Datos guardados exitosamente
