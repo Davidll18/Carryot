@@ -6,7 +6,9 @@ import android.content.Context;
 import android.os.Build;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.EditText;
 import android.widget.ImageButton;
+import android.widget.Toast;
 
 import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
@@ -18,6 +20,9 @@ import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 
 import com.example.superadmin.R;
+import com.example.superadmin.dtos.User;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.firestore.FirebaseFirestore;
 
 public class Super_registro_admin_rest extends AppCompatActivity {
     ConstraintLayout toolbar;
@@ -61,9 +66,69 @@ public class Super_registro_admin_rest extends AppCompatActivity {
         });
     }
     private void registerAdmin() {
-        // Lógica para registrar al administrador de restaurante
-        // Aquí puedes agregar el código que necesites para guardar los datos del nuevo administrador
+        // Obtener los valores ingresados en los EditText
+        EditText edName = findViewById(R.id.ed_name);
+        EditText edSurname = findViewById(R.id.ed_surname);
+        EditText edEmail = findViewById(R.id.ed_email);
+        EditText edDni = findViewById(R.id.ed_dni);
+        EditText edPhone = findViewById(R.id.ed_phone);
+        EditText edAddress = findViewById(R.id.ed_address);
+
+        String name = edName.getText().toString().trim();
+        String surname = edSurname.getText().toString().trim();
+        String email = edEmail.getText().toString().trim();
+        String dni = edDni.getText().toString().trim();
+        String phone = edPhone.getText().toString().trim();
+        String address = edAddress.getText().toString().trim();
+
+        if (name.isEmpty() || surname.isEmpty() || email.isEmpty() || dni.isEmpty() || phone.isEmpty() || address.isEmpty()) {
+            Toast.makeText(this, "Por favor, complete todos los campos", Toast.LENGTH_SHORT).show();
+            return;
+        }
+
+        // Contraseña predeterminada (puedes cambiarla o generar una aleatoria)
+        String password = "admin123";
+
+        FirebaseAuth auth = FirebaseAuth.getInstance();
+        FirebaseFirestore db = FirebaseFirestore.getInstance();
+
+        // Crear usuario en Firebase Authentication
+        auth.createUserWithEmailAndPassword(email, password)
+                .addOnCompleteListener(task -> {
+                    if (task.isSuccessful()) {
+                        String uid = task.getResult().getUser().getUid();
+
+                        // Crear objeto User
+                        User admin = new User(
+                                name,
+                                surname,
+                                email,
+                                dni,
+                                phone,
+                                address,
+                                "ADMIN REST", // Rol del usuario
+                                true, // Activo
+                                uid,
+                                null, // Recovery code
+                                0,    // Recovery code timestamp
+                                0     // Recovery code validity
+                        );
+
+                        // Guardar en Firestore
+                        db.collection("users").document(uid).set(admin)
+                                .addOnSuccessListener(aVoid -> {
+                                    Toast.makeText(this, "Administrador registrado exitosamente", Toast.LENGTH_SHORT).show();
+                                })
+                                .addOnFailureListener(e -> {
+                                    Toast.makeText(this, "Error al registrar el administrador: " + e.getMessage(), Toast.LENGTH_SHORT).show();
+                                });
+
+                    } else {
+                        Toast.makeText(this, "Error al crear el usuario: " + task.getException().getMessage(), Toast.LENGTH_SHORT).show();
+                    }
+                });
     }
+
 
     private void showNotification(String title, String message) {
         NotificationCompat.Builder builder = new NotificationCompat.Builder(this, CHANNEL_ID)

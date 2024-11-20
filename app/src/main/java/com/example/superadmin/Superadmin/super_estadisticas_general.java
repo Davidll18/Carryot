@@ -23,7 +23,7 @@ public class super_estadisticas_general extends AppCompatActivity {
     FirebaseAuth auth;
     ImageButton buttonMenu;
     NavigationView navigationView_menu;
-    TextView repartidoresActivosText, restaurantesRegistradosText, saludoTextView;
+    TextView repartidoresActivosText, adminRestaurantesText, saludoTextView;
     FirebaseFirestore db;
 
     @Override
@@ -41,11 +41,11 @@ public class super_estadisticas_general extends AppCompatActivity {
 
         // Referencias a los TextViews
         repartidoresActivosText = findViewById(R.id.repartidoresActivosText);
-        restaurantesRegistradosText = findViewById(R.id.restaurantesRegistradosText);
+        adminRestaurantesText = findViewById(R.id.adminRestaurantesText);
 
         // Llamar métodos para cargar datos desde Firestore
         cargarRepartidoresActivos();
-        cargarRestaurantesRegistrados();
+        cargarAdminRestaurantes();
 
         buttonMenu.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -100,15 +100,16 @@ public class super_estadisticas_general extends AppCompatActivity {
     }
 
 
-    private void cargarRestaurantesRegistrados() {
+    private void cargarAdminRestaurantes() {
         FirebaseFirestore db = FirebaseFirestore.getInstance();
-        db.collection("restaurantes")
+        db.collection("users")
+                .whereEqualTo("role", "ADMIN REST") // Filtra solo los documentos con role "REPARTIDOR"
                 .get()
                 .addOnSuccessListener(queryDocumentSnapshots -> {
                     int count = queryDocumentSnapshots.size(); // Número de documentos encontrados
-                    restaurantesRegistradosText.setText(String.valueOf(count));
+                    adminRestaurantesText.setText(String.valueOf(count));
                 })
-                .addOnFailureListener(e -> restaurantesRegistradosText.setText("Error"));
+                .addOnFailureListener(e -> adminRestaurantesText.setText("Error"));
     }
 
     private void cargarSaludoPersonalizado() {
