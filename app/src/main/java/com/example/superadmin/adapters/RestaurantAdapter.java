@@ -14,7 +14,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.superadmin.R;
 import com.example.superadmin.model.Restaurante;
-import com.example.superadmin.super_estadisticas_por_rest;
+import com.example.superadmin.Superadmin.super_estadisticas_por_rest;
 
 import java.util.List;
 

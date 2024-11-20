@@ -1,8 +1,7 @@
-package com.example.superadmin;
+package com.example.superadmin.user;
 
-import android.content.Intent;
+
 import android.os.Bundle;
-import android.view.View;
 
 import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
@@ -10,30 +9,19 @@ import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 
-import com.example.superadmin.Superadmin.SuperPrincipalActivity;
+import com.example.superadmin.R;
 
-public class MainActivity extends AppCompatActivity {
+public class User_MainActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         EdgeToEdge.enable(this);
-        setContentView(R.layout.activity_main);
+        setContentView(R.layout.user_activity_main);
         ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main), (v, insets) -> {
             Insets systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars());
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
             return insets;
         });
     }
-
-    public void login_btn(View view){
-        Intent mintent = new Intent(this, SuperPrincipalActivity.class);
-        startActivity(mintent);
-    }
-    public void register_btn(View view){
-        Intent m2intent = new Intent(this, SignUpActivity.class);
-        startActivity(m2intent);
-    }
-
-
 }

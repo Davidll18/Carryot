@@ -1,0 +1,8 @@
+<resources>
+    <string-array name="direcciones_array">
+        <item>Dirección 1</item>
+        <item>Dirección 2</item>
+        <item>Dirección 3</item>
+        <item>Dirección manual</item>
+    </string-array>
+</resources>

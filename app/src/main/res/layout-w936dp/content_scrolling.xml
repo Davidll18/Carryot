@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     app:layout_behavior="@string/appbar_scrolling_view_behavior"
-    tools:context=".super_gestion_usuarios"
+    tools:context=".Superadmin.super_gestion_usuarios"
     tools:showIn="@layout/activity_super_gestion_usuarios">
 
     <androidx.core.widget.NestedScrollView

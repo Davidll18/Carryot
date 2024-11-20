@@ -1,4 +1,4 @@
-package com.example.superadmin;
+package com.example.superadmin.Superadmin;
 
 import static android.Manifest.permission.POST_NOTIFICATIONS;
 
@@ -18,6 +18,8 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 import androidx.core.app.NotificationCompat;
 import androidx.core.app.NotificationManagerCompat;
+
+import com.example.superadmin.R;
 
 public class super_habilitar_usuarios extends AppCompatActivity {
     private EditText nombreEditText, apellidosEditText, dniEditText, correoEditText, telefonoEditText;
