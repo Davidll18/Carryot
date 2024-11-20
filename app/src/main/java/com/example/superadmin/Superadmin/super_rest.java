@@ -1,4 +1,4 @@
-package com.example.superadmin;
+package com.example.superadmin.Superadmin;
 
 import android.os.Bundle;
 
@@ -6,6 +6,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.superadmin.R;
 import com.example.superadmin.adapters.RestaurantAdapter;
 import com.example.superadmin.model.Restaurante;
 

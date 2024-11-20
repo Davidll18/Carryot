@@ -1,15 +1,13 @@
-package com.example.superadmin;
+package com.example.superadmin.Superadmin;
 
 import android.os.Bundle;
 
 import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.graphics.Insets;
-import androidx.core.view.ViewCompat;
-import androidx.core.view.WindowInsetsCompat;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.superadmin.R;
 import com.example.superadmin.adapters.LogAdapter;
 import com.example.superadmin.model.LogEntry;
 

@@ -1,10 +1,12 @@
-package com.example.superadmin;
+package com.example.superadmin.Superadmin;
 
 import android.content.Intent;
 import android.os.Bundle;
 
+import com.example.superadmin.R;
+import com.example.superadmin.SignUpActivity;
 import com.example.superadmin.adapters.AdminRestAdapter;
-import com.example.superadmin.model.User;
+import com.example.superadmin.dtos.User;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.drawerlayout.widget.DrawerLayout;
@@ -38,7 +40,6 @@ public class super_gestion_usuarios extends AppCompatActivity {
 
         // Configuración del RecyclerView
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
-        userList = generateDummyData(); // Generar datos estáticos
         adminRestAdapter = new AdminRestAdapter(userList);
         recyclerView.setAdapter(adminRestAdapter);
 
@@ -51,23 +52,14 @@ public class super_gestion_usuarios extends AppCompatActivity {
             }
         });
     }
-    // Método para generar datos de prueba
-    private List<User> generateDummyData() {
-        List<User> users = new ArrayList<>();
-        users.add(new User("Juan", "Pérez", "12345678", "juan.perez@example.com", "987654321", "Av. Principal 123", "Admin", true));
-        users.add(new User("Ana", "García", "87654321", "ana.garcia@example.com", "123456789", "Calle Secundaria 456", "Admin", false));
-        users.add(new User("Luis", "Martínez", "12345679", "luis.martinez@example.com", "456789123", "Calle Terciaria 789", "Admin", true));
-        // Agrega más usuarios según sea necesario
-        return users;
-    }
-
-    public void register_btn(View view){
-        Intent m7intent = new Intent(this, SignUpActivity.class);
-        startActivity(m7intent);
-    }
-    public void Edit_rest(View view){
-        Intent m10intent = new Intent(this, super_habilitar_usuarios.class);
-        startActivity(m10intent);
-    }
-
 }
+
+//    public void register_btn(View view){
+//        Intent m7intent = new Intent(this, SignUpActivity.class);
+//        startActivity(m7intent);
+//    }
+//    public void Edit_rest(View view){
+//        Intent m10intent = new Intent(this, super_habilitar_usuarios.class);
+//        startActivity(m10intent);
+//    }
+

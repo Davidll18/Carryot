@@ -9,8 +9,8 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.superadmin.R;
-import com.example.superadmin.model.User;
-import com.example.superadmin.super_habilitar_usuarios;
+import com.example.superadmin.Superadmin.super_habilitar_usuarios;
+import com.example.superadmin.dtos.User;
 
 import java.util.List;
 
@@ -34,8 +34,8 @@ public class AdminRestAdapter extends RecyclerView.Adapter<AdminRestAdapter.Admi
     public void onBindViewHolder(@NonNull AdminViewHolder holder, int position) {
         User user = userList.get(position);
         holder.nameTextView.setText(user.getName());
-        holder.rolTextView.setText(user.getRol());
-        holder.statusTextView.setText(user.isStatus() ? "Habilitado" : "No Habilitado");
+        holder.rolTextView.setText(user.getRole());
+        holder.statusTextView.setText(user.getStatus() ? "Habilitado" : "No Habilitado");
 
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -45,11 +45,11 @@ public class AdminRestAdapter extends RecyclerView.Adapter<AdminRestAdapter.Admi
                 // Puedes pasar datos si es necesario
                 // Pasar los datos del usuario como extras
                 intent.putExtra("name", user.getName());
-                intent.putExtra("lastName", user.getLastName());
-                intent.putExtra("dni", user.getDNI());
-                intent.putExtra("correo", user.getCorreo());
-                intent.putExtra("telefono", user.getNumberPhone());
-                intent.putExtra("habilitado", user.isStatus());
+                intent.putExtra("lastName", user.getSurname());
+                intent.putExtra("dni", user.getDni());
+                intent.putExtra("correo", user.getEmail());
+                intent.putExtra("telefono", user.getPhone());
+                intent.putExtra("habilitado", user.getStatus());
 
                 v.getContext().startActivity(intent);
             }

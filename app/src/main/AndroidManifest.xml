@@ -18,29 +18,29 @@
         android:theme="@style/Theme.SuperAdmin"
         tools:targetApi="31">
         <activity
-            android:name=".Super_registro_admin_rest"
+            android:name=".Superadmin.Super_registro_admin_rest"
             android:exported="false" />
         <activity
-            android:name=".super_gestion_usuarios"
+            android:name=".Superadmin.super_gestion_usuarios"
             android:exported="false"
             android:label="@string/title_activity_super_gestion_usuarios"
             android:theme="@style/Theme.SuperAdmin.NoActionBar" />
         <activity
-            android:name=".super_habilitar_usuarios"
+            android:name=".Superadmin.super_habilitar_usuarios"
             android:exported="false" />
         <activity
-            android:name=".super_rest"
+            android:name=".Superadmin.super_rest"
             android:exported="false" />
         <activity
-            android:name=".super_estadisticas_por_rest"
+            android:name=".Superadmin.super_estadisticas_por_rest"
             android:exported="true" />
         <activity
-            android:name=".super_logs"
+            android:name=".Superadmin.super_logs"
             android:exported="false" />
         <activity
-            android:name=".super_estadisticas_general"
+            android:name=".Superadmin.super_estadisticas_general"
             android:exported="false" /> <!-- esta declarado pero ni idea que hace -->
-        <activity android:name=".SuperPrincipalActivity" />
+        <activity android:name=".Superadmin.SuperPrincipalActivity" />
         <activity
             android:name=".splashActivity"
             android:exported="true">

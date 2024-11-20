@@ -1,4 +1,4 @@
-package com.example.superadmin;
+package com.example.superadmin.Superadmin;
 
 import android.app.NotificationChannel;
 import android.app.NotificationManager;
@@ -16,6 +16,8 @@ import androidx.core.app.NotificationCompat;
 import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
+
+import com.example.superadmin.R;
 
 public class Super_registro_admin_rest extends AppCompatActivity {
     ConstraintLayout toolbar;
