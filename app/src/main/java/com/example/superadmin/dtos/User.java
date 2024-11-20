@@ -11,9 +11,6 @@ public class User {
     private String address;
     private String role;
     private String uid;
-    private String recoveryCode;
-    private long recoveryCodeTimestamp; // Momento en que se generó el código
-    private long recoveryCodeValidity; // Tiempo de validez en milisegundos
 
     // Constructor vacío requerido por Firestore
     public User() {
@@ -29,9 +26,7 @@ public class User {
         this.address = address;
         this.role = role;
         this.uid = uid;
-        this.recoveryCode = recoveryCode;
-        this.recoveryCodeTimestamp = recoveryCodeTimestamp;
-        this.recoveryCodeValidity = recoveryCodeValidity;
+
     }
 
     // Método estático para el registro de usuario
@@ -104,27 +99,5 @@ public class User {
         this.uid = uid;
     }
 
-    public String getRecoveryCode() {
-        return recoveryCode;
-    }
 
-    public void setRecoveryCode(String recoveryCode) {
-        this.recoveryCode = recoveryCode;
-    }
-
-    public long getRecoveryCodeTimestamp() {
-        return recoveryCodeTimestamp;
-    }
-
-    public void setRecoveryCodeTimestamp(long recoveryCodeTimestamp) {
-        this.recoveryCodeTimestamp = recoveryCodeTimestamp;
-    }
-
-    public long getRecoveryCodeValidity() {
-        return recoveryCodeValidity;
-    }
-
-    public void setRecoveryCodeValidity(long recoveryCodeValidity) {
-        this.recoveryCodeValidity = recoveryCodeValidity;
-    }
 }
