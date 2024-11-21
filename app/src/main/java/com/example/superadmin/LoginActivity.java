@@ -16,6 +16,7 @@ import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 
 import com.example.superadmin.adminrest.RestaurantActivity;
+import com.example.superadmin.user.UserHomeActivity;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.DocumentSnapshot;
@@ -108,7 +109,7 @@ public class LoginActivity extends AppCompatActivity {
 
         switch (role) {
             case "CLIENTE":
-                startActivity(new Intent(this, HomeActivity.class));
+                startActivity(new Intent(this, UserHomeActivity.class));
                 break;
             case "ADMIN REST":
                 startActivity(new Intent(this, RestaurantActivity.class));
