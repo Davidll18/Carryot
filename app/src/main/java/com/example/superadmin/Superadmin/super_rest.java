@@ -13,8 +13,11 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.superadmin.R;
 import com.example.superadmin.adapters.RestaurantAdapter;
+import com.example.superadmin.dtos.RestaurantDTO;
 import com.example.superadmin.model.Restaurante;
 import com.google.android.material.navigation.NavigationView;
+import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.QueryDocumentSnapshot;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -23,39 +26,32 @@ public class super_rest extends AppCompatActivity {
 
     private RecyclerView recyclerView;
     private RecyclerView.Adapter adapter;
+    private ArrayList<RestaurantDTO> restaurantList;
     private RecyclerView.LayoutManager layoutManager;
     private NavigationView navigationView_menu;
     private DrawerLayout drawerLayout;
     private ImageButton buttonMenu;
+    private FirebaseFirestore db;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_super_rest);
 
-        recyclerView = findViewById(R.id.recyclerViewRestaurants);
-        recyclerView.setHasFixedSize(true);
+        recyclerView = findViewById(R.id.myRecyclerView); // Usa la variable miembro
+        recyclerView.setLayoutManager(new LinearLayoutManager(this));
 
-        // Usar LinearLayout para el RecyclerView
-        layoutManager = new LinearLayoutManager(this);
-        recyclerView.setLayoutManager(layoutManager);
-
-        // Lista de restaurantes de ejemplo
-        List<Restaurante> restaurants = new ArrayList<>();
-        restaurants.add(new Restaurante("KFC", R.drawable.kfc_logo));
-        restaurants.add(new Restaurante("Bembos", R.drawable.bembos_logo));
-        restaurants.add(new Restaurante("Pizza Hut", R.drawable.pizzahut_logo));
-        restaurants.add(new Restaurante("Roky's", R.drawable.rokys_logo));
-        restaurants.add(new Restaurante("Toku", R.drawable.toku__logo));
-        restaurants.add(new Restaurante("Burger King", R.drawable.burgerking_logo));
-        restaurants.add(new Restaurante("Popeyes", R.drawable.popeyes_logo));
-
-        // Crear y configurar el adapter
-        adapter = new RestaurantAdapter(restaurants);
+        restaurantList = new ArrayList<>();
+        adapter = new RestaurantAdapter(restaurantList);
         recyclerView.setAdapter(adapter);
 
+        db = FirebaseFirestore.getInstance();
+        fetchRestaurants();
+
+
+
         buttonMenu = findViewById(R.id.buttonMenu);
-        drawerLayout = findViewById(R.id.drawerLayout_super_getion_usuarios);
         buttonMenu.setOnClickListener(view -> drawerLayout.open());
 
         getWindow().setStatusBarColor(ContextCompat.getColor(super_rest.this,R.color.red_boton));
@@ -87,6 +83,23 @@ public class super_rest extends AppCompatActivity {
             }
         });
 
+
+    }
+    private void fetchRestaurants() {
+        db.collection("restaurant") // Cambiar "restaurants" por "restaurant"
+                .get()
+                .addOnCompleteListener(task -> {
+                    if (task.isSuccessful()) {
+                        for (QueryDocumentSnapshot document : task.getResult()) {
+                            // Convertir los datos a RestaurantDTO
+                            RestaurantDTO restaurant = document.toObject(RestaurantDTO.class);
+                            restaurantList.add(restaurant);
+                        }
+                        adapter.notifyDataSetChanged();
+                    } else {
+                        System.out.println("Error al cargar los datos: " + task.getException());
+                    }
+                });
 
     }
 
