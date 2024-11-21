@@ -33,7 +33,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="20dp"
-            android:background="@drawable/round_corner_background_white"
+            android:background="@drawable/round_corner_background_gray"
             android:elevation="2dp"
             android:orientation="vertical">
 
@@ -63,15 +63,16 @@
                 android:importantForAutofill="no"
                 android:textColor="@color/black"
                 android:textColorHint="@color/dark_gray_hint"
-                android:maxLength="30" />
+                android:maxLength="30"
+                android:enabled="false" />
         </androidx.appcompat.widget.LinearLayoutCompat>
 
-        <!-- Los demás inputs siguen el mismo patrón -->
+        <!-- Apellidos -->
         <androidx.appcompat.widget.LinearLayoutCompat
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="10dp"
-            android:background="@drawable/round_corner_background_white"
+            android:background="@drawable/round_corner_background_gray"
             android:elevation="2dp"
             android:orientation="vertical">
 
@@ -101,16 +102,16 @@
                 android:importantForAutofill="no"
                 android:textColor="@color/black"
                 android:textColorHint="@color/dark_gray_hint"
-                android:maxLength="30" />
+                android:maxLength="30"
+                android:enabled="false" />
         </androidx.appcompat.widget.LinearLayoutCompat>
 
-        <!-- Repito el mismo patrón para los demás campos -->
         <!-- DNI -->
         <androidx.appcompat.widget.LinearLayoutCompat
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="10dp"
-            android:background="@drawable/round_corner_background_white"
+            android:background="@drawable/round_corner_background_gray"
             android:elevation="2dp"
             android:orientation="vertical">
 
@@ -138,7 +139,8 @@
                 android:importantForAutofill="no"
                 android:textColor="@color/black"
                 android:textColorHint="@color/dark_gray_hint"
-                android:maxLength="30" />
+                android:maxLength="30"
+                android:enabled="false" />
         </androidx.appcompat.widget.LinearLayoutCompat>
 
         <!-- Correo -->
@@ -146,7 +148,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="10dp"
-            android:background="@drawable/round_corner_background_white"
+            android:background="@drawable/round_corner_background_gray"
             android:elevation="2dp"
             android:orientation="vertical">
 
@@ -174,7 +176,8 @@
                 android:importantForAutofill="no"
                 android:textColor="@color/black"
                 android:textColorHint="@color/dark_gray_hint"
-                android:maxLength="30" />
+                android:maxLength="30"
+                android:enabled="false" />
         </androidx.appcompat.widget.LinearLayoutCompat>
 
         <!-- Teléfono -->
@@ -182,7 +185,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="10dp"
-            android:background="@drawable/round_corner_background_white"
+            android:background="@drawable/round_corner_background_gray"
             android:elevation="2dp"
             android:orientation="vertical">
 
@@ -210,9 +213,11 @@
                 android:importantForAutofill="no"
                 android:textColor="@color/black"
                 android:textColorHint="@color/dark_gray_hint"
-                android:maxLength="30" />
+                android:maxLength="30"
+                android:enabled="false" />
         </androidx.appcompat.widget.LinearLayoutCompat>
 
+        <!-- Switch Habilitar Trabajador -->
         <Switch
             android:id="@+id/switchHabilitar"
             android:layout_width="wrap_content"
@@ -240,7 +245,8 @@
                 android:fontFamily="@font/raleway_bold"
                 android:text="Aceptar"
                 android:textAllCaps="false"
-                android:textColor="@color/white" />
+                android:textColor="@color/white"
+                android:enabled="false" />
 
             <androidx.appcompat.widget.AppCompatButton
                 android:id="@+id/canelar_btn"
@@ -253,9 +259,9 @@
                 android:fontFamily="@font/raleway_bold"
                 android:text="Cancelar"
                 android:textAllCaps="false"
-                android:textColor="@color/white" />
+                android:textColor="@color/white"
+                android:enabled="false" />
         </LinearLayout>
 
     </LinearLayout>
-
 </RelativeLayout>

@@ -80,12 +80,11 @@
         </LinearLayout>
     </ScrollView>
     <com.google.android.material.navigation.NavigationView
-        android:id="@+id/nav_view"
+        android:id="@+id/navigationView_menu"
         android:layout_width="wrap_content"
         android:layout_height="match_parent"
         android:layout_gravity="start"
-        app:menu="@menu/super_drawer_items"
-        />
+        app:menu="@menu/super_drawer_items" />
 
 </androidx.drawerlayout.widget.DrawerLayout>
 

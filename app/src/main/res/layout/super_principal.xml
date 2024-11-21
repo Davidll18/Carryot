@@ -6,6 +6,8 @@
     android:layout_height="match_parent"
     tools:openDrawer="start"
     android:id="@+id/draweLayout">
+
+
     <include
         layout="@layout/activity_main_content"/>
 
@@ -14,6 +16,7 @@
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
             app:menu="@menu/super_drawer_items"
+            app:headerLayout="@layout/header"
             android:layout_gravity="start" />
 
 </androidx.drawerlayout.widget.DrawerLayout>
