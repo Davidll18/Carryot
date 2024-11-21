@@ -92,17 +92,7 @@
             android:name=".PutPasswordActivity"
             android:exported="false" />
 
-        <activity android:name=".HandleEmailLinkActivity"
-            android:exported="true">
-            <intent-filter>
-                <action android:name="android.intent.action.VIEW"/>
-                <category android:name="android.intent.category.DEFAULT"/>
-                <category android:name="android.intent.category.BROWSABLE"/>
-                <data
-                    android:host="carryot.page.link"
-                    android:scheme="https"/>
-            </intent-filter>
-        </activity>
+        <activity android:name=".user.UserCategoriesFragment" android:exported="false" />
         <activity android:name=".HomePedidosActivity" android:exported="false" />
         <activity android:name=".CategoriesFragment" android:exported="false" />
         <activity android:name=".HomeRepartidorActivity" android:exported="false" />

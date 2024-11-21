@@ -4,18 +4,27 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.EditText;
-
+import android.widget.Toast;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.AppCompatButton;
 
 import com.example.superadmin.R;
+import com.example.superadmin.dtos.RestaurantDTO;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.firestore.FirebaseFirestore;
 
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.UUID;
 
 public class RestaurantActivity extends AppCompatActivity {
     private EditText edName, edCategoria, edRs, edRuc, edFunc, edSanit;
     private AppCompatButton btnSiguiente;
+    private FirebaseFirestore db;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -30,7 +39,9 @@ public class RestaurantActivity extends AppCompatActivity {
         edSanit = findViewById(R.id.ed_sanit);
 
         // Inicializar el botón SIGUIENTE
-        btnSiguiente = findViewById(R.id.btn_login);
+        btnSiguiente = findViewById(R.id.btn_siguiente);
+        // Inicializar Firestore
+        db = FirebaseFirestore.getInstance();
 
         // Acción cuando el usuario presiona "Siguiente"
         btnSiguiente.setOnClickListener(new View.OnClickListener() {
@@ -45,72 +56,60 @@ public class RestaurantActivity extends AppCompatActivity {
                 String permisoSanitario = edSanit.getText().toString();
 
                 // Llamar método de comparación
-                compararDatos(nombreRestaurante, categoriaRestaurante, razonSocial, ruc, licenciaFuncionamiento, permisoSanitario);
+                validarYGuardarDatos(nombreRestaurante, categoriaRestaurante, razonSocial, ruc, licenciaFuncionamiento, permisoSanitario);
             }
         });
     }
-    private void compararDatos(String nombreRestaurante, String categoriaRestaurante, String razonSocial, String ruc, String licenciaFuncionamiento, String permisoSanitario) {
-        // Datos estáticos para comparación
-        String nombreEstatico = "AA";
-        String categoriaEstatica = "BB";
-        String razonSocialEstatica = "CC";
-        String rucEstatico = "11";
-        String licenciaEstatica = "22";
-        String permisoEstatico = "33";
-
-        // Lista para almacenar los errores
-        ArrayList<String> errores = new ArrayList<>();
-
-        if (!(nombreRestaurante.equals(nombreEstatico))) {
-            errores.add("Nombre del restaurante");
-        }
-        if (!(categoriaRestaurante.equals(categoriaEstatica))) {
-            errores.add("Categoría");
-        }
-        if (!(razonSocial.equals(razonSocialEstatica))) {
-            errores.add("Razón Social");
-        }
-        if (!(ruc.equals(rucEstatico))) {
-            errores.add("R.U.C.");
-        }
-        if (!(licenciaFuncionamiento.equals(licenciaEstatica))) {
-            errores.add("Lic. de funcionamiento");
-        }
-        if (!(permisoSanitario.equals(permisoEstatico))) {
-            errores.add("Permiso sanitario");
-        }
-
-        // Si la lista de errores está vacía, los datos coinciden
-        if (!(errores.isEmpty())) {
-            StringBuilder mensajeErrores = new StringBuilder("Errores encontrados:\n");
-            for (String error : errores) {
-                mensajeErrores.append("- ").append(error).append("\n");
-            }
-
+    private void validarYGuardarDatos(String nombreRestaurante, String categoriaRestaurante, String razonSocial, String ruc, String licenciaFuncionamiento, String permisoSanitario) {
+        // Validar que los campos no estén vacíos
+        if (nombreRestaurante.isEmpty() || categoriaRestaurante.isEmpty() || razonSocial.isEmpty() || ruc.isEmpty() || licenciaFuncionamiento.isEmpty() || permisoSanitario.isEmpty()) {
             new AlertDialog.Builder(this)
-                    .setTitle("Errores de validación")
-                    .setMessage(mensajeErrores.toString())
+                    .setTitle("Error")
+                    .setMessage("Todos los campos deben ser completados")
                     .setPositiveButton("Aceptar", null)
                     .show();
+            return;
+        }
+        // Obtener los datos del usuario actual (suponiendo que ya tienes FirebaseAuth configurado)
+        FirebaseUser currentUser = FirebaseAuth.getInstance().getCurrentUser();
 
+        if (currentUser != null) {
+            // Obtener el UID y la información del usuario
+            String uidCreador = currentUser.getUid();
+            String nombreCreador = currentUser.getDisplayName() != null ? currentUser.getDisplayName() : "Nombre no disponible";
+            String uidCreacion = UUID.randomUUID().toString();
+
+            // Crear un objeto RestaurantDTO con los datos ingresados
+            RestaurantDTO restaurantDTO = new RestaurantDTO(
+                    nombreRestaurante,
+                    categoriaRestaurante,
+                    razonSocial,
+                    ruc,
+                    licenciaFuncionamiento,
+                    permisoSanitario,
+                    uidCreador,
+                    nombreCreador,
+                    uidCreacion
+            );
+
+            // Guardar los datos en la colección "restaurant"
+            db.collection("restaurant").document(uidCreacion)  // Aquí usamos el UID único generado para el restaurante
+                    .set(restaurantDTO)
+                    .addOnSuccessListener(documentReference -> {
+                        // Mostrar mensaje de éxito
+                        Toast.makeText(RestaurantActivity.this, "Restaurante registrado exitosamente", Toast.LENGTH_SHORT).show();
+
+                        // Ir a la siguiente actividad
+                        Intent intent = new Intent(RestaurantActivity.this, NewRestaurantActivity.class);
+                        startActivity(intent);
+                    })
+                    .addOnFailureListener(e -> {
+                        // Mostrar mensaje de error
+                        Toast.makeText(RestaurantActivity.this, "Error al registrar en Firestore: " + e.getMessage(), Toast.LENGTH_SHORT).show();
+                    });
         } else {
-            Intent intent = new Intent(RestaurantActivity.this, NewRestaurantActivity.class);
-            intent.putExtra("nombreRestaurante",nombreRestaurante);
-            startActivity(intent);
-            //envio_datos_perfil(nombreRestaurante, categoriaRestaurante, razonSocial, ruc, licenciaFuncionamiento, permisoSanitario);
+            // Si no hay un usuario autenticado
+            Toast.makeText(this, "No hay usuario autenticado", Toast.LENGTH_SHORT).show();
         }
     }
-
-    /*private void envio_datos_perfil(String nombreRestaurante, String categoriaRestaurante, String  razonSocial, String ruc, String licenciaFuncionamiento, String permisoSanitario) {
-        Intent intent = new Intent(RestaurantActivity.this, ProfileRestActivity.class);
-        intent.putExtra("nombreRestaurante", nombreRestaurante);
-        intent.putExtra("categoriaRestaurante", categoriaRestaurante);
-        intent.putExtra("razonSocial", razonSocial);
-        intent.putExtra("ruc", ruc);
-        intent.putExtra("licenciaFuncionamiento", licenciaFuncionamiento);
-        intent.putExtra("permisoSanitario", permisoSanitario);
-        startActivity(intent);
-
-    }*/
 }
-
