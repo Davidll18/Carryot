@@ -16,4 +16,37 @@
         <item>Comida Rapida</item>
         <item>Comida China</item>
     </string-array>
+
+    <string-array name="categorias_restaurantes">
+        <item>Árabe</item>
+        <item>Asador (BBQ)</item>
+        <item>Buffet</item>
+        <item>Burgers</item>
+        <item>Caribeño</item>
+        <item>Cervecería</item>
+        <item>Chino</item>
+        <item>Comida rápida</item>
+        <item>Criollo</item>
+        <item>Española</item>
+        <item>Fusión</item>
+        <item>Gourmet</item>
+        <item>Heladería</item>
+        <item>Indio</item>
+        <item>Internacional</item>
+        <item>Italiano</item>
+        <item>Japonés</item>
+        <item>Latinoamericana</item>
+        <item>Mariscos</item>
+        <item>Mediterráneo</item>
+        <item>Mexicano</item>
+        <item>Pizzería</item>
+        <item>Pollo a la brasa</item>
+        <item>Sushi</item>
+        <item>Tapas</item>
+        <item>Tailandés</item>
+        <item>Vegetariano</item>
+        <item>Vegano</item>
+        <item>Vietnamita</item>
+    </string-array>
+
 </resources>

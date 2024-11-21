@@ -110,7 +110,31 @@ public class LoginActivity extends AppCompatActivity {
                 startActivity(new Intent(this, HomeActivity.class));
                 break;
             case "ADMIN REST":
-                startActivity(new Intent(this, RestaurantActivity.class));
+                FirebaseUser user = firebaseAuth.getCurrentUser();
+                if (user != null) {
+                    //NO ESTA FUNCIONANDO, REVISAAAR!
+                    // Consultar la colección "restaurantes" para verificar si el usuario ya tiene un restaurante
+                    db.collection("restaurantes")
+                            .whereEqualTo("userId", user.getUid()) // Verificar el campo que conecta el restaurante con el usuario
+                            .get()
+                            .addOnCompleteListener(task -> {
+                                if (task.isSuccessful() && task.getResult() != null) {
+                                    if (!task.getResult().isEmpty()) {
+                                        // Si el restaurante ya existe, redirigir al MinActivity
+                                        startActivity(new Intent(this, MainActivity.class));
+                                    } else {
+                                        // Si no tiene restaurante, redirigir al RestaurantActivity
+                                        startActivity(new Intent(this, RestaurantActivity.class));
+                                    }
+                                } else {
+                                    Toast.makeText(this, "Error al consultar restaurantes: " + task.getException().getMessage(), Toast.LENGTH_SHORT).show();
+                                }
+
+                                finish(); // Finalizar LoginActivity después de redirigir
+                            });
+                } else {
+                    Toast.makeText(this, "Usuario no autenticado", Toast.LENGTH_SHORT).show();
+                }
                 break;
             case "REPARTIDOR":
                 startActivity(new Intent(this, ProductsRepartidorActivity.class));

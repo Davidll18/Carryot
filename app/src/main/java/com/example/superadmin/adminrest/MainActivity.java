@@ -1,9 +1,11 @@
 package com.example.superadmin.adminrest;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.Toast;
 
 import androidx.activity.EdgeToEdge;
 import androidx.annotation.NonNull;
@@ -129,8 +131,17 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             Intent intent = new Intent(MainActivity.this, PedidosActivity.class);
             startActivity(intent);
         } else if (menu == R.id.nav_profile) {
-            Intent intent = new Intent(MainActivity.this, ProfileRestActivity.class);
-            startActivity(intent);
+            // Recupera el UID del restaurante desde SharedPreferences
+            SharedPreferences sharedPreferences = getSharedPreferences("AppPrefs", MODE_PRIVATE);
+            String uidRestaurante = sharedPreferences.getString("restaurant_uid", null);
+
+            if (uidRestaurante != null) {
+                Intent intent = new Intent(MainActivity.this, ProfileRestActivity.class);
+                intent.putExtra("uidRestaurante", uidRestaurante); // Envíalo con el Intent
+                startActivity(intent);
+            } else {
+                Toast.makeText(this, "No se encontró el UID del restaurante", Toast.LENGTH_SHORT).show();
+            }
         } else if (menu == R.id.nav_dishes) {
             Intent intent = new Intent(MainActivity.this, DishesActivity.class);
             startActivity(intent);

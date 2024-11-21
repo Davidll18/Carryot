@@ -99,4 +99,6 @@
     <string name="navigation_drawer_close">Cerrar menú</string>
     <string name="title_activity_second">SecondActivity</string>
     <string name="description_image">Descripción de la imagen</string>
+
+
 </resources>
