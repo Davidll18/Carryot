@@ -3,6 +3,8 @@ package com.example.superadmin.adminrest;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.ArrayAdapter;
+import android.widget.Spinner;
 import android.widget.EditText;
 import android.widget.Toast;
 import androidx.appcompat.app.AlertDialog;
@@ -21,7 +23,8 @@ import java.util.Map;
 import java.util.UUID;
 
 public class RestaurantActivity extends AppCompatActivity {
-    private EditText edName, edCategoria, edRs, edRuc, edFunc, edSanit;
+    private EditText edName, edRs, edRuc, edFunc, edSanit;
+    private Spinner spinnerCategoria;
     private AppCompatButton btnSiguiente;
     private FirebaseFirestore db;
 
@@ -32,11 +35,17 @@ public class RestaurantActivity extends AppCompatActivity {
 
         // Inicializar los campos
         edName = findViewById(R.id.ed_name);
-        edCategoria = findViewById(R.id.ed_categoria);
+        spinnerCategoria = findViewById(R.id.spinner_categoria); // Referencia al Spinner
         edRs = findViewById(R.id.ed_rs);
         edRuc = findViewById(R.id.ed_ruc);
         edFunc = findViewById(R.id.ed_func);
         edSanit = findViewById(R.id.ed_sanit);
+
+        // Configurar el Spinner con el adaptador
+        ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(this,
+                R.array.categorias_restaurantes, android.R.layout.simple_spinner_item);
+        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        spinnerCategoria.setAdapter(adapter);
 
         // Inicializar el botón SIGUIENTE
         btnSiguiente = findViewById(R.id.btn_siguiente);
@@ -49,7 +58,7 @@ public class RestaurantActivity extends AppCompatActivity {
             public void onClick(View v) {
                 // Obtener los valores de los campos de texto
                 String nombreRestaurante = edName.getText().toString();
-                String categoriaRestaurante = edCategoria.getText().toString();
+                String categoriaRestaurante = spinnerCategoria.getSelectedItem().toString(); // Obtener categoría seleccionada
                 String razonSocial = edRs.getText().toString();
                 String ruc = edRuc.getText().toString();
                 String licenciaFuncionamiento = edFunc.getText().toString();
@@ -83,7 +92,7 @@ public class RestaurantActivity extends AppCompatActivity {
         intent.putExtra("licenciaFuncionamiento", licenciaFuncionamiento);
         intent.putExtra("permisoSanitario", permisoSanitario);
 
-        // Iniciar la activida
+        // Iniciar la actividad
         startActivity(intent);
     }
 }
