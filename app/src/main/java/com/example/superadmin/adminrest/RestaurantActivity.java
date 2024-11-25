@@ -60,6 +60,7 @@ public class RestaurantActivity extends AppCompatActivity {
             }
         });
     }
+
     private void validarYGuardarDatos(String nombreRestaurante, String categoriaRestaurante, String razonSocial, String ruc, String licenciaFuncionamiento, String permisoSanitario) {
         // Validar que los campos no estén vacíos
         if (nombreRestaurante.isEmpty() || categoriaRestaurante.isEmpty() || razonSocial.isEmpty() || ruc.isEmpty() || licenciaFuncionamiento.isEmpty() || permisoSanitario.isEmpty()) {
@@ -70,46 +71,19 @@ public class RestaurantActivity extends AppCompatActivity {
                     .show();
             return;
         }
-        // Obtener los datos del usuario actual (suponiendo que ya tienes FirebaseAuth configurado)
-        FirebaseUser currentUser = FirebaseAuth.getInstance().getCurrentUser();
 
-        if (currentUser != null) {
-            // Obtener el UID y la información del usuario
-            String uidCreador = currentUser.getUid();
-            String nombreCreador = currentUser.getDisplayName() != null ? currentUser.getDisplayName() : "Nombre no disponible";
-            String uidCreacion = UUID.randomUUID().toString();
+        // Crear un Intent para ir a la siguiente pantalla
+        Intent intent = new Intent(RestaurantActivity.this, NewRestaurantActivity.class);
 
-            // Crear un objeto RestaurantDTO con los datos ingresados
-            RestaurantDTO restaurantDTO = new RestaurantDTO(
-                    nombreRestaurante,
-                    categoriaRestaurante,
-                    razonSocial,
-                    ruc,
-                    licenciaFuncionamiento,
-                    permisoSanitario,
-                    uidCreador,
-                    nombreCreador,
-                    uidCreacion
-            );
+        // Pasar los datos como extras en el Intent
+        intent.putExtra("nombreRestaurante", nombreRestaurante);
+        intent.putExtra("categoriaRestaurante", categoriaRestaurante);
+        intent.putExtra("razonSocial", razonSocial);
+        intent.putExtra("ruc", ruc);
+        intent.putExtra("licenciaFuncionamiento", licenciaFuncionamiento);
+        intent.putExtra("permisoSanitario", permisoSanitario);
 
-            // Guardar los datos en la colección "restaurant"
-            db.collection("restaurant").document(uidCreacion)  // Aquí usamos el UID único generado para el restaurante
-                    .set(restaurantDTO)
-                    .addOnSuccessListener(documentReference -> {
-                        // Mostrar mensaje de éxito
-                        Toast.makeText(RestaurantActivity.this, "Restaurante registrado exitosamente", Toast.LENGTH_SHORT).show();
-
-                        // Ir a la siguiente actividad
-                        Intent intent = new Intent(RestaurantActivity.this, NewRestaurantActivity.class);
-                        startActivity(intent);
-                    })
-                    .addOnFailureListener(e -> {
-                        // Mostrar mensaje de error
-                        Toast.makeText(RestaurantActivity.this, "Error al registrar en Firestore: " + e.getMessage(), Toast.LENGTH_SHORT).show();
-                    });
-        } else {
-            // Si no hay un usuario autenticado
-            Toast.makeText(this, "No hay usuario autenticado", Toast.LENGTH_SHORT).show();
-        }
+        // Iniciar la actividad
+        startActivity(intent);
     }
 }

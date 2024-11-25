@@ -13,20 +13,27 @@ public class RestaurantDTO {
     private String uidCreador;  // UID de la persona que crea el restaurante
     private String nombreCreador; // Nombre de la persona que crea el restaurante
     private String uidCreacion;  // UID de la creación (por ejemplo, el UID del restaurante)
+    private String descripcion; // Descripción del restaurante
+    private double latitud; // Latitud seleccionada en el mapa
+    private double longitud; // Longitud seleccionada en el mapa
 
     // Constructor vacío requerido por Firestore
     public RestaurantDTO() {
     }
 
     // Constructor con parámetros
-    public RestaurantDTO(String nombreRestaurante, String categoria, String razonSocial, String ruc, String licenciaFuncionamiento, String permisoSanitario,
-                         String uidCreador, String nombreCreador, String uidCreacion) {
+    public RestaurantDTO(String nombreRestaurante, String categoria, String razonSocial, String ruc,
+                         String licenciaFuncionamiento, String permisoSanitario, String descripcion,
+                         double latitud, double longitud, String uidCreador, String nombreCreador, String uidCreacion) {
         this.nombreRestaurante = nombreRestaurante;
         this.categoria = categoria;
         this.razonSocial = razonSocial;
         this.ruc = ruc;
         this.licenciaFuncionamiento = licenciaFuncionamiento;
         this.permisoSanitario = permisoSanitario;
+        this.descripcion = descripcion;
+        this.latitud = latitud;
+        this.longitud = longitud;
         this.uidCreador = uidCreador;
         this.nombreCreador = nombreCreador;
         this.uidCreacion = uidCreacion;
@@ -80,6 +87,7 @@ public class RestaurantDTO {
     public void setPermisoSanitario(String permisoSanitario) {
         this.permisoSanitario = permisoSanitario;
     }
+
     public String getUidCreador() {
         return uidCreador;
     }
@@ -96,13 +104,36 @@ public class RestaurantDTO {
         this.nombreCreador = nombreCreador;
     }
 
-
     public String getUidCreacion() {
         return uidCreacion;
     }
 
     public void setUidCreacion(String uidCreacion) {
         this.uidCreacion = uidCreacion;
+    }
+
+    public String getDescripcion() {
+        return descripcion;
+    }
+
+    public void setDescripcion(String descripcion) {
+        this.descripcion = descripcion;
+    }
+
+    public double getLatitud() {
+        return latitud;
+    }
+
+    public void setLatitud(double latitud) {
+        this.latitud = latitud;
+    }
+
+    public double getLongitud() {
+        return longitud;
+    }
+
+    public void setLongitud(double longitud) {
+        this.longitud = longitud;
     }
 
     @Override
@@ -114,6 +145,9 @@ public class RestaurantDTO {
                 ", ruc='" + ruc + '\'' +
                 ", licenciaFuncionamiento='" + licenciaFuncionamiento + '\'' +
                 ", permisoSanitario='" + permisoSanitario + '\'' +
+                ", descripcion='" + descripcion + '\'' +
+                ", latitud=" + latitud +
+                ", longitud=" + longitud +
                 ", uidCreador='" + uidCreador + '\'' +
                 ", nombreCreador='" + nombreCreador + '\'' +
                 ", uidCreacion='" + uidCreacion + '\'' +

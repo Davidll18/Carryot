@@ -14,7 +14,9 @@ import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 
 import com.example.superadmin.Superadmin.super_estadisticas_general;
+import com.example.superadmin.adminrest.MainActivity;
 import com.example.superadmin.adminrest.RestaurantActivity;
+import com.example.superadmin.util.Constants;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.DocumentSnapshot;
@@ -75,7 +77,7 @@ public class LoginActivity extends AppCompatActivity {
                                                 DocumentSnapshot document = roleTask.getResult();
                                                 if (document.exists()) {
                                                     String role = document.getString("role");
-                                                    redirectToRoleSpecificActivity(role);
+                                                    redirectToRoleSpecificActivity(role, user.getUid());
                                                 } else {
                                                     Toast.makeText(LoginActivity.this, "Error: No se encontró el rol del usuario", Toast.LENGTH_SHORT).show();
                                                 }
@@ -99,29 +101,44 @@ public class LoginActivity extends AppCompatActivity {
         tvForgetPassword.setOnClickListener(v -> startActivity(new Intent(LoginActivity.this, PasswordRecoveryActivity.class)));
     }
 
-    private void redirectToRoleSpecificActivity(String role) {
+    private void redirectToRoleSpecificActivity(String role, String userId) {
         if (role == null) {
             Toast.makeText(this, "Rol no definido. Contacte al administrador", Toast.LENGTH_SHORT).show();
             return;
         }
 
-        switch (role) {
-            case "CLIENTE":
-                startActivity(new Intent(this, HomeActivity.class));
-                break;
-            case "ADMIN REST":
-                startActivity(new Intent(this, RestaurantActivity.class));
-                break;
-            case "REPARTIDOR":
-                startActivity(new Intent(this, ProductsRepartidorActivity.class));
-                break;
-            case "SUPERADMIN":
-                startActivity(new Intent(this, super_estadisticas_general.class));
-                break;
-            default:
-                Toast.makeText(this, "Rol desconocido: " + role, Toast.LENGTH_SHORT).show();
+        if (Constants.ROLE_CLIENTE.equals(role)) {
+            startActivity(new Intent(this, HomeActivity.class));
+            finish();
+        } else if (Constants.ROLE_ADMIN_RES.equals(role)) {
+            checkRestaurantExists(userId);
+        } else if (Constants.ROLE_REPARTIDOR.equals(role)) {
+            startActivity(new Intent(this, ProductsRepartidorActivity.class));
+            finish();
+        } else if (Constants.ROLE_SUPERADMIN.equals(role)) {
+            startActivity(new Intent(this, super_estadisticas_general.class));
+            finish();
+        } else {
+            Toast.makeText(this, "Rol desconocido: " + role, Toast.LENGTH_SHORT).show();
         }
+    }
 
-        finish(); // Finalizar LoginActivity
+    private void checkRestaurantExists(String userId) {
+        db.collection("restaurant")
+                .whereEqualTo("uidCreador", userId) // Filtrar por el campo uidCreador
+                .get()
+                .addOnCompleteListener(task -> {
+                    if (task.isSuccessful() && task.getResult() != null && !task.getResult().isEmpty()) {
+                        // Si el usuario ya tiene un restaurante creado
+                        startActivity(new Intent(this, MainActivity.class));
+                    } else {
+                        // Si no tiene un restaurante creado
+                        startActivity(new Intent(this, RestaurantActivity.class));
+                    }
+                    finish(); // Finalizar LoginActivity
+                })
+                .addOnFailureListener(e -> {
+                    Toast.makeText(this, "Error al verificar restaurante: " + e.getMessage(), Toast.LENGTH_SHORT).show();
+                });
     }
 }
