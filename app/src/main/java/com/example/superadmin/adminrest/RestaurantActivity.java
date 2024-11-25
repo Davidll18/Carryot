@@ -83,7 +83,7 @@ public class RestaurantActivity extends AppCompatActivity {
         intent.putExtra("licenciaFuncionamiento", licenciaFuncionamiento);
         intent.putExtra("permisoSanitario", permisoSanitario);
 
-        // Iniciar la actividad
+        // Iniciar la activida
         startActivity(intent);
     }
 }
