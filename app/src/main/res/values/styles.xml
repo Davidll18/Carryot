@@ -1,0 +1,7 @@
+<resources>
+    <!-- Estilo para el Spinner -->
+    <style name="CustomSpinnerStyle" parent="android:Widget.Spinner">
+        <item name="android:textSize">18sp</item>  <!-- Ajusta el tamaño del texto -->
+        <item name="android:padding">10dp</item>  <!-- Opcional: Ajusta el padding -->
+    </style>
+</resources>

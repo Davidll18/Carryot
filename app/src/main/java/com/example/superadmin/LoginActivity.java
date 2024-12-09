@@ -1,12 +1,14 @@
 package com.example.superadmin;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.widget.EditText;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
+import android.widget.ImageView;
 
-import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.AppCompatButton;
 import androidx.core.graphics.Insets;
@@ -24,6 +26,7 @@ import com.google.firebase.firestore.FirebaseFirestore;
 
 public class LoginActivity extends AppCompatActivity {
 
+    // Declarar variables
     AppCompatButton btnLogin;
     AppCompatButton btnSignUp;
     TextView tvForgetPassword;
@@ -34,14 +37,7 @@ public class LoginActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        EdgeToEdge.enable(this);
         setContentView(R.layout.activity_login);
-
-        ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main), (v, insets) -> {
-            Insets systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars());
-            v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
-            return insets;
-        });
 
         // Inicializar FirebaseAuth y Firestore
         firebaseAuth = FirebaseAuth.getInstance();
@@ -60,7 +56,7 @@ public class LoginActivity extends AppCompatActivity {
             String password = etPassword.getText().toString().trim();
 
             if (email.isEmpty() || password.isEmpty()) {
-                Toast.makeText(LoginActivity.this, "Por favor, complete todos los campos", Toast.LENGTH_SHORT).show();
+                showCustomToast("Por favor, complete todos los campos");  // Usando el custom Toast
                 return;
             }
 
@@ -77,19 +73,20 @@ public class LoginActivity extends AppCompatActivity {
                                                 DocumentSnapshot document = roleTask.getResult();
                                                 if (document.exists()) {
                                                     String role = document.getString("role");
+                                                    saveUserSession(user.getUid(), role);  // Guardar sesión
                                                     redirectToRoleSpecificActivity(role, user.getUid());
                                                 } else {
-                                                    Toast.makeText(LoginActivity.this, "Error: No se encontró el rol del usuario", Toast.LENGTH_SHORT).show();
+                                                    showCustomToast("Error: No se encontró el rol del usuario");  // Usando el custom Toast
                                                 }
                                             } else {
-                                                Toast.makeText(LoginActivity.this, "Error al obtener los datos del usuario: " + roleTask.getException().getMessage(), Toast.LENGTH_SHORT).show();
+                                                showCustomToast("Error al obtener los datos del usuario: ");  // Usando el custom Toast
                                             }
                                         });
                             } else {
-                                Toast.makeText(LoginActivity.this, "Por favor, verifique su correo electrónico", Toast.LENGTH_SHORT).show();
+                                showCustomToast("Por favor, verifique su correo electrónico");  // Usando el custom Toast
                             }
                         } else {
-                            Toast.makeText(LoginActivity.this, "Error al iniciar sesión: " + task.getException().getMessage(), Toast.LENGTH_SHORT).show();
+                            showCustomToast("Error al iniciar sesión: ");  // Usando el custom Toast
                         }
                     });
         });
@@ -101,28 +98,60 @@ public class LoginActivity extends AppCompatActivity {
         tvForgetPassword.setOnClickListener(v -> startActivity(new Intent(LoginActivity.this, PasswordRecoveryActivity.class)));
     }
 
+    // Método para mostrar el Custom Toast
+    private void showCustomToast(String message) {
+        // Crear el Toast
+        Toast customToast = new Toast(getApplicationContext());
+
+        // Inflar el layout personalizado para el Toast
+        LinearLayout toastLayout = (LinearLayout) getLayoutInflater().inflate(R.layout.custom_toast, null);
+
+        // Obtener los elementos del layout
+        TextView toastText = toastLayout.findViewById(R.id.toast_text);
+        ImageView toastImage = toastLayout.findViewById(R.id.toast_image);
+
+        // Establecer el texto del Toast
+        toastText.setText(message);
+
+        // Establecer el layout del Toast
+        customToast.setView(toastLayout);
+
+        // Duración del Toast
+        customToast.setDuration(Toast.LENGTH_SHORT);
+
+        // Mostrar el Toast
+        customToast.show();
+    }
+
+    // Método para redirigir a la actividad correspondiente según el rol
     private void redirectToRoleSpecificActivity(String role, String userId) {
         if (role == null) {
-            Toast.makeText(this, "Rol no definido. Contacte al administrador", Toast.LENGTH_SHORT).show();
+            showCustomToast("Rol no definido. Contacte al administrador");
             return;
         }
 
+        Intent intent;
         if (Constants.ROLE_CLIENTE.equals(role)) {
-            startActivity(new Intent(this, HomeActivity.class));
-            finish();
+            intent = new Intent(this, HomeActivity.class);
         } else if (Constants.ROLE_ADMIN_RES.equals(role)) {
-            checkRestaurantExists(userId);
+            checkRestaurantExists(userId); // Verificar si el restaurante existe
+            return; // La redirección ocurre dentro de checkRestaurantExists
         } else if (Constants.ROLE_REPARTIDOR.equals(role)) {
-            startActivity(new Intent(this, ProductsRepartidorActivity.class));
-            finish();
+            intent = new Intent(this, ProductsRepartidorActivity.class);
         } else if (Constants.ROLE_SUPERADMIN.equals(role)) {
-            startActivity(new Intent(this, super_estadisticas_general.class));
-            finish();
+            intent = new Intent(this, super_estadisticas_general.class);
         } else {
-            Toast.makeText(this, "Rol desconocido: " + role, Toast.LENGTH_SHORT).show();
+            showCustomToast("Rol desconocido: " + role);
+            return;
         }
+
+        // Usar las flags para limpiar la pila de actividades
+        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+        startActivity(intent);
+        finish();
     }
 
+    // Método para verificar si el usuario tiene un restaurante
     private void checkRestaurantExists(String userId) {
         db.collection("restaurant")
                 .whereEqualTo("uidCreador", userId) // Filtrar por el campo uidCreador
@@ -130,15 +159,49 @@ public class LoginActivity extends AppCompatActivity {
                 .addOnCompleteListener(task -> {
                     if (task.isSuccessful() && task.getResult() != null && !task.getResult().isEmpty()) {
                         // Si el usuario ya tiene un restaurante creado
-                        startActivity(new Intent(this, MainActivity.class));
+                        startActivity(new Intent(this, MainActivity.class)); // Redirigir a la actividad de restaurante
                     } else {
                         // Si no tiene un restaurante creado
-                        startActivity(new Intent(this, RestaurantActivity.class));
+                        startActivity(new Intent(this, RestaurantActivity.class)); // Redirigir a la actividad para crear restaurante
                     }
                     finish(); // Finalizar LoginActivity
                 })
                 .addOnFailureListener(e -> {
-                    Toast.makeText(this, "Error al verificar restaurante: " + e.getMessage(), Toast.LENGTH_SHORT).show();
+                    showCustomToast("Error al verificar restaurante: ");  // Usando el custom Toast
                 });
+    }
+
+    // Método para guardar la sesión
+    private void saveUserSession(String userId, String role) {
+        SharedPreferences preferences = getSharedPreferences("user_session", MODE_PRIVATE);
+        SharedPreferences.Editor editor = preferences.edit();
+        editor.putBoolean("isLoggedIn", true);  // El usuario está logueado
+        editor.putString("userId", userId);  // Guardar el UID del usuario
+        editor.putString("role", role);  // Guardar el rol del usuario
+        editor.apply();
+    }
+
+    // Verificar sesión al iniciar la app
+    @Override
+    protected void onStart() {
+        super.onStart();
+        SharedPreferences preferences = getSharedPreferences("user_session", MODE_PRIVATE);
+        boolean isLoggedIn = preferences.getBoolean("isLoggedIn", false);
+
+        if (isLoggedIn) {
+            String role = preferences.getString("role", null);
+            String userId = preferences.getString("userId", null);
+            if (role != null && userId != null) {
+                redirectToRoleSpecificActivity(role, userId);
+            }
+        }
+    }
+
+    // Método para cerrar sesión y limpiar SharedPreferences
+    private void clearUserSession() {
+        SharedPreferences preferences = getSharedPreferences("user_session", MODE_PRIVATE);
+        SharedPreferences.Editor editor = preferences.edit();
+        editor.clear();
+        editor.apply();
     }
 }

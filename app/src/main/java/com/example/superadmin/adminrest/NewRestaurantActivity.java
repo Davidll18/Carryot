@@ -4,6 +4,7 @@ import android.Manifest;
 import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.location.Location;
 import android.os.Bundle;
 import android.view.MotionEvent;
 import android.widget.EditText;
@@ -27,6 +28,11 @@ import org.osmdroid.views.Projection;
 import org.osmdroid.views.overlay.Marker;
 import org.osmdroid.views.overlay.Overlay;
 
+import com.google.android.gms.location.FusedLocationProviderClient;
+import com.google.android.gms.location.LocationServices;
+import com.google.android.gms.tasks.OnSuccessListener;
+import com.example.superadmin.util.KeyboardUtils;
+
 import java.util.UUID;
 
 public class NewRestaurantActivity extends AppCompatActivity {
@@ -39,6 +45,7 @@ public class NewRestaurantActivity extends AppCompatActivity {
     private FirebaseFirestore db;
 
     private static final int REQUEST_LOCATION_PERMISSION = 1;
+    private FusedLocationProviderClient fusedLocationClient;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -54,6 +61,9 @@ public class NewRestaurantActivity extends AppCompatActivity {
         btnSiguiente = findViewById(R.id.btn_siguiente);
         btnCancelar = findViewById(R.id.btn_cancelar);
         db = FirebaseFirestore.getInstance();
+
+        // Inicializar FusedLocationProviderClient
+        fusedLocationClient = LocationServices.getFusedLocationProviderClient(this);
 
         // Verificar permisos y configurar mapa
         checkPermissions();
@@ -87,10 +97,51 @@ public class NewRestaurantActivity extends AppCompatActivity {
     }
 
     private void checkPermissions() {
+        // Verificar permisos de ubicación
         if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_DENIED) {
+            // Si no tenemos permisos, solicitarlos
             ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.ACCESS_FINE_LOCATION}, REQUEST_LOCATION_PERMISSION);
         } else {
+            // Si ya tenemos permisos, inicializamos el mapa
             initMap();
+            getCurrentLocation(); // Obtener la ubicación actual del usuario
+        }
+    }
+
+    // Este método se invoca cuando el usuario responde a la solicitud de permisos
+    @Override
+    public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+        if (requestCode == REQUEST_LOCATION_PERMISSION) {
+            if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                // Si el permiso es concedido, inicializamos el mapa y obtenemos la ubicación
+                initMap();
+                getCurrentLocation();
+            } else {
+                // Si el permiso es denegado, mostramos un mensaje y cerramos la actividad
+                Toast.makeText(this, "Permiso de ubicación denegado", Toast.LENGTH_SHORT).show();
+                finish();
+            }
+        }
+    }
+
+    private void getCurrentLocation() {
+        if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED) {
+            fusedLocationClient.getLastLocation()
+                    .addOnSuccessListener(this, new OnSuccessListener<Location>() {
+                        @Override
+                        public void onSuccess(Location location) {
+                            if (location != null) {
+                                // Si encontramos la ubicación, actualizar las coordenadas
+                                selectedLatitude = location.getLatitude();
+                                selectedLongitude = location.getLongitude();
+
+                                // Actualizar mapa y colocar marcador en la ubicación del usuario
+                                GeoPoint geoPoint = new GeoPoint(selectedLatitude, selectedLongitude);
+                                updateMarker(geoPoint);
+                            }
+                        }
+                    });
         }
     }
 
@@ -98,7 +149,7 @@ public class NewRestaurantActivity extends AppCompatActivity {
         map.setTileSource(TileSourceFactory.MAPNIK);
         map.setMultiTouchControls(true);
 
-        // Configurar ubicación inicial (por ejemplo, centro del país)
+        // Configurar ubicación inicial (por ejemplo, centro del país si no obtenemos ubicación)
         GeoPoint initialPoint = new GeoPoint(-12.046374, -77.042793); // Cambia por las coordenadas de tu país
         map.getController().setZoom(6.0); // Zoom inicial para ver el país
         map.getController().setCenter(initialPoint);
@@ -135,49 +186,70 @@ public class NewRestaurantActivity extends AppCompatActivity {
         FirebaseUser currentUser = FirebaseAuth.getInstance().getCurrentUser();
         if (currentUser != null) {
             String uidCreador = currentUser.getUid();
-            String nombreCreador = currentUser.getDisplayName() != null ? currentUser.getDisplayName() : "Creador desconocido";
-            String restaurantId = UUID.randomUUID().toString();
 
-            // Guardar datos dinámicos
-            RestaurantDTO restaurantDTO = new RestaurantDTO(
-                    nombreRestaurante,
-                    categoriaRestaurante,
-                    razonSocial,
-                    ruc,
-                    licenciaFuncionamiento,
-                    permisoSanitario,
-                    descripcion,
-                    latitude,
-                    longitude,
-                    uidCreador,
-                    nombreCreador,
-                    restaurantId
-            );
+            // Consultar la colección "users" en Firestore
+            FirebaseFirestore db = FirebaseFirestore.getInstance();
+            db.collection("users").document(uidCreador)
+                    .get()
+                    .addOnSuccessListener(documentSnapshot -> {
+                        if (documentSnapshot.exists()) {
+                            // Obtenemos el nombre y apellido desde Firestore
+                            String name = documentSnapshot.getString("name");
+                            String surname = documentSnapshot.getString("surname");
 
-            db.collection("restaurant").document(restaurantId).set(restaurantDTO).addOnSuccessListener(aVoid -> {
-                Toast.makeText(this, "Restaurante registrado con éxito", Toast.LENGTH_SHORT).show();
+                            // Si el nombre y apellido están disponibles, los concatenamos
+                            String nombreCreador = (name != null ? name : "") + " " + (surname != null ? surname : "");
 
-                // Redirigir a MainActivity
-                Intent intent = new Intent(this, MainActivity.class);
-                startActivity(intent);
-                finish();
-            }).addOnFailureListener(e -> Toast.makeText(this, "Error: " + e.getMessage(), Toast.LENGTH_SHORT).show());
+                            // Ahora guardamos el restaurante con el nombre completo del creador
+                            saveRestaurantToFirestore(nombreRestaurante, categoriaRestaurante, razonSocial, ruc,
+                                    licenciaFuncionamiento, permisoSanitario, descripcion, latitude, longitude,
+                                    uidCreador, nombreCreador);
+                        } else {
+                            Toast.makeText(this, "Usuario no encontrado en Firestore", Toast.LENGTH_SHORT).show();
+                        }
+                    })
+                    .addOnFailureListener(e -> {
+                        Toast.makeText(this, "Error al obtener datos del usuario: " + e.getMessage(), Toast.LENGTH_SHORT).show();
+                    });
         } else {
             Toast.makeText(this, "No hay un usuario autenticado.", Toast.LENGTH_SHORT).show();
         }
     }
 
-    @Override
-    public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults) {
-        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
-        if (requestCode == REQUEST_LOCATION_PERMISSION) {
-            if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-                initMap();
-            } else {
-                Toast.makeText(this, "Permiso de ubicación denegado", Toast.LENGTH_SHORT).show();
-                finish();
-            }
-        }
+    private void saveRestaurantToFirestore(String nombreRestaurante, String categoriaRestaurante, String razonSocial,
+                                           String ruc, String licenciaFuncionamiento, String permisoSanitario,
+                                           String descripcion, double latitude, double longitude,
+                                           String uidCreador, String nombreCreador) {
+
+        String restaurantId = UUID.randomUUID().toString();
+
+        // Guardar datos del restaurante en Firestor
+        RestaurantDTO restaurantDTO = new RestaurantDTO(
+                nombreRestaurante,
+                categoriaRestaurante,
+                razonSocial,
+                ruc,
+                licenciaFuncionamiento,
+                permisoSanitario,
+                descripcion,
+                latitude,
+                longitude,
+                uidCreador,
+                nombreCreador,
+                restaurantId
+        );
+
+        FirebaseFirestore db = FirebaseFirestore.getInstance();
+        db.collection("restaurant").document(restaurantId).set(restaurantDTO)
+                .addOnSuccessListener(aVoid -> {
+                    Toast.makeText(this, "Restaurante registrado con éxito", Toast.LENGTH_SHORT).show();
+
+                    // Redirigir a MainActivity
+                    Intent intent = new Intent(this, MainActivity.class);
+                    startActivity(intent);
+                    finish();
+                })
+                .addOnFailureListener(e -> Toast.makeText(this, "Error: " + e.getMessage(), Toast.LENGTH_SHORT).show());
     }
 
     @Override
@@ -200,5 +272,10 @@ public class NewRestaurantActivity extends AppCompatActivity {
     protected void onDestroy() {
         super.onDestroy();
         map.onDetach();
+    }
+
+    @Override
+    public boolean dispatchTouchEvent(MotionEvent event) {
+        return KeyboardUtils.hideKeyboardOnTouch(this, event) || super.dispatchTouchEvent(event);
     }
 }

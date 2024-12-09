@@ -3,68 +3,60 @@ package com.example.superadmin.Superadmin;
 import android.app.NotificationChannel;
 import android.app.NotificationManager;
 import android.content.Context;
+import android.content.SharedPreferences;
 import android.os.Build;
 import android.os.Bundle;
+import android.os.Handler;
+import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageButton;
+import android.widget.TextView;
 import android.widget.Toast;
 
-import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.AppCompatButton;
 import androidx.constraintlayout.widget.ConstraintLayout;
-import androidx.core.app.NotificationCompat;
-import androidx.core.graphics.Insets;
-import androidx.core.view.ViewCompat;
-import androidx.core.view.WindowInsetsCompat;
 
 import com.example.superadmin.R;
-import com.example.superadmin.dtos.User;
+import com.example.superadmin.util.Constants;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.auth.FirebaseUser;
+
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Random;
 
 public class Super_registro_admin_rest extends AppCompatActivity {
-    ConstraintLayout toolbar;
-    ImageButton btnBack;
-    AppCompatButton btnInit;
+
+    private static final String TAG = "Super_registro_admin_rest";  // Tag para los logs
+    private ConstraintLayout toolbar;
+    private ImageButton btnBack;
+    private AppCompatButton btnInit;
 
     private static final String CHANNEL_ID = "admin_registration_channel";
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        EdgeToEdge.enable(this);
         setContentView(R.layout.activity_super_registro_admin_rest);
-        ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main), (v, insets) -> {
-            Insets systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars());
-            v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
-            return insets;
-        });
+
         toolbar = findViewById(R.id.toolbar_signup);
         btnBack = toolbar.findViewById(R.id.btn_back);
-
         btnInit = findViewById(R.id.btn_signup_init);
-        btnBack.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                finish();
-            }
-        });
+
+        // Manejo de la navegación de "Atrás"
+        btnBack.setOnClickListener(v -> finish());
 
         createNotificationChannel(); // Crea el canal de notificación
 
-        btnInit.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                // Aquí registrarías al nuevo administrador
-                registerAdmin();
-                showNotification("Nuevo Administrador Registrado", "Se ha registrado un nuevo administrador de restaurante.");
-                finish();
-            }
+        btnInit.setOnClickListener(v -> {
+            // Aquí registrarías al nuevo administrador
+            registerAdmin();
         });
     }
+
     private void registerAdmin() {
         // Obtener los valores ingresados en los EditText
         EditText edName = findViewById(R.id.ed_name);
@@ -82,61 +74,99 @@ public class Super_registro_admin_rest extends AppCompatActivity {
         String address = edAddress.getText().toString().trim();
 
         if (name.isEmpty() || surname.isEmpty() || email.isEmpty() || dni.isEmpty() || phone.isEmpty() || address.isEmpty()) {
-            Toast.makeText(this, "Por favor, complete todos los campos", Toast.LENGTH_SHORT).show();
+            showCustomToast("Por favor, complete todos los campos");
             return;
         }
 
-        // Contraseña predeterminada (puedes cambiarla o generar una aleatoria)
-        String password = "admin123";
+        // Generar una contraseña aleatoria de 10 caracteres
+        String password = generateRandomPassword(10);
 
         FirebaseAuth auth = FirebaseAuth.getInstance();
         FirebaseFirestore db = FirebaseFirestore.getInstance();
 
-        // Crear usuario en Firebase Authentication
-        auth.createUserWithEmailAndPassword(email, password)
-                .addOnCompleteListener(task -> {
-                    if (task.isSuccessful()) {
-                        String uid = task.getResult().getUser().getUid();
+        // Obtener el UID del superadmin desde SharedPreferences
+        SharedPreferences preferences = getSharedPreferences("user_session", MODE_PRIVATE);
+        String uidCreador = preferences.getString("userId", null);
 
-                        // Crear objeto User
-                        User admin = new User(
-                                name,
-                                surname,
-                                email,
-                                dni,
-                                phone,
-                                address,
-                                "ADMIN REST", // Rol del usuario
-                                true, // Activo
-                                uid
-                        );
+        Log.d(TAG, "UID del creador obtenido: " + uidCreador);  // Log para verificar el UID
 
-                        // Guardar en Firestore
-                        db.collection("users").document(uid).set(admin)
-                                .addOnSuccessListener(aVoid -> {
-                                    Toast.makeText(this, "Administrador registrado exitosamente", Toast.LENGTH_SHORT).show();
-                                })
-                                .addOnFailureListener(e -> {
-                                    Toast.makeText(this, "Error al registrar el administrador: " + e.getMessage(), Toast.LENGTH_SHORT).show();
-                                });
+        if (uidCreador != null) {
+            // Crear usuario en Firebase Authentication
+            auth.createUserWithEmailAndPassword(email, password)
+                    .addOnCompleteListener(task -> {
+                        if (task.isSuccessful()) {
+                            FirebaseUser firebaseUser = task.getResult().getUser();
+                            String uid = firebaseUser.getUid();
 
-                    } else {
-                        Toast.makeText(this, "Error al crear el usuario: " + task.getException().getMessage(), Toast.LENGTH_SHORT).show();
-                    }
-                });
+                            Log.d(TAG, "UID del nuevo admin: " + uid);  // Log para verificar el UID del nuevo admin
+
+                            // Consultar la colección "users" en Firestore para obtener nombre y apellido del creador
+                            db.collection("users").document(uidCreador)
+                                    .get()
+                                    .addOnSuccessListener(documentSnapshot -> {
+                                        if (documentSnapshot.exists()) {
+                                            String nameCreador = documentSnapshot.getString("name");
+                                            String surnameCreador = documentSnapshot.getString("surname");
+
+                                            String nombreCreador = (nameCreador != null ? nameCreador : "") + " " + (surnameCreador != null ? surnameCreador : "");
+
+                                            // Crear un Map con los datos a guardar en Firestore
+                                            Map<String, Object> admin = new HashMap<>();
+                                            admin.put("name", name);
+                                            admin.put("surname", surname);
+                                            admin.put("email", email);
+                                            admin.put("dni", dni);
+                                            admin.put("phone", phone);
+                                            admin.put("address", address);
+                                            admin.put("role", Constants.ROLE_ADMIN_RES);
+                                            admin.put("active", true);
+                                            admin.put("uid", uid);
+                                            admin.put("uidCreador", uidCreador);
+                                            admin.put("createdBy", nombreCreador);
+
+                                            db.collection("users").document(uid).set(admin)
+                                                    .addOnSuccessListener(aVoid -> {
+                                                        Log.d(TAG, "Administrador registrado exitosamente");
+                                                        showCustomToast("Administrador registrado exitosamente");
+
+                                                        new Handler().postDelayed(() -> {
+                                                            finish();
+                                                        }, 2000);
+
+                                                        sendPasswordResetEmail(email);
+                                                    })
+                                                    .addOnFailureListener(e -> {
+                                                        Log.e(TAG, "Error al registrar el administrador", e);
+                                                        showCustomToast("Error al registrar el administrador: " );
+                                                    });
+                                        } else {
+                                            Log.d(TAG, "No se encontraron datos del creador");
+                                            showCustomToast("No se encontraron datos del creador");
+                                        }
+                                    })
+                                    .addOnFailureListener(e -> {
+                                        Log.e(TAG, "Error al obtener datos del creador", e);
+                                        showCustomToast("Error al obtener datos del creador: ");
+                                    });
+                        } else {
+                            Log.e(TAG, "Error al crear el usuario", task.getException());
+                            showCustomToast("Error al crear el usuario: ");
+                        }
+                    });
+        } else {
+            Log.d(TAG, "UID del creador es null");
+            showCustomToast("No se pudo obtener el UID del creador");
+        }
     }
 
-
-    private void showNotification(String title, String message) {
-        NotificationCompat.Builder builder = new NotificationCompat.Builder(this, CHANNEL_ID)
-                .setSmallIcon(R.drawable.logo) // Cambia a tu icono de notificación
-                .setContentTitle(title)
-                .setContentText(message)
-                .setPriority(NotificationCompat.PRIORITY_DEFAULT)
-                .setAutoCancel(true);
-
-        NotificationManager notificationManager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
-        notificationManager.notify(1, builder.build());
+    private String generateRandomPassword(int length) {
+        String chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789!@#$%^&*()_+";
+        StringBuilder password = new StringBuilder();
+        Random random = new Random();
+        for (int i = 0; i < length; i++) {
+            password.append(chars.charAt(random.nextInt(chars.length())));
+        }
+        return password.toString();
     }
 
     private void createNotificationChannel() {
@@ -150,4 +180,31 @@ public class Super_registro_admin_rest extends AppCompatActivity {
             notificationManager.createNotificationChannel(channel);
         }
     }
+
+    private void sendPasswordResetEmail(String email) {
+        FirebaseAuth.getInstance().sendPasswordResetEmail(email)
+                .addOnCompleteListener(task -> {
+                    if (task.isSuccessful()) {
+                        showCustomToast("Correo de verificación enviado");
+                    } else {
+                        showCustomToast("Error al enviar el correo: ");
+                    }
+                });
+    }
+
+    private void showCustomToast(String message) {
+        // Crear el layout del Toast personalizado desde el XML
+        View layout = getLayoutInflater().inflate(R.layout.custom_toast, findViewById(R.id.toast_container));
+
+        // Encontrar el TextView y establecer el mensaje
+        TextView text = layout.findViewById(R.id.toast_text);
+        text.setText(message);
+
+        // Crear el Toast con el layout personalizado
+        Toast toast = new Toast(getApplicationContext());
+        toast.setDuration(Toast.LENGTH_SHORT);
+        toast.setView(layout);
+        toast.show();
+    }
+
 }

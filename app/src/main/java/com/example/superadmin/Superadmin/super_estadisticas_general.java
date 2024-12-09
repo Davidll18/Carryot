@@ -1,7 +1,7 @@
 package com.example.superadmin.Superadmin;
 
-import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.MenuItem;
 import android.view.View;
@@ -19,18 +19,18 @@ import com.google.firebase.firestore.FirebaseFirestore;
 
 public class super_estadisticas_general extends AppCompatActivity {
 
-    DrawerLayout drawerLayout;
-    FirebaseAuth auth;
-    ImageButton buttonMenu;
-    NavigationView navigationView_menu;
-    TextView repartidoresActivosText, adminRestaurantesText, saludoTextView;
-    FirebaseFirestore db;
+    private DrawerLayout drawerLayout;
+    private FirebaseAuth auth;
+    private ImageButton buttonMenu;
+    private NavigationView navigationView_menu;
+    private TextView repartidoresActivosText, adminRestaurantesText, saludoTextView;
+    private FirebaseFirestore db;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_super_estadisticas_general);
-        getWindow().setStatusBarColor(ContextCompat.getColor(super_estadisticas_general.this,R.color.red_boton));
+        getWindow().setStatusBarColor(ContextCompat.getColor(super_estadisticas_general.this, R.color.red_boton));
 
         saludoTextView = findViewById(R.id.saludoTextView);
         auth = FirebaseAuth.getInstance();
@@ -47,96 +47,78 @@ public class super_estadisticas_general extends AppCompatActivity {
         cargarRepartidoresActivos();
         cargarAdminRestaurantes();
 
-        buttonMenu.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                drawerLayout.open();
+        buttonMenu.setOnClickListener(view -> drawerLayout.open());
+
+        navigationView_menu.setNavigationItemSelectedListener(item -> {
+            int id = item.getItemId();
+            Intent intent = null;
+
+            // Redirección basada en la selección del menú
+            if (id == R.id.navGestionUsuarios) {
+                intent = new Intent(super_estadisticas_general.this, super_gestion_usuarios.class);
+            } else if (id == R.id.navRegistrarAdminRest) {
+                intent = new Intent(super_estadisticas_general.this, Super_registro_admin_rest.class);
+            } else if (id == R.id.navReporteVentas_por_rest) {
+                intent = new Intent(super_estadisticas_general.this, super_rest.class);
+            } else if (id == R.id.navReporteVentas) {
+                intent = new Intent(super_estadisticas_general.this, super_estadisticas_general.class);
+            } else if (id == R.id.navLogs) {
+                intent = new Intent(super_estadisticas_general.this, super_logs.class);
             }
+
+            drawerLayout.closeDrawers();
+            if (intent != null) {
+                startActivity(intent);
+            }
+            return true;
         });
 
-        navigationView_menu.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() {
-            @Override
-            public boolean onNavigationItemSelected(MenuItem item) {
-                int id = item.getItemId();
-                if (id == R.id.navGestionUsuarios) {
-                    // Ir a Gestión de Usuarios
-                    startActivity(new Intent(super_estadisticas_general.this, super_gestion_usuarios.class));
-                } else if (id == R.id.navRegistrarAdminRest) {
-                    // Ir a Registrar Admin de Restaurante
-                    startActivity(new Intent(super_estadisticas_general.this, Super_registro_admin_rest.class));
-                } else if (id == R.id.navReporteVentas_por_rest) {
-                    // Ir a Registrar Admin de Restaurante
-                    startActivity(new Intent(super_estadisticas_general.this, super_rest.class));
-                }
-                else if (id == R.id.navReporteVentas) {
-                    // Ir a Reporte de Ventas
-                    startActivity(new Intent(super_estadisticas_general.this, super_estadisticas_general.class));
-                } else if (id == R.id.navLogs) {
-                    // Ir a Logs
-                    startActivity(new Intent(super_estadisticas_general.this, super_logs.class));
-                }
+        // Obtener el UID del usuario desde SharedPreferences
+        SharedPreferences preferences = getSharedPreferences("user_session", MODE_PRIVATE);
+        String userUid = preferences.getString("userId", null);
 
-                drawerLayout.closeDrawers(); // Cierra el menú después de seleccionar un ítem
-                return true;
-            }
-        });
-        cargarSaludoPersonalizado(); // Llamar al método para mostrar el saludo
-    }
-    public void VerRest(View view){
-        Intent m2intent = new Intent(this, super_estadisticas_por_rest.class);
-        startActivity(m2intent);
-    }
-
-    private void cargarRepartidoresActivos() {
-        FirebaseFirestore db = FirebaseFirestore.getInstance();
-        db.collection("users")
-                .whereEqualTo("role", "REPARTIDOR") // Filtra solo los documentos con role "REPARTIDOR"
-                .get()
-                .addOnSuccessListener(queryDocumentSnapshots -> {
-                    int count = queryDocumentSnapshots.size(); // Número de documentos encontrados
-                    repartidoresActivosText.setText(String.valueOf(count));
-                })
-                .addOnFailureListener(e -> repartidoresActivosText.setText("Error"));
-    }
-
-
-    private void cargarAdminRestaurantes() {
-        FirebaseFirestore db = FirebaseFirestore.getInstance();
-        db.collection("users")
-                .whereEqualTo("role", "ADMIN REST") // Filtra solo los documentos con role "REPARTIDOR"
-                .get()
-                .addOnSuccessListener(queryDocumentSnapshots -> {
-                    int count = queryDocumentSnapshots.size(); // Número de documentos encontrados
-                    adminRestaurantesText.setText(String.valueOf(count));
-                })
-                .addOnFailureListener(e -> adminRestaurantesText.setText("Error"));
-    }
-
-    private void cargarSaludoPersonalizado() {
-        // Verifica si hay un usuario autenticado
-        if (auth.getCurrentUser() != null) {
-            String userUid = auth.getCurrentUser().getUid(); // Obtén el UID del usuario autenticado
-
-            // Busca en Firestore el documento correspondiente al UID
-            db.collection("users")
-                    .document(userUid) // Accede directamente al documento por UID
-                    .get()
-                    .addOnSuccessListener(documentSnapshot -> {
-                        if (documentSnapshot.exists()) {
-                            // Obtén el nombre del usuario
-                            String nombre = documentSnapshot.getString("name");
-                            saludoTextView.setText("Buenos días, " + nombre);
-                        } else {
-                            saludoTextView.setText("Buenos días, Usuario");
-                        }
-                    })
-                    .addOnFailureListener(e -> {
-                        saludoTextView.setText("Error al cargar saludo");
-                    });
+        if (userUid != null) {
+            // Cargar el saludo personalizado para el superadmin
+            cargarSaludoPersonalizado(userUid);
         } else {
             saludoTextView.setText("No hay usuario autenticado");
         }
     }
 
+    private void cargarSaludoPersonalizado(String userUid) {
+        db.collection("users")
+                .document(userUid)
+                .get()
+                .addOnSuccessListener(documentSnapshot -> {
+                    if (documentSnapshot.exists()) {
+                        String nombre = documentSnapshot.getString("name");
+                        saludoTextView.setText("Buenos días, " + nombre);
+                    } else {
+                        saludoTextView.setText("Buenos días, Usuario");
+                    }
+                })
+                .addOnFailureListener(e -> saludoTextView.setText("Error al cargar saludo"));
+    }
 
+    private void cargarRepartidoresActivos() {
+        db.collection("users")
+                .whereEqualTo("role", "REPARTIDOR")
+                .get()
+                .addOnSuccessListener(queryDocumentSnapshots -> {
+                    int count = queryDocumentSnapshots.size();
+                    repartidoresActivosText.setText(String.valueOf(count));
+                })
+                .addOnFailureListener(e -> repartidoresActivosText.setText("Error"));
+    }
+
+    private void cargarAdminRestaurantes() {
+        db.collection("users")
+                .whereEqualTo("role", "ADMIN REST")
+                .get()
+                .addOnSuccessListener(queryDocumentSnapshots -> {
+                    int count = queryDocumentSnapshots.size();
+                    adminRestaurantesText.setText(String.valueOf(count));
+                })
+                .addOnFailureListener(e -> adminRestaurantesText.setText("Error"));
+    }
 }

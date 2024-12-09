@@ -2,25 +2,23 @@ package com.example.superadmin.adminrest;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.MotionEvent;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.Spinner;
 import android.widget.EditText;
 import android.widget.Toast;
-import androidx.appcompat.app.AlertDialog;
+import android.widget.TextView;
+import android.widget.ImageView;
+import android.view.LayoutInflater;
+import android.widget.LinearLayout;
+
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.AppCompatButton;
 
 import com.example.superadmin.R;
-import com.example.superadmin.dtos.RestaurantDTO;
-import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.auth.FirebaseUser;
+import com.example.superadmin.util.KeyboardUtils;
 import com.google.firebase.firestore.FirebaseFirestore;
-
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.UUID;
 
 public class RestaurantActivity extends AppCompatActivity {
     private EditText edName, edRs, edRuc, edFunc, edSanit;
@@ -71,13 +69,10 @@ public class RestaurantActivity extends AppCompatActivity {
     }
 
     private void validarYGuardarDatos(String nombreRestaurante, String categoriaRestaurante, String razonSocial, String ruc, String licenciaFuncionamiento, String permisoSanitario) {
-        // Validar que los campos no estén vacíos
+        // Validar que los campos no estén vacío
         if (nombreRestaurante.isEmpty() || categoriaRestaurante.isEmpty() || razonSocial.isEmpty() || ruc.isEmpty() || licenciaFuncionamiento.isEmpty() || permisoSanitario.isEmpty()) {
-            new AlertDialog.Builder(this)
-                    .setTitle("Error")
-                    .setMessage("Todos los campos deben ser completados")
-                    .setPositiveButton("Aceptar", null)
-                    .show();
+            // Mostrar el Custom Toast
+            showCustomToast("Todos los campos deben ser completados");
             return;
         }
 
@@ -94,5 +89,29 @@ public class RestaurantActivity extends AppCompatActivity {
 
         // Iniciar la actividad
         startActivity(intent);
+    }
+
+    // Método para mostrar el Custom Toast
+    private void showCustomToast(String message) {
+        LayoutInflater inflater = getLayoutInflater();
+        View layout = inflater.inflate(R.layout.custom_toast,
+                (LinearLayout) findViewById(R.id.toast_container));
+
+        TextView toastText = layout.findViewById(R.id.toast_text);
+        toastText.setText(message); // Set the custom message
+
+        ImageView toastImage = layout.findViewById(R.id.toast_image);
+        toastImage.setImageResource(R.drawable.shopping_bag); // Set your image here
+
+        Toast customToast = new Toast(getApplicationContext());
+        customToast.setDuration(Toast.LENGTH_SHORT);
+        customToast.setView(layout); // Set the custom view for the toast
+        customToast.show();
+    }
+
+    // Llamamos a la clase KeyboardUtils en el dispatchTouchEvent
+    @Override
+    public boolean dispatchTouchEvent(MotionEvent event) {
+        return KeyboardUtils.hideKeyboardOnTouch(this, event) || super.dispatchTouchEvent(event);
     }
 }

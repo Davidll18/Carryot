@@ -1,29 +1,28 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/toastcus"
-    android:layout_width="wrap_content"
-    android:layout_height="wrap_content"
-    android:background="@drawable/round_corner_background_gray"
-    android:radius="10dp"
     android:orientation="horizontal"
     android:padding="10dp"
-    android:visibility="visible">
+    android:background="@drawable/round_corner_background_gray"
+    android:gravity="center"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:id="@+id/toast_container">
 
+    <!-- Imagen del logo -->
     <ImageView
         android:id="@+id/toast_image"
+        android:src="@drawable/shopping_bag"
         android:layout_width="30dp"
         android:layout_height="30dp"
-        android:src="@drawable/logo" />
+        android:layout_marginEnd="8dp"/>
 
+    <!-- Texto del mensaje -->
     <TextView
         android:id="@+id/toast_text"
+        android:textColor="@android:color/white"
+        android:textSize="16sp"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_gravity="center_vertical"
-        android:paddingStart="8dp"
-        android:text="@string/credenciales_incorrectas"
-        android:textColor="#FFFFFF"
-        android:textSize="16sp"
-        tools:ignore="RtlSymmetry" />
+        android:gravity="center"
+    android:layout_marginStart="8dp"/>
 </LinearLayout>

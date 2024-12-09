@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">SuperAdmin</string>
+    <string name="app_name"></string>
     <string name="title_activity_super_gestion_usuarios">super_gestion_usuarios</string>
     <string name="large_text">
         "Material is the metaphor.\n\n"
@@ -99,6 +99,7 @@
     <string name="navigation_drawer_close">Cerrar menú</string>
     <string name="title_activity_second">SecondActivity</string>
     <string name="description_image">Descripción de la imagen</string>
+    <string name="es_importante_completar_esta_informaci_n_puesto_que_ser_de_gran_ayuda_cuando_solicite_alg_n_pedido">Es importante completar esta información, puesto que será de gran ayuda cuando solicite algún pedido</string>
 
 
 </resources>

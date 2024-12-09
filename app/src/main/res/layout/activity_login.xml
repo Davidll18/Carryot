@@ -214,7 +214,7 @@
                 android:layout_width="0dp"
                 android:layout_height="48dp"
                 android:layout_marginTop="24dp"
-                android:background="@drawable/round_corner_background_boton"
+                android:background="@drawable/btn_press_selector"
                 android:fontFamily="@font/raleway_bold"
                 android:text="Ingresar"
                 android:textAllCaps="false"

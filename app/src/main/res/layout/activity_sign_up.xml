@@ -11,7 +11,8 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="@color/white"
-        tools:context=".SignUpActivity">
+        tools:context=".SignUpActivity"
+        android:paddingBottom="0dp">
 
         <include
             android:id="@+id/toolbar_signup"
@@ -57,8 +58,8 @@
             android:background="@drawable/round_corner_background_white"
             android:elevation="2dp"
             android:orientation="vertical"
-            android:paddingTop="5dp"
-            android:paddingBottom="5dp"
+            android:paddingTop="12dp"
+            android:paddingBottom="12dp"
             app:layout_constraintEnd_toStartOf="@+id/guideline_end"
             app:layout_constraintStart_toStartOf="@+id/guideline_start"
             app:layout_constraintTop_toBottomOf="@+id/tv_message_invitation">
@@ -71,7 +72,7 @@
                 android:fontFamily="@font/raleway_bold"
                 android:text="Nombres"
                 android:textColor="@color/black"
-                android:textSize="12sp" />
+                android:textSize="14sp" />
 
             <EditText
                 android:id="@+id/ed_name"
@@ -93,8 +94,8 @@
             android:background="@drawable/round_corner_background_white"
             android:elevation="2dp"
             android:orientation="vertical"
-            android:paddingTop="5dp"
-            android:paddingBottom="5dp"
+            android:paddingTop="12dp"
+            android:paddingBottom="12dp"
             app:layout_constraintEnd_toStartOf="@+id/guideline_end"
             app:layout_constraintStart_toStartOf="@+id/guideline_start"
             app:layout_constraintTop_toBottomOf="@+id/lyt_name">
@@ -107,7 +108,7 @@
                 android:fontFamily="@font/raleway_bold"
                 android:text="Apellidos"
                 android:textColor="@color/black"
-                android:textSize="12sp" />
+                android:textSize="14sp" />
 
             <EditText
                 android:id="@+id/ed_surname"
@@ -115,7 +116,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginStart="10dp"
                 android:background="@null"
-                android:layout_marginTop="5dp"
+                android:layout_marginTop="12dp"
                 android:hint="Ingrese sus apellidos"
                 android:inputType="textPersonName" />
         </androidx.appcompat.widget.LinearLayoutCompat>
@@ -129,8 +130,8 @@
             android:background="@drawable/round_corner_background_white"
             android:elevation="2dp"
             android:orientation="vertical"
-            android:paddingTop="5dp"
-            android:paddingBottom="5dp"
+            android:paddingTop="12dp"
+            android:paddingBottom="12dp"
             app:layout_constraintEnd_toStartOf="@+id/guideline_end"
             app:layout_constraintStart_toStartOf="@+id/guideline_start"
             app:layout_constraintTop_toBottomOf="@+id/lyt_surname">
@@ -143,7 +144,7 @@
                 android:fontFamily="@font/raleway_bold"
                 android:text="Correo Electrónico"
                 android:textColor="@color/black"
-                android:textSize="12sp" />
+                android:textSize="14sp" />
 
             <EditText
                 android:id="@+id/ed_email"
@@ -151,7 +152,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginStart="10dp"
                 android:background="@null"
-                android:layout_marginTop="5dp"
+                android:layout_marginTop="12dp"
                 android:hint="Ingrese su correo electrónico"
                 android:inputType="textEmailAddress" />
         </androidx.appcompat.widget.LinearLayoutCompat>
@@ -165,8 +166,8 @@
             android:background="@drawable/round_corner_background_white"
             android:elevation="2dp"
             android:orientation="vertical"
-            android:paddingTop="5dp"
-            android:paddingBottom="5dp"
+            android:paddingTop="12dp"
+            android:paddingBottom="12dp"
             app:layout_constraintEnd_toStartOf="@+id/guideline_end"
             app:layout_constraintStart_toStartOf="@+id/guideline_start"
             app:layout_constraintTop_toBottomOf="@+id/lyt_email">
@@ -179,7 +180,7 @@
                 android:fontFamily="@font/raleway_bold"
                 android:text="DNI"
                 android:textColor="@color/black"
-                android:textSize="12sp" />
+                android:textSize="14sp" />
 
             <EditText
                 android:id="@+id/ed_dni"
@@ -187,7 +188,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginStart="10dp"
                 android:background="@null"
-                android:layout_marginTop="5dp"
+                android:layout_marginTop="12dp"
                 android:hint="Ingrese su DNI"
                 android:inputType="number"
                 android:maxLength="8" />
@@ -202,8 +203,8 @@
             android:background="@drawable/round_corner_background_white"
             android:elevation="2dp"
             android:orientation="vertical"
-            android:paddingTop="5dp"
-            android:paddingBottom="5dp"
+            android:paddingTop="12dp"
+            android:paddingBottom="12dp"
             app:layout_constraintEnd_toStartOf="@+id/guideline_end"
             app:layout_constraintStart_toStartOf="@+id/guideline_start"
             app:layout_constraintTop_toBottomOf="@+id/lyt_dni">
@@ -216,7 +217,7 @@
                 android:fontFamily="@font/raleway_bold"
                 android:text="Teléfono"
                 android:textColor="@color/black"
-                android:textSize="12sp" />
+                android:textSize="14sp" />
 
             <EditText
                 android:id="@+id/ed_phone"
@@ -224,8 +225,8 @@
                 android:layout_height="wrap_content"
                 android:layout_marginStart="10dp"
                 android:background="@null"
-                android:layout_marginTop="5dp"
-                android:hint="Ingrese su número de teléfono"
+                android:layout_marginTop="12dp"
+                android:hint="Ingrese su teléfono"
                 android:inputType="phone"
                 android:maxLength="9" />
         </androidx.appcompat.widget.LinearLayoutCompat>
@@ -239,8 +240,8 @@
             android:background="@drawable/round_corner_background_white"
             android:elevation="2dp"
             android:orientation="vertical"
-            android:paddingTop="5dp"
-            android:paddingBottom="5dp"
+            android:paddingTop="12dp"
+            android:paddingBottom="12dp"
             app:layout_constraintEnd_toStartOf="@+id/guideline_end"
             app:layout_constraintStart_toStartOf="@+id/guideline_start"
             app:layout_constraintTop_toBottomOf="@+id/lyt_phone">
@@ -253,7 +254,7 @@
                 android:fontFamily="@font/raleway_bold"
                 android:text="Dirección"
                 android:textColor="@color/black"
-                android:textSize="12sp" />
+                android:textSize="14sp" />
 
             <EditText
                 android:id="@+id/ed_address"
@@ -261,60 +262,26 @@
                 android:layout_height="wrap_content"
                 android:layout_marginStart="10dp"
                 android:background="@null"
+                android:layout_marginTop="12dp"
                 android:hint="Ingrese su dirección"
                 android:inputType="textPostalAddress" />
         </androidx.appcompat.widget.LinearLayoutCompat>
 
-        <!-- Contraseña -->
-        <androidx.appcompat.widget.LinearLayoutCompat
-            android:id="@+id/lyt_password"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="11dp"
-            android:background="@drawable/round_corner_background_white"
-            android:elevation="2dp"
-            android:orientation="vertical"
-            android:paddingTop="5dp"
-            android:paddingBottom="5dp"
-            app:layout_constraintEnd_toStartOf="@+id/guideline_end"
-            app:layout_constraintStart_toStartOf="@+id/guideline_start"
-            app:layout_constraintTop_toBottomOf="@+id/lyt_address">
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="10dp"
-                android:layout_marginTop="8dp"
-                android:fontFamily="@font/raleway_bold"
-                android:text="Contraseña"
-                android:textColor="@color/black"
-                android:textSize="12sp" />
-
-            <EditText
-                android:id="@+id/ed_password"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="10dp"
-                android:background="@null"
-                android:layout_marginTop="5dp"
-                android:hint="Ingrese su contraseña"
-                android:inputType="textPassword" />
-        </androidx.appcompat.widget.LinearLayoutCompat>
-
+        <!-- Botón Siguiente -->
         <androidx.appcompat.widget.AppCompatButton
             android:id="@+id/btn_signup_init"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginTop="27dp"
-            android:layout_marginBottom="27dp"
-            android:background="@drawable/round_corner_background_boton"
-            android:fontFamily="@font/raleway_bold"
-            android:text="Registrarse"
-            android:textColor="@color/white"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toStartOf="@+id/guideline_end"
-            app:layout_constraintStart_toStartOf="@+id/guideline_start"
-            app:layout_constraintTop_toBottomOf="@+id/lyt_password" />
+            android:layout_marginBottom="32dp"
+            android:background="@drawable/btn_press_selector"
+        android:fontFamily="@font/raleway_bold"
+        android:text="Siguiente"
+        android:textColor="@color/white"
+        app:layout_constraintTop_toBottomOf="@+id/lyt_address"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent" />
 
         <androidx.constraintlayout.widget.Guideline
             android:id="@+id/guideline_start"

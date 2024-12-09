@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
 
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto">
@@ -79,7 +80,15 @@
                         android:layout_height="wrap_content"
                         android:text="Seleccionar foto"
                         android:layout_gravity="center_horizontal"
-                        android:layout_marginTop="8dp" />
+                        android:layout_marginTop="20dp"
+                        android:layout_marginStart="10dp"
+                        android:drawableLeft="@drawable/baseline_image_search"
+                    android:drawablePadding="8dp"
+                        android:background="@drawable/btn_press_selector"
+                    android:textColor="@android:color/white"
+                    android:textSize="16sp"
+                    android:padding="12dp"
+                    android:gravity="center_vertical|center_horizontal" />
                 </LinearLayout>
             </androidx.cardview.widget.CardView>
 
@@ -112,7 +121,7 @@
                     android:layout_marginStart="10dp"
                     android:background="@null"
                     android:layout_marginTop="5dp"
-                    android:textSize="20dp"
+                    android:textSize="16dp"
                     android:hint="Ingrese el nombre de restaurante"
                     android:inputType="textPersonName" />
             </androidx.appcompat.widget.LinearLayoutCompat>
@@ -145,7 +154,8 @@
                     android:layout_height="wrap_content"
                     android:layout_marginStart="10dp"
                     android:layout_marginTop="5dp"
-                    android:spinnerMode="dropdown" />
+                    android:spinnerMode="dropdown"
+                    android:popupTheme="@style/CustomSpinnerStyle" />
             </androidx.appcompat.widget.LinearLayoutCompat>
 
             <!-- Campo: Razón Social -->
@@ -179,7 +189,7 @@
                     android:layout_marginTop="5dp"
                     android:hint="Ingrese la razón social"
                     android:inputType="textPersonName"
-                    android:textSize="20dp" />
+                    android:textSize="16dp" />
             </androidx.appcompat.widget.LinearLayoutCompat>
 
             <!-- Campo: R.U.C -->
@@ -213,7 +223,7 @@
                     android:layout_marginTop="5dp"
                     android:hint="Ingrese 10 dígitos"
                     android:inputType="number"
-                    android:textSize="20dp" />
+                    android:textSize="16dp" />
             </androidx.appcompat.widget.LinearLayoutCompat>
 
             <!-- Campo: Licencia de Funcionamiento -->
@@ -247,7 +257,7 @@
                     android:layout_marginTop="5dp"
                     android:hint="Ingrese 7 dígitos"
                     android:inputType="numberDecimal"
-                    android:textSize="20dp" />
+                    android:textSize="16dp" />
             </androidx.appcompat.widget.LinearLayoutCompat>
 
             <!-- Campo: Permiso Sanitario -->
@@ -281,7 +291,7 @@
                     android:layout_marginTop="5dp"
                     android:hint="Ingrese 5 dígitos"
                     android:inputType="number"
-                    android:textSize="20dp" />
+                    android:textSize="16dp" />
             </androidx.appcompat.widget.LinearLayoutCompat>
 
             <!-- Botones: Cancelar y Registrar -->
@@ -301,19 +311,21 @@
                     android:textColor="@color/white"
                     app:layout_constraintEnd_toStartOf="@+id/btn_siguiente"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintWidth_percent="0.45" />
+                    app:layout_constraintWidth_percent="0.45"
+                    tools:ignore="MissingConstraints" />
 
                 <androidx.appcompat.widget.AppCompatButton
                     android:id="@+id/btn_siguiente"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:background="@drawable/round_corner_background_boton"
+                    android:background="@drawable/btn_press_selector"
                     android:fontFamily="@font/raleway_bold"
                     android:text="REGISTRAR"
                     android:textColor="@color/white"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toEndOf="@+id/btn_signup_init"
-                    app:layout_constraintWidth_percent="0.45" />
+                    app:layout_constraintWidth_percent="0.45"
+                    tools:ignore="MissingConstraints" />
             </androidx.constraintlayout.widget.ConstraintLayout>
 
             <!-- Espacio adicional al final -->

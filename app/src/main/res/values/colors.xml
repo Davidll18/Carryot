@@ -2,7 +2,7 @@
 <resources>
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
-    <color name="light_red">#ff0754</color>
+    <color name="light_red">#ff6547</color>
     <color name="light_orange">#ff6547</color>
     <color name="gray">#d5d5d5</color>
     <color name="light_gray">#f0f0f0</color>
@@ -19,4 +19,9 @@
     <color name="dark_gray_hint">#606060</color>
     <color name="light_red_app">#DEFF4140</color>
     <color name="light_red_background">#DEEB6060</color>
+
+    <color name="button_normal_naranja">#FF8C04</color> <!-- Este es tu color original -->
+
+    <!-- Color del botón cuando se presiona (más oscuro) -->
+    <color name="button_pressed">#b76f1b</color> <!-- Un tono ligeramente más oscuro -->
 </resources>
