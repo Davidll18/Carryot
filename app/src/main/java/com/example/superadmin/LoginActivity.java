@@ -18,6 +18,7 @@ import androidx.core.view.WindowInsetsCompat;
 import com.example.superadmin.Superadmin.super_estadisticas_general;
 import com.example.superadmin.adminrest.MainActivity;
 import com.example.superadmin.adminrest.RestaurantActivity;
+import com.example.superadmin.user.UserHomeActivity;
 import com.example.superadmin.util.Constants;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
@@ -132,7 +133,7 @@ public class LoginActivity extends AppCompatActivity {
 
         Intent intent;
         if (Constants.ROLE_CLIENTE.equals(role)) {
-            intent = new Intent(this, HomeActivity.class);
+            intent = new Intent(this, UserHomeActivity.class);
         } else if (Constants.ROLE_ADMIN_RES.equals(role)) {
             checkRestaurantExists(userId); // Verificar si el restaurante existe
             return; // La redirección ocurre dentro de checkRestaurantExists

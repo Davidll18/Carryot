@@ -99,6 +99,32 @@
         <activity
             android:name=".LoginActivity"
             android:exported="false" />
+
+        <activity
+            android:name=".user.UserSummaryActivity"
+            android:exported="false" />
+        <activity
+            android:name=".user.UserCarActivity"
+            android:exported="false" />
+        <activity
+            android:name=".user.UserProductDetailActivity"
+            android:exported="false" />
+        <activity
+            android:name=".user.UserProductsActivity"
+            android:exported="false" />
+        <activity
+            android:name=".user.UserHomeActivity"
+            android:exported="false" />
+        <activity
+            android:name=".user.UserCategoriesFragment"
+            android:exported="false" />
+        <activity
+            android:name=".user.UserDesplegableActivity"
+            android:exported="false" />
+        <activity
+            android:name=".user.UserHistorialActivity"
+            android:exported="false" />
+
         <activity
             android:name=".PasswordRecoveryActivity"
             android:exported="false" />
@@ -109,7 +135,6 @@
             android:name=".PutPasswordActivity"
             android:exported="false" />
 
-        <activity android:name=".user.UserCategoriesFragment" android:exported="false" />
         <activity android:name=".HomePedidosActivity" android:exported="false" />
         <activity android:name=".CategoriesFragment" android:exported="false" />
         <activity android:name=".HomeRepartidorActivity" android:exported="false" />
