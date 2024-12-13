@@ -11,13 +11,10 @@ import android.widget.ImageView;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.AppCompatButton;
-import androidx.core.graphics.Insets;
-import androidx.core.view.ViewCompat;
-import androidx.core.view.WindowInsetsCompat;
 
 import com.example.superadmin.Superadmin.super_estadisticas_general;
 import com.example.superadmin.adminrest.MainActivity;
-import com.example.superadmin.adminrest.RestaurantActivity;
+import com.example.superadmin.adminrest.NewRestaurantActivity;
 import com.example.superadmin.user.UserHomeActivity;
 import com.example.superadmin.util.Constants;
 import com.google.firebase.auth.FirebaseAuth;
@@ -163,7 +160,7 @@ public class LoginActivity extends AppCompatActivity {
                         startActivity(new Intent(this, MainActivity.class)); // Redirigir a la actividad de restaurante
                     } else {
                         // Si no tiene un restaurante creado
-                        startActivity(new Intent(this, RestaurantActivity.class)); // Redirigir a la actividad para crear restaurante
+                        startActivity(new Intent(this, NewRestaurantActivity.class)); // Redirigir a la actividad para crear restaurante
                     }
                     finish(); // Finalizar LoginActivity
                 })

@@ -5,11 +5,20 @@ import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.location.Location;
+import android.net.Uri;
 import android.os.Bundle;
+import android.view.LayoutInflater;
 import android.view.MotionEvent;
+import android.view.View;
+import android.widget.ArrayAdapter;
 import android.widget.EditText;
+import android.widget.ImageView;
+import android.widget.LinearLayout;
+import android.widget.Spinner;
+import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.AppCompatButton;
 import androidx.core.app.ActivityCompat;
@@ -32,18 +41,24 @@ import com.google.android.gms.location.FusedLocationProviderClient;
 import com.google.android.gms.location.LocationServices;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.example.superadmin.util.KeyboardUtils;
+import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.StorageReference;
 
 import java.util.UUID;
 
 public class NewRestaurantActivity extends AppCompatActivity {
-    private EditText ed_desc;
+    private EditText edName, edRs, edRuc, edFunc, edSanit,ed_desc;
     private MapView map;
-    private AppCompatButton btnSiguiente, btnCancelar;
+    private Spinner spinnerCategoria;
+    private AppCompatButton btnGuardar, btnCancelar, btnSelectImage;
     private double selectedLatitude = 0.0;
     private double selectedLongitude = 0.0;
     private Marker marker;
     private FirebaseFirestore db;
-
+    private ImageView selectedImageView;
+    private Uri selectedImageUri;
+    private FirebaseStorage storage;
+    private static final int PICK_IMAGE_REQUEST = 1;
     private static final int REQUEST_LOCATION_PERMISSION = 1;
     private FusedLocationProviderClient fusedLocationClient;
 
@@ -53,49 +68,105 @@ public class NewRestaurantActivity extends AppCompatActivity {
 
         // Configuración inicial de osmdroid
         Configuration.getInstance().setUserAgentValue(getPackageName());
-        setContentView(R.layout.newrestaurant2_adminrest);
+        setContentView(R.layout.newrestaurant_adminrest);
 
         // Inicializar UI y Firebase
+        edName = findViewById(R.id.ed_name);
+        spinnerCategoria = findViewById(R.id.spinner_categoria); // Referencia al Spinner
+        edRs = findViewById(R.id.ed_rs);
+        edRuc = findViewById(R.id.ed_ruc);
+        edFunc = findViewById(R.id.ed_func);
+        edSanit = findViewById(R.id.ed_sanit);
         ed_desc = findViewById(R.id.ed_desc);
         map = findViewById(R.id.map);
-        btnSiguiente = findViewById(R.id.btn_siguiente);
+        btnGuardar = findViewById(R.id.btn_guardar);
         btnCancelar = findViewById(R.id.btn_cancelar);
+        btnSelectImage = findViewById(R.id.btn_seleccionar_foto);
+        selectedImageView = findViewById(R.id.img_foto);
         db = FirebaseFirestore.getInstance();
+        storage = FirebaseStorage.getInstance();
 
+        // Configurar el Spinner con el adaptador
+        ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(this,
+                R.array.categorias_restaurantes, android.R.layout.simple_spinner_item);
+        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        spinnerCategoria.setAdapter(adapter);
+
+        btnSelectImage.setOnClickListener(v -> openImagePicker());
         // Inicializar FusedLocationProviderClient
         fusedLocationClient = LocationServices.getFusedLocationProviderClient(this);
 
         // Verificar permisos y configurar mapa
         checkPermissions();
 
-        // Recibir datos dinámicos desde la primera actividad
-        Intent intent = getIntent();
-        String nombreRestaurante = intent.getStringExtra("nombreRestaurante");
-        String categoriaRestaurante = intent.getStringExtra("categoriaRestaurante");
-        String razonSocial = intent.getStringExtra("razonSocial");
-        String ruc = intent.getStringExtra("ruc");
-        String licenciaFuncionamiento = intent.getStringExtra("licenciaFuncionamiento");
-        String permisoSanitario = intent.getStringExtra("permisoSanitario");
+
 
         // Botón "Siguiente"
-        btnSiguiente.setOnClickListener(v -> {
+        btnGuardar.setOnClickListener(v -> {
+            String nombreRestaurante = edName.getText().toString();
+            String categoriaRestaurante = spinnerCategoria.getSelectedItem().toString(); // Obtener categoría seleccionada
+            String razonSocial = edRs.getText().toString();
+            String ruc = edRuc.getText().toString();
+            String licenciaFuncionamiento = edFunc.getText().toString();
+            String permisoSanitario = edSanit.getText().toString();
             String descripcion = ed_desc.getText().toString().trim();
-            if (descripcion.isEmpty()) {
-                ed_desc.setError("Este campo no puede estar vacío");
-                ed_desc.requestFocus();
-                return;
-            }
+            validarDatos(nombreRestaurante, categoriaRestaurante, razonSocial, ruc, licenciaFuncionamiento, permisoSanitario,descripcion);
             if (selectedLatitude == 0.0 || selectedLongitude == 0.0) {
                 Toast.makeText(this, "Por favor, selecciona una ubicación en el mapa", Toast.LENGTH_SHORT).show();
                 return;
             }
-            saveRestaurant(nombreRestaurante, categoriaRestaurante, razonSocial, ruc, licenciaFuncionamiento, permisoSanitario, descripcion, selectedLatitude, selectedLongitude);
+            if (selectedImageUri != null) {
+                saveRestaurant(nombreRestaurante, categoriaRestaurante, razonSocial, ruc, licenciaFuncionamiento, permisoSanitario, descripcion, selectedLatitude, selectedLongitude);
+            } else {
+                Toast.makeText(this, "Por favor, selecciona una imagen", Toast.LENGTH_SHORT).show();
+            }
+
         });
 
         // Botón "Cancelar"
         btnCancelar.setOnClickListener(v -> finish());
     }
+    private void openImagePicker() {
+        Intent intent = new Intent();
+        intent.setType("image/*");
+        intent.setAction(Intent.ACTION_GET_CONTENT);
+        startActivityForResult(Intent.createChooser(intent, "Selecciona una imagen"), PICK_IMAGE_REQUEST);
+    }
 
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (requestCode == PICK_IMAGE_REQUEST && resultCode == RESULT_OK && data != null && data.getData() != null) {
+            selectedImageUri = data.getData();
+            selectedImageView.setImageURI(selectedImageUri); // Mostrar la imagen seleccionada
+        }
+    }
+
+    private void validarDatos(String nombreRestaurante, String categoriaRestaurante, String razonSocial, String ruc, String licenciaFuncionamiento, String permisoSanitario, String descripcion) {
+        // Validar que los campos no estén vacío
+        if (nombreRestaurante.isEmpty() || categoriaRestaurante.isEmpty() || razonSocial.isEmpty() || ruc.isEmpty() || licenciaFuncionamiento.isEmpty() || permisoSanitario.isEmpty() || descripcion.isEmpty()) {
+            // Mostrar el Custom Toast
+            showCustomToast("Todos los campos deben ser completados");
+            return;
+        }
+    }
+    // Método para mostrar el Custom Toast
+    private void showCustomToast(String message) {
+        LayoutInflater inflater = getLayoutInflater();
+        View layout = inflater.inflate(R.layout.custom_toast,
+                (LinearLayout) findViewById(R.id.toast_container));
+
+        TextView toastText = layout.findViewById(R.id.toast_text);
+        toastText.setText(message); // Set the custom message
+
+        ImageView toastImage = layout.findViewById(R.id.toast_image);
+        toastImage.setImageResource(R.drawable.shopping_bag); // Set your image here
+
+        Toast customToast = new Toast(getApplicationContext());
+        customToast.setDuration(Toast.LENGTH_SHORT);
+        customToast.setView(layout); // Set the custom view for the toast
+        customToast.show();
+    }
     private void checkPermissions() {
         // Verificar permisos de ubicación
         if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_DENIED) {
@@ -199,11 +270,20 @@ public class NewRestaurantActivity extends AppCompatActivity {
 
                             // Si el nombre y apellido están disponibles, los concatenamos
                             String nombreCreador = (name != null ? name : "") + " " + (surname != null ? surname : "");
+                            StorageReference storageReference = storage.getReference().child("restaurant_images/" + UUID.randomUUID().toString());
 
-                            // Ahora guardamos el restaurante con el nombre completo del creador
-                            saveRestaurantToFirestore(nombreRestaurante, categoriaRestaurante, razonSocial, ruc,
-                                    licenciaFuncionamiento, permisoSanitario, descripcion, latitude, longitude,
-                                    uidCreador, nombreCreador);
+
+                            storageReference.putFile(selectedImageUri)
+                                    .addOnSuccessListener(taskSnapshot -> storageReference.getDownloadUrl()
+                                            .addOnSuccessListener(uri -> {
+                                                String imageUrl = uri.toString();
+                                                // Ahora guardamos el restaurante con el nombre completo del creador
+                                                saveRestaurantToFirestore(nombreRestaurante, categoriaRestaurante, razonSocial, ruc,
+                                                        licenciaFuncionamiento, permisoSanitario, descripcion, latitude, longitude,
+                                                        uidCreador, nombreCreador, imageUrl);
+                                            }))
+                                    .addOnFailureListener(e -> Toast.makeText(this, "Error al subir la imagen: " + e.getMessage(), Toast.LENGTH_SHORT).show());
+
                         } else {
                             Toast.makeText(this, "Usuario no encontrado en Firestore", Toast.LENGTH_SHORT).show();
                         }
@@ -219,7 +299,7 @@ public class NewRestaurantActivity extends AppCompatActivity {
     private void saveRestaurantToFirestore(String nombreRestaurante, String categoriaRestaurante, String razonSocial,
                                            String ruc, String licenciaFuncionamiento, String permisoSanitario,
                                            String descripcion, double latitude, double longitude,
-                                           String uidCreador, String nombreCreador) {
+                                           String uidCreador, String nombreCreador, String imageUrl) {
 
         String restaurantId = UUID.randomUUID().toString();
 
@@ -236,7 +316,8 @@ public class NewRestaurantActivity extends AppCompatActivity {
                 longitude,
                 uidCreador,
                 nombreCreador,
-                restaurantId
+                restaurantId,
+                imageUrl
         );
 
         FirebaseFirestore db = FirebaseFirestore.getInstance();

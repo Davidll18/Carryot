@@ -16,15 +16,21 @@ public class RestaurantDTO {
     private String descripcion; // Descripción del restaurante
     private double latitud; // Latitud seleccionada en el mapa
     private double longitud; // Longitud seleccionada en el mapa
-
+    private String imageUrl;
     // Constructor vacío requerido por Firestore
     public RestaurantDTO() {
     }
 
     // Constructor con parámetros
-    public RestaurantDTO(String nombreRestaurante, String categoria, String razonSocial, String ruc,
-                         String licenciaFuncionamiento, String permisoSanitario, String descripcion,
-                         double latitud, double longitud, String uidCreador, String nombreCreador, String uidCreacion) {
+
+
+    public RestaurantDTO(String nombreRestaurante, String categoria,
+                         String razonSocial, String ruc,
+                         String licenciaFuncionamiento,
+                         String permisoSanitario, String descripcion,
+                         double latitud, double longitud,
+                         String uidCreador, String nombreCreador,
+                         String uidCreacion, String imageUrl) {
         this.nombreRestaurante = nombreRestaurante;
         this.categoria = categoria;
         this.razonSocial = razonSocial;
@@ -37,9 +43,19 @@ public class RestaurantDTO {
         this.uidCreador = uidCreador;
         this.nombreCreador = nombreCreador;
         this.uidCreacion = uidCreacion;
+        this.imageUrl = imageUrl;
     }
 
     // Getters y Setters
+
+    public String getImageUrl() {
+        return imageUrl;
+    }
+
+    public void setImageUrl(String imageUrl) {
+        this.imageUrl = imageUrl;
+    }
+
     public String getNombreRestaurante() {
         return nombreRestaurante;
     }
