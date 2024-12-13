@@ -36,17 +36,41 @@
                 android:orientation="vertical"
                 android:padding="16dp">
 
-                <!-- Título -->
+                <!-- Campo: Nombre -->
+                <androidx.appcompat.widget.LinearLayoutCompat
+                    android:id="@+id/lyt_nombre"
+                    android:layout_width="match_parent"
+                    android:layout_height="70dp"
+                    android:background="@drawable/round_corner_background_white"
+                    android:elevation="2dp"
+                    android:orientation="vertical"
+                    android:paddingTop="5dp"
+                    android:paddingBottom="5dp"
+                    android:layout_marginTop="70dp">
 
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center_horizontal"
-                    android:layout_marginTop="70dp"
-                    android:layout_marginBottom="30dp"
-                    android:text="LOMO SALTADO"
-                    android:textSize="25sp"
-                    android:textStyle="bold" />
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="10dp"
+                        android:layout_marginTop="8dp"
+                        android:fontFamily="@font/raleway_bold"
+                        android:text="Nombre del plato"
+                        android:textColor="@color/black"
+                        android:textSize="15sp" />
+
+                    <EditText
+                        android:id="@+id/ed_nombrePlato"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="10dp"
+                        android:background="@null"
+                        android:layout_marginTop="5dp"
+                        android:hint="Ingrese el nombre del plato"
+                        android:inputType="text"
+                        android:maxLength="25"
+                        android:textSize="16dp" />
+                </androidx.appcompat.widget.LinearLayoutCompat>
+
 
                 <!-- Campo: Foto -->
                 <androidx.cardview.widget.CardView
@@ -223,22 +247,24 @@
 
                     <!-- Botón Atras -->
                     <Button
+                        android:id="@+id/btnCancelar"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_marginEnd="8dp"
                         android:layout_weight="1"
                         android:backgroundTint="#C2928D89"
-                        android:text="Atras"
+                        android:text="Cancelar"
                         android:textColor="@android:color/white"
                         android:textSize="20sp" />
 
-                    <!-- Botón Siguiente -->
+
                     <Button
+                        android:id="@+id/btnGuardar"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
                         android:backgroundTint="@color/red_app"
-                        android:text="Siguiente"
+                        android:text="Guardar"
                         android:textColor="@color/white"
                         android:textSize="20sp"/>
                 </LinearLayout>

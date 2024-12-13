@@ -69,17 +69,20 @@
                         android:textSize="30sp"
                         android:textStyle="bold" />
 
-                    <Button
-                        android:id="@+id/btAñadirPlato"
+                    <androidx.appcompat.widget.AppCompatButton
+                        android:id="@+id/btn_addDishes"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_marginStart="16dp"
-                        android:contentDescription="Añadir Plato"
-                        android:padding="8dp"
-                        android:text="  Añadir plato  "
-                        android:textSize="18dp"
-                        android:backgroundTint="@color/red_app"
-                        />
+                        android:text="AÑADIR PLATO "
+                        android:layout_gravity="center_horizontal"
+                        android:layout_marginTop="20dp"
+                        android:layout_marginStart="10dp"
+                        android:drawablePadding="8dp"
+                        android:background="@drawable/btn_press_selector"
+                        android:textColor="@android:color/white"
+                        android:textSize="16sp"
+                        android:padding="12dp"
+                        android:gravity="center_vertical|center_horizontal" />
 
                 </LinearLayout>
 

@@ -9,6 +9,7 @@ import androidx.activity.EdgeToEdge;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.ActionBarDrawerToggle;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.AppCompatButton;
 import androidx.appcompat.widget.Toolbar;
 import androidx.core.graphics.Insets;
 import androidx.core.view.GravityCompat;
@@ -34,49 +35,19 @@ public class DishesActivity extends AppCompatActivity implements NavigationView.
     DrawerLayout drawerLayout;
     NavigationView navigationView;
     Toolbar toolbar;
+    AppCompatButton addDishes;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         EdgeToEdge.enable(this);
         setContentView(R.layout.listdishes_adminrest);
 
-        // Obtener referencia al ImageView de los tres puntos
-        //ImageView optionsMenu = findViewById(R.id.optionMenu);
-
-        /**optionsMenu.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                //PREDIRIGIR A AÑADIR PLATO
-                Button btAñadirPlato = findViewById(R.id.btAñadirPlato);
-                btAñadirPlato.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View view) {
-                        Intent intent = new Intent(DishesActivity.this, NewDishActivity.class);
-                        startActivity(intent);
-                    }
-                });
-                PopupMenu popup = new PopupMenu(DishesActivity.this, optionsMenu);
-
-                popup.getMenuInflater().inflate(R.menu.popup_menu, popup.getMenu());
-
-                // Configurar el listener para manejar la selección de opciones del menú
-                popup.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
-                    @Override
-                    public boolean onMenuItemClick(MenuItem item) {
-                        Integer menu = item.getItemId();
-                        if (menu == R.id.action_edit) {
-                            Intent intent = new Intent(DishesActivity.this, EditDishesActivity.class);
-
-                            return true;
-                        }
-                        return false;
-                    }
-                });
-
-                // Mostrar el PopupMenu
-                popup.show();
-            }
-        });*/
+        addDishes = findViewById(R.id.btn_addDishes);
+        addDishes.setOnClickListener(v -> {
+            // Crea un Intent para ir a la actividad NewDishes
+            Intent intent = new Intent(this, NewDishActivity.class);
+            startActivity(intent);
+        });
 
         recyclerView = findViewById(R.id.recyclerView);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
