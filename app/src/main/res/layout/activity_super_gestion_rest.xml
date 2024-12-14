@@ -46,7 +46,7 @@
             android:id="@+id/tipoRest"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:entries="@array/tipoRest_opciones" />
+            android:entries="@array/categorias_restaurantes" />
 
         <!-- RecyclerView para los restaurantes -->
         <androidx.recyclerview.widget.RecyclerView
