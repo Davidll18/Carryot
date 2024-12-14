@@ -17,6 +17,7 @@ import android.widget.Toast;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.AppCompatButton;
 import androidx.constraintlayout.widget.ConstraintLayout;
+import androidx.core.content.ContextCompat;
 
 import com.example.superadmin.R;
 import com.example.superadmin.util.Constants;
@@ -41,6 +42,7 @@ public class Super_registro_admin_rest extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_super_registro_admin_rest);
+        getWindow().setStatusBarColor(ContextCompat.getColor(Super_registro_admin_rest.this, R.color.red_boton));
 
         toolbar = findViewById(R.id.toolbar_signup);
         btnBack = toolbar.findViewById(R.id.btn_back);

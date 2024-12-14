@@ -3,8 +3,6 @@ package com.example.superadmin.Superadmin;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
-import android.view.MenuItem;
-import android.view.View;
 import android.widget.ImageButton;
 import android.widget.TextView;
 
@@ -35,7 +33,7 @@ public class super_estadisticas_general extends AppCompatActivity {
         saludoTextView = findViewById(R.id.saludoTextView);
         auth = FirebaseAuth.getInstance();
         db = FirebaseFirestore.getInstance();
-        drawerLayout = findViewById(R.id.draweLayout);
+        drawerLayout = findViewById(R.id.drawerLayout);
         buttonMenu = findViewById(R.id.buttonMenu);
         navigationView_menu = findViewById(R.id.navigationView_menu);
 
@@ -59,7 +57,7 @@ public class super_estadisticas_general extends AppCompatActivity {
             } else if (id == R.id.navRegistrarAdminRest) {
                 intent = new Intent(super_estadisticas_general.this, Super_registro_admin_rest.class);
             } else if (id == R.id.navReporteVentas_por_rest) {
-                intent = new Intent(super_estadisticas_general.this, super_rest.class);
+                intent = new Intent(super_estadisticas_general.this, super_gestion_rest.class);
             } else if (id == R.id.navReporteVentas) {
                 intent = new Intent(super_estadisticas_general.this, super_estadisticas_general.class);
             } else if (id == R.id.navLogs) {

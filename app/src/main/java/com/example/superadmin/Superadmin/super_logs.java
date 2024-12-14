@@ -66,7 +66,7 @@ public class super_logs extends AppCompatActivity {
                     startActivity(new Intent(super_logs.this, Super_registro_admin_rest.class));
                 } else if (id == R.id.navReporteVentas_por_rest) {
                     // Ir a Registrar Admin de Restaurante
-                    startActivity(new Intent(super_logs.this, super_rest.class));
+                    startActivity(new Intent(super_logs.this, super_gestion_rest.class));
                 }
                 else if (id == R.id.navReporteVentas) {
                     // Ir a Reporte de Ventas

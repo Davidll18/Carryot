@@ -40,7 +40,7 @@
             android:name=".Superadmin.super_habilitar_usuarios"
             android:exported="false" />
         <activity
-            android:name=".Superadmin.super_rest"
+            android:name=".Superadmin.super_gestion_rest"
             android:exported="false" />
         <activity
             android:name=".Superadmin.super_estadisticas_por_rest"

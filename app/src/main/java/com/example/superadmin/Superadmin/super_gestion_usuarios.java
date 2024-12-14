@@ -4,7 +4,6 @@ import android.content.Intent;
 import android.os.Bundle;
 
 import com.example.superadmin.R;
-import com.example.superadmin.SignUpActivity;
 import com.example.superadmin.adapters.AdminRestAdapter;
 import com.example.superadmin.dtos.User;
 import com.google.android.material.navigation.NavigationView;
@@ -18,8 +17,6 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.util.Log;
-import android.view.MenuItem;
-import android.view.View;
 import android.widget.ImageButton;
 import android.widget.Toast;
 
@@ -60,7 +57,7 @@ public class super_gestion_usuarios extends AppCompatActivity {
             } else if (id == R.id.navRegistrarAdminRest) {
                 startActivity(new Intent(super_gestion_usuarios.this, Super_registro_admin_rest.class));
             } else if (id == R.id.navReporteVentas_por_rest) {
-                startActivity(new Intent(super_gestion_usuarios.this, super_rest.class));
+                startActivity(new Intent(super_gestion_usuarios.this, super_gestion_rest.class));
             } else if (id == R.id.navReporteVentas) {
                 startActivity(new Intent(super_gestion_usuarios.this, super_estadisticas_general.class));
             } else if (id == R.id.navLogs) {

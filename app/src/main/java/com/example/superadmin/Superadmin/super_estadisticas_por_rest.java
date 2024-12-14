@@ -37,6 +37,7 @@ public class super_estadisticas_por_rest extends AppCompatActivity {
 
         restaurantNameTextView.setText(restaurantName);
         restaurantImageView.setImageResource(restaurantImage);
+        drawerLayout = findViewById(R.id.drawerLayout); // Asegúrate de que el ID sea correcto
 
         buttonMenu.setOnClickListener(view -> drawerLayout.open());
         getWindow().setStatusBarColor(ContextCompat.getColor(super_estadisticas_por_rest.this,R.color.red_boton));
@@ -53,7 +54,7 @@ public class super_estadisticas_por_rest extends AppCompatActivity {
                     startActivity(new Intent(super_estadisticas_por_rest.this, Super_registro_admin_rest.class));
                 } else if (id == R.id.navReporteVentas_por_rest) {
                     // Ir a Registrar Admin de Restaurante
-                    startActivity(new Intent(super_estadisticas_por_rest.this, super_rest.class));
+                    startActivity(new Intent(super_estadisticas_por_rest.this, super_gestion_rest.class));
                 }
                 else if (id == R.id.navReporteVentas) {
                     // Ir a Reporte de Ventas

@@ -71,7 +71,7 @@ public class SuperPrincipalActivity extends AppCompatActivity {
         startActivity(m5intent);
     }
     public void btnRestaurants(View view){
-        Intent m6intent = new Intent(this, super_rest.class);
+        Intent m6intent = new Intent(this, super_gestion_rest.class);
         startActivity(m6intent);
     }
 

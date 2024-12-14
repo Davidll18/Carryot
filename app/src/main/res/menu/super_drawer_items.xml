@@ -24,6 +24,10 @@
         android:icon="@drawable/logs"
         android:id="@+id/navLogs"
         android:title="Logs"/>
+    <item
+        android:icon="@drawable/icon_logout"
+        android:id="@+id/logout"
+        android:title="Salir"/>
 
 
 </menu>

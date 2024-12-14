@@ -5,7 +5,6 @@ import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -14,17 +13,18 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.superadmin.R;
 import com.example.superadmin.dtos.RestaurantDTO;
-import com.example.superadmin.model.Restaurante;
 import com.example.superadmin.Superadmin.super_estadisticas_por_rest;
 
 import java.util.ArrayList;
-import java.util.List;
 
 public class RestaurantAdapter extends RecyclerView.Adapter<RestaurantAdapter.RestaurantViewHolder> {
 
     private ArrayList<RestaurantDTO> restaurantList;
+    private Context context;
+    private OnCardClickListener listener; // Interfaz para clics en las tarjetas
 
-    public RestaurantAdapter(ArrayList<RestaurantDTO> restaurantList) {
+    public RestaurantAdapter(Context context, ArrayList<RestaurantDTO> restaurantList) {
+        this.context = context;
         this.restaurantList = restaurantList;
     }
 
@@ -41,6 +41,13 @@ public class RestaurantAdapter extends RecyclerView.Adapter<RestaurantAdapter.Re
 
         // Asignar valores a las vistas
         holder.restaurantName.setText(restaurant.getNombreRestaurante());
+
+        // Configurar clic en la tarjeta
+        holder.cardView.setOnClickListener(v -> {
+            if (listener != null) {
+                listener.onCardClick(restaurant);
+            }
+        });
     }
 
     @Override
@@ -48,14 +55,23 @@ public class RestaurantAdapter extends RecyclerView.Adapter<RestaurantAdapter.Re
         return restaurantList.size();
     }
 
+    // Configurar el listener
+    public void setOnCardClickListener(OnCardClickListener listener) {
+        this.listener = listener;
+    }
+
+    public interface OnCardClickListener {
+        void onCardClick(RestaurantDTO restaurant);
+    }
+
     public static class RestaurantViewHolder extends RecyclerView.ViewHolder {
         TextView restaurantName;
+        CardView cardView;
 
         public RestaurantViewHolder(@NonNull View itemView) {
             super(itemView);
             restaurantName = itemView.findViewById(R.id.restaurantName);
+            cardView = itemView.findViewById(R.id.card_view_restaurant); // Asegúrate de que tu diseño tiene un CardView con este ID
         }
     }
-
 }
-
