@@ -28,9 +28,9 @@ import com.google.firebase.firestore.FirebaseFirestore;
 public class super_habilitar_usuarios extends AppCompatActivity {
     private EditText nombreEditText, apellidosEditText, dniEditText, correoEditText, telefonoEditText;
     private Switch habilitarSwitch;
+    private String userId;
     private Button cancelarBtn, aceptar_btn;
 
-    private String userId; // ID único del usuario para Firestore
     private boolean habilitado; // Estado inicial del switch
     private final String channelId = "channelDefaultPri";
 
@@ -41,36 +41,46 @@ public class super_habilitar_usuarios extends AppCompatActivity {
         setContentView(R.layout.activity_super_habilitar_usuarios);
         getWindow().setStatusBarColor(ContextCompat.getColor(super_habilitar_usuarios.this,R.color.red_boton));
 
-        cancelarBtn = findViewById(R.id.canelar_btn);
-        aceptar_btn = findViewById(R.id.aceptar_btn);
+        // Inicializar vistas
         nombreEditText = findViewById(R.id.Nombre);
         apellidosEditText = findViewById(R.id.Apellidos);
         dniEditText = findViewById(R.id.DNI);
         correoEditText = findViewById(R.id.Correo);
         telefonoEditText = findViewById(R.id.Telefono);
         habilitarSwitch = findViewById(R.id.switchHabilitar);
+        cancelarBtn = findViewById(R.id.canelar_btn);
+        aceptar_btn = findViewById(R.id.aceptar_btn);
 
         createNotificationChannel();
 
 
 
-        // Recibir los datos del Intent
         Intent intent = getIntent();
-        userId = intent.getStringExtra("userId"); // ID del usuario para actualizaciones
+        String userId = intent.getStringExtra("userId");
         String name = intent.getStringExtra("name");
-        String surname = intent.getStringExtra("surename");
+        String surname = intent.getStringExtra("surname");
         String dni = intent.getStringExtra("dni");
-        String correo = intent.getStringExtra("correo");
-        String telefono = intent.getStringExtra("telefono");
-        habilitado = intent.getBooleanExtra("habilitado", false);
+        String phone = intent.getStringExtra("phone");
+        String email = intent.getStringExtra("email");
+        Boolean status = Boolean.valueOf(intent.getStringExtra("status"));
+
+        // Verificar si los valores son nulos
+        Log.d("IntentData", "userId: " + userId);
+        Log.d("IntentData", "name: " + name);
+        Log.d("IntentData", "surname: " + surname);
+        Log.d("IntentData", "dni: " + dni);
+        Log.d("IntentData", "phone: " + phone);
+        Log.d("IntentData", "email: " + email);
+        Log.d("IntentData", "status: " + status);
+
 
         // Asignar los datos a las vistas si no son nulos
         nombreEditText.setText(name);
         apellidosEditText.setText(surname);
         dniEditText.setText(dni);
-        correoEditText.setText(correo);
-        telefonoEditText.setText(telefono);
-        habilitarSwitch.setChecked(habilitado);
+        correoEditText.setText(email);
+        telefonoEditText.setText(phone);
+        habilitarSwitch.setChecked(status);
 
 
         cancelarBtn.setOnClickListener(v -> finish());
@@ -82,9 +92,18 @@ public class super_habilitar_usuarios extends AppCompatActivity {
 
         // Configurar el switch según el valor recibido
         habilitarSwitch.setOnCheckedChangeListener((buttonView, isChecked) -> {
+            updateStatusInFirestore(isChecked);
             lanzarNotificacion(nombreEditText.getText().toString(), apellidosEditText.getText().toString(), isChecked);
         });
 
+    }
+
+    private void updateStatusInFirestore(boolean isEnabled) {
+        FirebaseFirestore db = FirebaseFirestore.getInstance();
+        db.collection("users").document(userId)
+                .update("habilitado", isEnabled) // Actualizar el campo en Firestore
+                .addOnSuccessListener(aVoid -> Toast.makeText(this, "Estado actualizado", Toast.LENGTH_SHORT).show())
+                .addOnFailureListener(e -> Toast.makeText(this, "Error al actualizar el estado", Toast.LENGTH_SHORT).show());
     }
 
     private void updateUserInFirestore() {

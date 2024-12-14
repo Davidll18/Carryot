@@ -119,7 +119,7 @@ public class Super_registro_admin_rest extends AppCompatActivity {
                                             admin.put("phone", phone);
                                             admin.put("address", address);
                                             admin.put("role", Constants.ROLE_ADMIN_RES);
-                                            admin.put("active", true);
+                                            admin.put("status", true);
                                             admin.put("uid", uid);
                                             admin.put("uidCreador", uidCreador);
                                             admin.put("createdBy", nombreCreador);

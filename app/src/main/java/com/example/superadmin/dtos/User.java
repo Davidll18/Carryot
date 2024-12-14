@@ -36,7 +36,6 @@ public class User {
         this.createdBy = createdBy;
     }
 
-    // Método estático para el registro de usuario
     public static User registrousuario(String name, String surname, String email, String dni, String phone, String address, String role, String uid, double latitude, double longitude, String uidCreador, String createdBy) {
         return new User(name, surname, email, dni, phone, address, role, true, uid, latitude, longitude, uidCreador, createdBy);
     }
@@ -103,7 +102,7 @@ public class User {
     }
 
     public void setStatus(Boolean status) {
-        this.status = status;
+        this.status = (status != null) ? status : true;
     }
 
     public String getUid() {

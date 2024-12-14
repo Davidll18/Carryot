@@ -2,6 +2,7 @@ package com.example.superadmin.adapters;
 
 import android.content.Context;
 import android.content.Intent;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -20,12 +21,18 @@ import java.util.List;
 public class AdminRestAdapter extends RecyclerView.Adapter<AdminRestAdapter.AdminViewHolder> {
     private List<User> userList; // Lista de usuarios
     private Context context;
+    private OnUserClickListener onUserClickListener;
 
 
     // Constructor para inicializar la lista de usuarios
-    public AdminRestAdapter(List<User> userList) {
+    public AdminRestAdapter(List<User> userList, OnUserClickListener listener) {
         this.userList = userList;
         this.context = context;
+        this.onUserClickListener = listener;
+    }
+
+    public interface OnUserClickListener {
+        void onUserClick(User user);
     }
 
     @NonNull
@@ -42,6 +49,8 @@ public class AdminRestAdapter extends RecyclerView.Adapter<AdminRestAdapter.Admi
         holder.textViewName.setText(user.getName());
         holder.textViewRole.setText(user.getRole());
         holder.bind(user);
+        holder.itemView.setOnClickListener(v -> onUserClickListener.onUserClick(user));
+        Log.d("AdminRestAdapter", "User: " + user.getName() + " " + user.getSurname());
 
         // Transformar el rol antes de mostrarlo
         String role = user.getRole();
@@ -106,6 +115,7 @@ public class AdminRestAdapter extends RecyclerView.Adapter<AdminRestAdapter.Admi
         public void bind(User user) {
             // Vincula los datos del usuario con las vistas
         }
+
     }
 
 }
