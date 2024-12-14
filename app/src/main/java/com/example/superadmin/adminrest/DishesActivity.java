@@ -47,8 +47,10 @@ public class DishesActivity extends AppCompatActivity implements NavigationView.
             // Crea un Intent para ir a la actividad NewDishes
             Intent intent = new Intent(this, NewDishActivity.class);
             startActivity(intent);
+
         });
 
+        /*
         recyclerView = findViewById(R.id.recyclerView);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
         foodList = new ArrayList<>();
@@ -57,7 +59,7 @@ public class DishesActivity extends AppCompatActivity implements NavigationView.
         foodList.add(new FoodItem("Ceviche", "S/ 20.00", "Cantidad: 25 und"));
 
         foodAdapter = new FoodAdapter(foodList);
-        recyclerView.setAdapter(foodAdapter);
+        recyclerView.setAdapter(foodAdapter);*/
 
         drawerLayout = findViewById(R.id.drawer_layout);
         navigationView = findViewById(R.id.nav_view);

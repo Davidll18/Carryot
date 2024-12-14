@@ -15,13 +15,18 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.bumptech.glide.Glide;
 import com.example.superadmin.R;
 import com.example.superadmin.adminrest.dto.FoodItem;
+import com.example.superadmin.adminrest.dto.PlatosEstItem;
+import com.example.superadmin.dtos.PlatoDTO;
 
 import java.util.List;
 
 public class FoodAdapter extends RecyclerView.Adapter<FoodAdapter.FoodViewHolder> {
 
-    private List<FoodItem> foodList;
-    public FoodAdapter(List<FoodItem> foodList) {
+    private List<PlatoDTO> foodList;
+    private Context context;
+
+    public FoodAdapter(Context context, List<PlatoDTO> foodList) {
+        this.context = context;
         this.foodList = foodList;
     }
 
@@ -37,12 +42,12 @@ public class FoodAdapter extends RecyclerView.Adapter<FoodAdapter.FoodViewHolder
     public void onBindViewHolder(@NonNull FoodViewHolder holder, int position) {
         Context context = holder.itemView.getContext();
         // Obtener el ítem en la posición actual y enlazar los datos a las vistas
-        FoodItem foodItem = foodList.get(position);
-        holder.tvNameDishes.setText(foodItem.getName());
-        holder.tvPrice.setText("S/ " + foodItem.getPrice());
-        holder.tvStock.setText("Cantidad: " + foodItem.getStock());
-        holder.tvDescripcion.setText(foodItem.getDesc());
-        if (foodItem.getAvailable().equals(true)) {
+        PlatoDTO foodItem = foodList.get(position);
+        holder.tvNameDishes.setText(foodItem.getNombrePlato());
+        holder.tvPrice.setText("S/ " + foodItem.getPrecio());
+        holder.tvStock.setText("Cantidad: " + foodItem.getCantidad());
+        holder.tvDescripcion.setText(foodItem.getDescripcion());
+        if (foodItem.isDisponible()) {
             String status = "Disponible";
             holder.tvDisponible.setText(status);
             holder.tvDisponible.setBackground(ContextCompat.getDrawable(context, R.drawable.background_green));
@@ -52,8 +57,10 @@ public class FoodAdapter extends RecyclerView.Adapter<FoodAdapter.FoodViewHolder
             holder.tvDisponible.setBackground(ContextCompat.getDrawable(context, R.drawable.background_red));
         }
         Glide.with(context)
-                .load(foodItem.getImageUrl())
-                .into(holder.imageView);
+                .load(foodItem.getImageUrl())  // Carga la imagen desde la URL
+                .placeholder(R.drawable.logo)  // Imagen por defecto mientras carga
+                .error(R.drawable.logo)  // Imagen en caso de error
+                .into(holder.imageView);  // Asigna la imagen al ImageView
     }
 
     @Override
@@ -79,6 +86,8 @@ public class FoodAdapter extends RecyclerView.Adapter<FoodAdapter.FoodViewHolder
             tvDescripcion = itemView.findViewById(R.id.text_model);
             tvPrice = itemView.findViewById(R.id.text_price);
             tvStock = itemView.findViewById(R.id.text_cant);
+            imageView = itemView.findViewById(R.id.img_menu_item);
+            options = itemView.findViewById(R.id.options_menu);
         }
     }
 }

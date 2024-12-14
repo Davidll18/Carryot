@@ -128,10 +128,10 @@ public class NewDishActivity extends AppCompatActivity {
 
         FirebaseUser currentUser = FirebaseAuth.getInstance().getCurrentUser();
         if (currentUser != null) {
-            String uidCreador = currentUser.getUid();
+            String uid = currentUser.getUid();
 
             FirebaseFirestore db = FirebaseFirestore.getInstance();
-            db.collection("users").document(uidCreador)
+            db.collection("users").document(uid)
                     .get()
                     .addOnSuccessListener(documentSnapshot -> {
                         if (documentSnapshot.exists()) {
@@ -140,23 +140,23 @@ public class NewDishActivity extends AppCompatActivity {
                             String nombreCreador = (name != null ? name : "") + " " + (surname != null ? surname : "");
 
                             // Buscar el restaurante con el uidCreador
-                            db.collection("restaurantes")
-                                    .whereEqualTo("uidCreador", uidCreador) // Filtrar por uidCreador
+                            db.collection("restaurant")
+                                    .whereEqualTo("uidCreador", uid) // Filtrar por uidCreador
                                     .get()
                                     .addOnSuccessListener(queryDocumentSnapshots -> {
                                         if (!queryDocumentSnapshots.isEmpty()) {
                                             // Obtener el primer restaurante que coincida
                                             DocumentSnapshot restauranteSnapshot = queryDocumentSnapshots.getDocuments().get(0);
-                                            String uidRestaurante = restauranteSnapshot.getString("uidRestaurante");
+                                            String uidRestaurante = restauranteSnapshot.getString("uidCreacion");
 
                                             if (uidRestaurante != null) {
                                                 // Subir imagen y guardar los datos del plato junto con el uid del restaurante
-                                                uploadImageAndSavePlato(nombrePlato, categoriaPlato, descripcion, precio, uidCreador, nombreCreador, uidRestaurante);
+                                                uploadImageAndSavePlato(nombrePlato, categoriaPlato, descripcion, precio, uid, nombreCreador, uidRestaurante);
                                             } else {
                                                 Toast.makeText(this, "No se encontró el uidRestaurante en el restaurante.", Toast.LENGTH_SHORT).show();
                                             }
                                         } else {
-                                            Toast.makeText(this, "No se encontró un restaurante para este usuario.", Toast.LENGTH_SHORT).show();
+                                            Toast.makeText(this, "No se encontró un restaurante para este usuario." + uid + nombreCreador, Toast.LENGTH_SHORT).show();
                                         }
                                     })
                                     .addOnFailureListener(e ->
