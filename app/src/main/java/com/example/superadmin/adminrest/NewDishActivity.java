@@ -22,6 +22,7 @@ import com.example.superadmin.dtos.PlatoDTO;
 import com.google.android.gms.location.LocationServices;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FieldValue;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.storage.FirebaseStorage;
@@ -138,8 +139,28 @@ public class NewDishActivity extends AppCompatActivity {
                             String surname = documentSnapshot.getString("surname");
                             String nombreCreador = (name != null ? name : "") + " " + (surname != null ? surname : "");
 
-                            // Subir imagen y guardar datos
-                            uploadImageAndSavePlato(nombrePlato, categoriaPlato, descripcion, precio, uidCreador, nombreCreador);
+                            // Buscar el restaurante con el uidCreador
+                            db.collection("restaurantes")
+                                    .whereEqualTo("uidCreador", uidCreador) // Filtrar por uidCreador
+                                    .get()
+                                    .addOnSuccessListener(queryDocumentSnapshots -> {
+                                        if (!queryDocumentSnapshots.isEmpty()) {
+                                            // Obtener el primer restaurante que coincida
+                                            DocumentSnapshot restauranteSnapshot = queryDocumentSnapshots.getDocuments().get(0);
+                                            String uidRestaurante = restauranteSnapshot.getString("uidRestaurante");
+
+                                            if (uidRestaurante != null) {
+                                                // Subir imagen y guardar los datos del plato junto con el uid del restaurante
+                                                uploadImageAndSavePlato(nombrePlato, categoriaPlato, descripcion, precio, uidCreador, nombreCreador, uidRestaurante);
+                                            } else {
+                                                Toast.makeText(this, "No se encontró el uidRestaurante en el restaurante.", Toast.LENGTH_SHORT).show();
+                                            }
+                                        } else {
+                                            Toast.makeText(this, "No se encontró un restaurante para este usuario.", Toast.LENGTH_SHORT).show();
+                                        }
+                                    })
+                                    .addOnFailureListener(e ->
+                                            Toast.makeText(this, "Error al buscar el restaurante: " + e.getMessage(), Toast.LENGTH_SHORT).show());
                         } else {
                             Toast.makeText(this, "Usuario no encontrado en Firestore", Toast.LENGTH_SHORT).show();
                         }
@@ -152,7 +173,7 @@ public class NewDishActivity extends AppCompatActivity {
     }
 
     private void uploadImageAndSavePlato(String nombrePlato, String categoriaPlato, String descripcion, String precio,
-                                         String uidCreador, String nombreCreador) {
+                                         String uidCreador, String nombreCreador, String uidRestaurante) {
 
         StorageReference storageReference = storage.getReference().child("platos_images/" + UUID.randomUUID().toString());
 
@@ -162,14 +183,14 @@ public class NewDishActivity extends AppCompatActivity {
                             String imageUrl = uri.toString();
 
                             // Guardar el plato en Firestore
-                            savePlatoToFirestore(nombrePlato, categoriaPlato, descripcion, precio, uidCreador, nombreCreador, imageUrl);
+                            savePlatoToFirestore(nombrePlato, categoriaPlato, descripcion, precio, uidCreador, nombreCreador, imageUrl, uidRestaurante);
                         }))
                 .addOnFailureListener(e ->
                         Toast.makeText(this, "Error al subir la imagen: " + e.getMessage(), Toast.LENGTH_SHORT).show());
     }
 
     private void savePlatoToFirestore(String nombrePlato, String categoriaPlato, String descripcion, String precio,
-                                      String uidCreador, String nombreCreador, String imageUrl) {
+                                      String uidCreador, String nombreCreador, String imageUrl, String uidRestaurante) {
 
         FirebaseFirestore db = FirebaseFirestore.getInstance();
 
@@ -179,14 +200,14 @@ public class NewDishActivity extends AppCompatActivity {
 
         PlatoDTO platoDTO = new PlatoDTO(
         cantidad, categoriaPlato, descripcion,
-        disponible, imageUrl, nombreCreador, platoId, nombrePlato,precio, uidCreador
+        disponible, imageUrl, nombreCreador, platoId, nombrePlato,precio, uidCreador, uidRestaurante
         );
 
         // Guardar el plato en Firestore
         db.collection("platos").document(platoId).set(platoDTO)
                 .addOnSuccessListener(documentReference ->{
                     Toast.makeText(this, "Plato guardado correctamente.", Toast.LENGTH_SHORT).show();
-                    // Redirigir a MainActivity
+                    // Redirigir
                     Intent intent = new Intent(this, DishesActivity.class);
                     startActivity(intent);
                     finish();

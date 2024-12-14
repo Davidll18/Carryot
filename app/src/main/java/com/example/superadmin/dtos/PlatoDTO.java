@@ -10,11 +10,12 @@ public class PlatoDTO {
     private String uidCreador;
     private String nombreCreador;
     private String uidCreacion;
+    private String uidRestaurante;
     private String imageUrl;
 
     public PlatoDTO(int cantidad, String categoriaPlato, String descripcion,
                     boolean disponible, String imageUrl, String nombreCreador,
-                    String uidCreacion, String nombrePlato, String precio, String uidCreador) {
+                    String uidCreacion, String nombrePlato, String precio, String uidCreador, String uidRestaurante) {
         this.cantidad = cantidad;
         this.categoriaPlato = categoriaPlato;
         this.descripcion = descripcion;
@@ -25,6 +26,15 @@ public class PlatoDTO {
         this.nombrePlato = nombrePlato;
         this.precio = precio;
         this.uidCreador = uidCreador;
+        this.uidRestaurante = uidRestaurante;
+    }
+
+    public String getUidRestaurante() {
+        return uidRestaurante;
+    }
+
+    public void setUidRestaurante(String uidRestaurante) {
+        this.uidRestaurante = uidRestaurante;
     }
 
     public String getUidCreacion() {
