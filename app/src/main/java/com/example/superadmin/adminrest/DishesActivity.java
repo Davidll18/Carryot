@@ -2,8 +2,10 @@ package com.example.superadmin.adminrest;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.Toast;
 
 import androidx.activity.EdgeToEdge;
 import androidx.annotation.NonNull;
@@ -22,7 +24,13 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.example.superadmin.R;
 import com.example.superadmin.adminrest.Adapter.FoodAdapter;
 import com.example.superadmin.adminrest.dto.FoodItem;
+import com.example.superadmin.dtos.PlatoDTO;
 import com.google.android.material.navigation.NavigationView;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.firestore.DocumentSnapshot;
+import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.storage.FirebaseStorage;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -36,6 +44,8 @@ public class DishesActivity extends AppCompatActivity implements NavigationView.
     NavigationView navigationView;
     Toolbar toolbar;
     AppCompatButton addDishes;
+    private FirebaseStorage storage;
+    private FirebaseFirestore db;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -49,17 +59,71 @@ public class DishesActivity extends AppCompatActivity implements NavigationView.
             startActivity(intent);
 
         });
+        db = FirebaseFirestore.getInstance();
+        storage = FirebaseStorage.getInstance();
 
-        /*
-        recyclerView = findViewById(R.id.recyclerView);
-        recyclerView.setLayoutManager(new LinearLayoutManager(this));
-        foodList = new ArrayList<>();
-        foodList.add(new FoodItem("Lomo Saltado", "S/ 24.00", "Cantidad: 50 und"));
-        foodList.add(new FoodItem("Pollo a la Brasa", "S/ 18.00", "Cantidad: 30 und"));
-        foodList.add(new FoodItem("Ceviche", "S/ 20.00", "Cantidad: 25 und"));
+        FirebaseUser currentUser = FirebaseAuth.getInstance().getCurrentUser();
+        if (currentUser != null) {
+            String uid = currentUser.getUid();
 
-        foodAdapter = new FoodAdapter(foodList);
-        recyclerView.setAdapter(foodAdapter);*/
+            FirebaseFirestore db = FirebaseFirestore.getInstance();
+            db.collection("users").document(uid)
+                    .get()
+                    .addOnSuccessListener(documentSnapshot -> {
+                        if (documentSnapshot.exists()) {
+
+                            // Buscar el restaurante con el uidCreador
+                            db.collection("restaurant")
+                                    .whereEqualTo("uidCreador", uid) // Filtrar por uidCreador
+                                    .get()
+                                    .addOnSuccessListener(queryDocumentSnapshots -> {
+                                        if (!queryDocumentSnapshots.isEmpty()) {
+                                            // Obtener el primer restaurante que coincida
+                                            DocumentSnapshot restauranteSnapshot = queryDocumentSnapshots.getDocuments().get(0);
+                                            String idRestaurante = restauranteSnapshot.getString("uidCreacion");
+
+                                            // Buscar platos que correspondan al restaurante
+                                            db.collection("platos")
+                                                    .whereEqualTo("uidRestaurante", idRestaurante)
+                                                    .get()
+                                                    .addOnSuccessListener(platosQuerySnapshot -> {
+                                                        if (!platosQuerySnapshot.isEmpty()) {
+                                                            // Convertir documentos en objetos PlatoDTO
+                                                            ArrayList<PlatoDTO> platosList = new ArrayList<>();
+                                                            for (DocumentSnapshot platoSnapshot : platosQuerySnapshot.getDocuments()) {
+                                                                PlatoDTO plato = platoSnapshot.toObject(PlatoDTO.class);
+                                                                platosList.add(plato);
+                                                            }
+                                                            configurarRecyclerView(platosList);
+
+                                                            // Aquí puedes usar la lista de PlatoDTO
+                                                            for (PlatoDTO plato : platosList) {
+                                                                Log.d("Platos", "Plato: " + plato.toString());
+                                                            }
+
+                                                            Toast.makeText(this, "Platos encontrados: " + platosList.size(), Toast.LENGTH_SHORT).show();
+
+                                                        } else {
+                                                            Toast.makeText(this, "No se encontraron platos para este restaurante.", Toast.LENGTH_SHORT).show();
+                                                        }
+                                                    })
+                                                    .addOnFailureListener(e ->
+                                                            Toast.makeText(this, "Error al buscar los platos: " + e.getMessage(), Toast.LENGTH_SHORT).show());
+                                        } else {
+                                            Toast.makeText(this, "No se encontró un restaurante para este usuario.", Toast.LENGTH_SHORT).show();
+                                        }
+                                    })
+                                    .addOnFailureListener(e ->
+                                            Toast.makeText(this, "Error al buscar el restaurante: " + e.getMessage(), Toast.LENGTH_SHORT).show());
+                        } else {
+                            Toast.makeText(this, "Usuario no encontrado en Firestore", Toast.LENGTH_SHORT).show();
+                        }
+                    })
+                    .addOnFailureListener(e ->
+                            Toast.makeText(this, "Error al obtener datos del usuario: " + e.getMessage(), Toast.LENGTH_SHORT).show());
+        } else {
+            Toast.makeText(this, "No hay un usuario autenticado.", Toast.LENGTH_SHORT).show();
+        }
 
         drawerLayout = findViewById(R.id.drawer_layout);
         navigationView = findViewById(R.id.nav_view);
@@ -84,7 +148,16 @@ public class DishesActivity extends AppCompatActivity implements NavigationView.
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
             return insets;
         });
+
     }
+
+    private void configurarRecyclerView(ArrayList<PlatoDTO> listaPlatos) {
+        RecyclerView recyclerView = findViewById(R.id.recyclerView);
+        recyclerView.setLayoutManager(new LinearLayoutManager(this)); // Diseño vertical
+        FoodAdapter foodAdapter = new FoodAdapter(this, listaPlatos); // Instancia del adaptador
+        recyclerView.setAdapter(foodAdapter); // Asigna el adaptador
+    }
+
 
     @Override
     public void onBackPressed() {

@@ -18,23 +18,24 @@ import com.example.superadmin.adminrest.dto.FoodItem;
 import com.example.superadmin.adminrest.dto.PlatosEstItem;
 import com.example.superadmin.dtos.PlatoDTO;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class FoodAdapter extends RecyclerView.Adapter<FoodAdapter.FoodViewHolder> {
 
-    private List<PlatoDTO> foodList;
+    private ArrayList<PlatoDTO> foodList;
     private Context context;
 
-    public FoodAdapter(Context context, List<PlatoDTO> foodList) {
+    public FoodAdapter(Context context, ArrayList<PlatoDTO> foodList) {
         this.context = context;
         this.foodList = foodList;
     }
 
+
     @NonNull
     @Override
     public FoodViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        // Inflar el diseño de item_food.xml
-        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_food, parent, false);
+        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.adminrest_item_products, parent, false);
         return new FoodViewHolder(view);
     }
 

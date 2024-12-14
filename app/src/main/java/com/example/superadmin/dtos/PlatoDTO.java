@@ -13,6 +13,9 @@ public class PlatoDTO {
     private String uidRestaurante;
     private String imageUrl;
 
+    public PlatoDTO() {
+    }
+
     public PlatoDTO(int cantidad, String categoriaPlato, String descripcion,
                     boolean disponible, String imageUrl, String nombreCreador,
                     String uidCreacion, String nombrePlato, String precio, String uidCreador, String uidRestaurante) {
