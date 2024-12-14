@@ -1,6 +1,7 @@
 <resources>
     <string name="app_name"></string>
     <string name="title_activity_super_gestion_usuarios">super_gestion_usuarios</string>
+    <string name="product_image">imagen</string>
     <string name="large_text">
         "Material is the metaphor.\n\n"
 

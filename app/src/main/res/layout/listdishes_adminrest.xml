@@ -108,35 +108,20 @@
                         android:id="@+id/tabDesayuno"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="DES" />
-
-                    <!-- Pestaña Almuerzo -->
-                    <com.google.android.material.tabs.TabItem
-                        android:id="@+id/tabAlmuerzo"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="ALM" />
-
-                    <!-- Pestaña Cena -->
-                    <com.google.android.material.tabs.TabItem
-                        android:id="@+id/tabCena"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="CEN" />
-
-                    <!-- Pestaña Bebidas -->
-                    <com.google.android.material.tabs.TabItem
-                        android:id="@+id/tabBebidas"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="BDAS" />
+                        android:text="PLATOS" />
 
                     <!-- Pestaña Postres -->
                     <com.google.android.material.tabs.TabItem
                         android:id="@+id/tabPostres"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="POST" />
+                        android:text="POSTRE" />
+                    <!-- Pestaña Bebidas -->
+                    <com.google.android.material.tabs.TabItem
+                        android:id="@+id/tabBebidas"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="BEBIDAS" />
 
                 </com.google.android.material.tabs.TabLayout>
 

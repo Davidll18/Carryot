@@ -28,9 +28,7 @@
     </string-array>
 
     <string-array name="categorias_platos">
-        <item>Desayuno</item>
-        <item>Almuerzo</item>
-        <item>Cena</item>
+        <item>Platos</item>
         <item>Postres</item>
         <item>Bebidas</item>
     </string-array>

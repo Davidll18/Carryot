@@ -10,8 +10,8 @@
     <androidx.cardview.widget.CardView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        app:cardCornerRadius="12dp"
         app:cardBackgroundColor="@color/white"
+        app:cardCornerRadius="12dp"
         app:cardElevation="4dp"
         tools:ignore="MissingConstraints">
 
@@ -20,17 +20,45 @@
             android:layout_height="wrap_content"
             android:padding="12dp">
 
+            <!-- Flag de disponibilidad -->
+            <TextView
+                android:id="@+id/availability_flag"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="3dp"
+                android:layout_marginEnd="8dp"
+                android:background="@drawable/background_red"
+                android:gravity="center"
+                android:padding="4dp"
+                android:text="Disponible"
+                android:textColor="@android:color/white"
+                android:textSize="13sp"
+                android:textStyle="bold"
+                app:layout_constraintEnd_toStartOf="@id/options_menu"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <!-- Menú de opciones (3 puntitos) -->
+            <ImageView
+                android:id="@+id/options_menu"
+                android:layout_width="24dp"
+                android:layout_height="24dp"
+                android:layout_marginTop="3dp"
+                android:layout_marginEnd="8dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:srcCompat="@drawable/ic_more" />
+
             <!-- Imagen del producto -->
             <ImageView
                 android:id="@+id/img_menu_item"
                 android:layout_width="120dp"
                 android:layout_height="120dp"
                 android:layout_marginEnd="12dp"
+                android:contentDescription="@string/product_image"
                 android:scaleType="centerCrop"
-                app:cardCornerRadius="8dp"
-                app:layout_constraintTop_toTopOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
                 app:srcCompat="@drawable/comida" />
 
             <!-- Nombre del producto -->
@@ -44,8 +72,8 @@
                 android:textColor="@color/black"
                 android:textSize="18sp"
                 android:textStyle="bold"
-                app:layout_constraintStart_toEndOf="@id/img_menu_item"
                 app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toEndOf="@id/img_menu_item"
                 app:layout_constraintTop_toTopOf="@id/img_menu_item" />
 
             <!-- Descripción del producto -->
@@ -53,13 +81,14 @@
                 android:id="@+id/text_model"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
+                android:layout_marginTop="15dp"
                 android:layout_marginBottom="8dp"
                 android:fontFamily="@font/roboto_medium"
                 android:text="Queso mozzarella, peperoni."
                 android:textColor="@color/dark_gray_hint"
                 android:textSize="14sp"
-                app:layout_constraintStart_toStartOf="@id/text_name_product"
                 app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="@id/text_name_product"
                 app:layout_constraintTop_toBottomOf="@id/text_name_product" />
 
             <!-- Línea divisoria -->
@@ -69,10 +98,25 @@
                 android:layout_height="1dp"
                 android:layout_marginTop="8dp"
                 android:background="#E0E0E0"
-                app:layout_constraintStart_toStartOf="@id/text_name_product"
                 app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="@id/text_name_product"
                 app:layout_constraintTop_toBottomOf="@id/text_model" />
 
+            <!-- Precio del producto -->
+            <TextView
+                android:id="@+id/text_cant"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:layout_marginStart="3dp"
+                android:fontFamily="@font/roboto_medium"
+                android:text="Cantidad: 20 "
+                android:textColor="@color/black"
+                android:textSize="18sp"
+                android:textStyle="bold"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toEndOf="@+id/img_menu_item"
+                app:layout_constraintTop_toBottomOf="@id/divider_line" />
             <!-- Precio del producto -->
             <TextView
                 android:id="@+id/text_price"
@@ -80,13 +124,13 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="8dp"
                 android:fontFamily="@font/roboto_medium"
-                android:text="S/34"
+                android:text="S/34.00"
                 android:textColor="@color/black"
                 android:textSize="18sp"
                 android:textStyle="bold"
-                app:layout_constraintTop_toBottomOf="@id/divider_line"
+                app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintBottom_toBottomOf="parent" />
+                app:layout_constraintTop_toBottomOf="@id/divider_line" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
     </androidx.cardview.widget.CardView>
