@@ -11,8 +11,10 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.content.ContextCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
 
+import com.example.superadmin.LoginActivity;
 import com.example.superadmin.R;
 import com.google.android.material.navigation.NavigationView;
+import com.google.firebase.auth.FirebaseAuth;
 
 public class super_estadisticas_por_rest extends AppCompatActivity {
 
@@ -46,29 +48,57 @@ public class super_estadisticas_por_rest extends AppCompatActivity {
             @Override
             public boolean onNavigationItemSelected(MenuItem item) {
                 int id = item.getItemId();
+                Intent intent = null;
+
                 if (id == R.id.navGestionUsuarios) {
                     // Ir a Gestión de Usuarios
-                    startActivity(new Intent(super_estadisticas_por_rest.this, super_gestion_usuarios.class));
+                    intent = new Intent(super_estadisticas_por_rest.this, super_gestion_usuarios.class);
                 } else if (id == R.id.navRegistrarAdminRest) {
                     // Ir a Registrar Admin de Restaurante
-                    startActivity(new Intent(super_estadisticas_por_rest.this, Super_registro_admin_rest.class));
+                    intent = new Intent(super_estadisticas_por_rest.this, Super_registro_admin_rest.class);
                 } else if (id == R.id.navReporteVentas_por_rest) {
-                    // Ir a Registrar Admin de Restaurante
-                    startActivity(new Intent(super_estadisticas_por_rest.this, super_gestion_rest.class));
-                }
-                else if (id == R.id.navReporteVentas) {
+                    // Ir a Reporte de Ventas por Restaurante
+                    intent = new Intent(super_estadisticas_por_rest.this, super_gestion_rest.class);
+                } else if (id == R.id.navReporteVentas) {
                     // Ir a Reporte de Ventas
-                    startActivity(new Intent(super_estadisticas_por_rest.this, super_estadisticas_general.class));
+                    intent = new Intent(super_estadisticas_por_rest.this, super_estadisticas_general.class);
                 } else if (id == R.id.navLogs) {
                     // Ir a Logs
-                    startActivity(new Intent(super_estadisticas_por_rest.this, super_logs.class));
+                    intent = new Intent(super_estadisticas_por_rest.this, super_logs.class);
+                } else if (id == R.id.navlogout) {
+                    mostrarDialogoCerrarSesion();
                 }
 
+
                 drawerLayout.closeDrawers(); // Cierra el menú después de seleccionar un ítem
+                if (intent != null) {
+                    startActivity(intent);
+                }
                 return true;
             }
         });
-
     }
+    private void mostrarDialogoCerrarSesion() {
+        new androidx.appcompat.app.AlertDialog.Builder(this)
+                .setTitle("Cerrar sesión")
+                .setMessage("¿Estás seguro de que quieres cerrar sesión?")
+                .setPositiveButton("Sí", (dialog, which) -> {
+                    // Cerrar sesión en Firebase
+                    FirebaseAuth.getInstance().signOut();
+
+                    // Redirigir al LoginActivity y eliminar todas las actividades
+                    Intent intent = new Intent(super_estadisticas_por_rest.this, LoginActivity.class);
+                    intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
+                    startActivity(intent);
+
+                    // Terminar la actividad actual
+                    finishAffinity();
+                })
+                .setNegativeButton("No", (dialog, which) -> dialog.dismiss()) // Solo cerrar el diálogo si se selecciona "No"
+                .show();
+    }
+
+
+
 
 }

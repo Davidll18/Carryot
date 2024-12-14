@@ -10,6 +10,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.content.ContextCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
 
+import com.example.superadmin.LoginActivity;
 import com.example.superadmin.R;
 import com.google.android.material.navigation.NavigationView;
 import com.google.firebase.auth.FirebaseAuth;
@@ -37,6 +38,9 @@ public class super_estadisticas_general extends AppCompatActivity {
         buttonMenu = findViewById(R.id.buttonMenu);
         navigationView_menu = findViewById(R.id.navigationView_menu);
 
+
+
+
         // Referencias a los TextViews
         repartidoresActivosText = findViewById(R.id.repartidoresActivosText);
         adminRestaurantesText = findViewById(R.id.adminRestaurantesText);
@@ -62,6 +66,9 @@ public class super_estadisticas_general extends AppCompatActivity {
                 intent = new Intent(super_estadisticas_general.this, super_estadisticas_general.class);
             } else if (id == R.id.navLogs) {
                 intent = new Intent(super_estadisticas_general.this, super_logs.class);
+            } else if (id == R.id.navlogout) {
+                // Mostrar un AlertDialog antes de cerrar sesión
+                mostrarDialogoCerrarSesion();
             }
 
             drawerLayout.closeDrawers();
@@ -82,6 +89,31 @@ public class super_estadisticas_general extends AppCompatActivity {
             saludoTextView.setText("No hay usuario autenticado");
         }
     }
+
+    private void mostrarDialogoCerrarSesion() {
+        new androidx.appcompat.app.AlertDialog.Builder(this)
+                .setTitle("Cerrar sesión")
+                .setMessage("¿Estás seguro de que quieres cerrar sesión?")
+                .setPositiveButton("Sí", (dialog, which) -> {
+                    // Cerrar sesión con FirebaseAuth
+                    auth.signOut();
+
+                    // Eliminar SharedPreferences si es necesario
+                    SharedPreferences preferences = getSharedPreferences("user_session", MODE_PRIVATE);
+                    SharedPreferences.Editor editor = preferences.edit();
+                    editor.clear();
+                    editor.apply();
+
+                    // Redirigir a la página principal
+                    Intent intent = new Intent(super_estadisticas_general.this, LoginActivity.class);
+                    intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
+                    startActivity(intent);
+                    finish(); // Finalizar la actividad actual
+                })
+                .setNegativeButton("No", null) // Cierra el diálogo sin hacer nada
+                .show();
+    }
+
 
     private void cargarSaludoPersonalizado(String userUid) {
         db.collection("users")
