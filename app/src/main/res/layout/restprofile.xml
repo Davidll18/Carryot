@@ -49,7 +49,7 @@
                     android:id="@+id/imageView4"
                     android:layout_width="150dp"
                     android:layout_height="150dp"
-                    android:background="@drawable/background_redapp"
+                    android:background="@drawable/background_orange"
                     app:srcCompat="@drawable/logo" />
             </com.google.android.material.card.MaterialCardView>
             <!-- Botón cuadrado al lado derecho de la imagen -->
@@ -88,7 +88,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="10dp"
-                    android:layout_marginTop="8dp"
+                    android:layout_marginTop="5dp"
                     android:fontFamily="@font/raleway_bold"
                     android:text="Nombre del restaurante"
                     android:textColor="@color/black"
@@ -100,18 +100,25 @@
                     android:layout_height="wrap_content"
                     android:layout_marginStart="10dp"
                     android:layout_marginTop="5dp"
-                    android:text="Nombre del restaurante"
-                    android:textColor="@color/black"
-                    android:textSize="20dp" />
+                    android:padding="0dp"
+                android:gravity="start|center_vertical"
+                android:text="Nombre del restaurante"
+                android:textColor="@color/black"
+                android:textSize="20dp" />
+
                 <EditText
                     android:id="@+id/et_name"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="10dp"
                     android:layout_marginTop="5dp"
-                    android:hint="Editar Nombre"
-                    android:text="Nombre del restaurante"
-                    android:visibility="gone" />
+                android:padding="0dp"
+                android:gravity="start|center_vertical"
+                android:hint="Editar nombre"
+                android:text="Nombre del restaurante"
+                android:textSize="20dp"
+                    android:background="@android:color/transparent"
+                android:visibility="gone" />
             </androidx.appcompat.widget.LinearLayoutCompat>
 
             <!-- Categoría -->
@@ -135,7 +142,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="10dp"
-                    android:layout_marginTop="8dp"
+                    android:layout_marginTop="5dp"
                     android:fontFamily="@font/raleway_bold"
                     android:text="Categoría"
                     android:textColor="@color/black"
@@ -173,7 +180,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="10dp"
-                    android:layout_marginTop="8dp"
+                    android:layout_marginTop="5dp"
                     android:fontFamily="@font/raleway_bold"
                     android:text="Razón Social"
                     android:textColor="@color/black"
@@ -185,6 +192,8 @@
                     android:layout_height="wrap_content"
                     android:layout_marginStart="10dp"
                     android:layout_marginTop="5dp"
+                    android:padding="0dp"
+                    android:gravity="start|center_vertical"
                     android:text="Razón Social"
                     android:textColor="@color/black"
                     android:textSize="20dp" />
@@ -195,8 +204,12 @@
                     android:layout_height="wrap_content"
                     android:layout_marginStart="10dp"
                     android:layout_marginTop="5dp"
+                    android:padding="0dp"
+                    android:gravity="start|center_vertical"
                     android:hint="Editar Razón Social"
                     android:text="Razón Social"
+                    android:textSize="20dp"
+                    android:background="@android:color/transparent"
                     android:visibility="gone" />
             </androidx.appcompat.widget.LinearLayoutCompat>
 
@@ -221,7 +234,9 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="10dp"
-                    android:layout_marginTop="8dp"
+                    android:layout_marginTop="5dp"
+                    android:padding="0dp"
+                    android:gravity="start|center_vertical"
                     android:fontFamily="@font/raleway_bold"
                     android:text="R.U.C."
                     android:textColor="@color/black"
@@ -233,6 +248,8 @@
                     android:layout_height="wrap_content"
                     android:layout_marginStart="10dp"
                     android:layout_marginTop="5dp"
+                    android:padding="0dp"
+                    android:gravity="start|center_vertical"
                     android:text="R.U.C."
                     android:textColor="@color/black"
                     android:textSize="20dp" />
@@ -242,9 +259,11 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="10dp"
-                    android:layout_marginTop="5dp"
+                    android:layout_marginTop="10dp"
                     android:hint="Editar RUC"
                     android:text="RUC"
+                    android:textSize="20dp"
+                    android:background="@android:color/transparent"
                     android:visibility="gone" />
             </androidx.appcompat.widget.LinearLayoutCompat>
 
@@ -269,7 +288,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="10dp"
-                    android:layout_marginTop="8dp"
+                    android:layout_marginTop="5dp"
                     android:fontFamily="@font/raleway_bold"
                     android:text="Licencia de funcionamiento"
                     android:textColor="@color/black"
@@ -281,6 +300,8 @@
                     android:layout_height="wrap_content"
                     android:layout_marginStart="10dp"
                     android:layout_marginTop="5dp"
+                    android:padding="0dp"
+                    android:gravity="start|center_vertical"
                     android:text="Licencia de funcionamiento"
                     android:textColor="@color/black"
                     android:textSize="20dp" />
@@ -291,8 +312,12 @@
                     android:layout_height="wrap_content"
                     android:layout_marginStart="10dp"
                     android:layout_marginTop="5dp"
+                    android:padding="0dp"
+                    android:gravity="start|center_vertical"
                     android:hint="Editar Licencia de funcionamiento"
                     android:text="Licencia de funcionamiento"
+                    android:background="@android:color/transparent"
+                    android:textSize="20dp"
                     android:visibility="gone" />
 
 
@@ -319,7 +344,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="10dp"
-                    android:layout_marginTop="8dp"
+                    android:layout_marginTop="5dp"
                     android:fontFamily="@font/raleway_bold"
                     android:text="Permiso sanitario"
                     android:textColor="@color/black"
@@ -359,7 +384,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="10dp"
-                    android:layout_marginTop="8dp"
+                    android:layout_marginTop="5dp"
                     android:fontFamily="@font/raleway_bold"
                     android:text="Descripción"
                     android:textColor="@color/black"
@@ -371,6 +396,8 @@
                     android:layout_height="wrap_content"
                     android:layout_marginStart="10dp"
                     android:layout_marginTop="5dp"
+                    android:padding="0dp"
+                    android:gravity="start|center_vertical"
                     android:text="Descripción"
                     android:textColor="@color/black"
                     android:textSize="20dp" />
@@ -381,8 +408,12 @@
                     android:layout_height="wrap_content"
                     android:layout_marginStart="10dp"
                     android:layout_marginTop="5dp"
+                    android:padding="0dp"
+                    android:gravity="start|center_vertical"
                     android:hint="Editar descripción"
                     android:text="Descripción"
+                    android:textSize="20dp"
+                    android:background="@android:color/transparent"
                     android:visibility="gone" />
             </androidx.appcompat.widget.LinearLayoutCompat>
 
@@ -407,7 +438,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="10dp"
-                    android:layout_marginTop="8dp"
+                    android:layout_marginTop="5dp"
                     android:fontFamily="@font/raleway_bold"
                     android:text="Ubicación"
                     android:textColor="@color/black"

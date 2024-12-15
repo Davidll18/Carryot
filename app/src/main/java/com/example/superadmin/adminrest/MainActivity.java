@@ -175,8 +175,9 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         } else if (menuId == R.id.nav_pedidos) {
             startActivity(new Intent(this, PedidosActivity.class));
         } else if (menuId == R.id.nav_profile) {
-            if (restaurantUid != null) {
+            if (restaurantUid != null && !restaurantUid.isEmpty()) {
                 // Redirigir a ProfileRestActivity con el UID del restaurante
+                Log.d("MainActivity", "Pasando UID: " + restaurantUid);
                 Intent intent = new Intent(this, ProfileRestActivity.class);
                 intent.putExtra("uidRestaurante", restaurantUid);
                 startActivity(intent);
