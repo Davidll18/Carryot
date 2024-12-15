@@ -15,6 +15,8 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.example.superadmin.R;
 import com.example.superadmin.adapters.LogAdapter;
 import com.example.superadmin.model.LogEntry;
+import com.example.superadmin.util.ToolbarUtils;
+import androidx.appcompat.widget.Toolbar;
 import com.google.android.material.navigation.NavigationView;
 
 import java.util.ArrayList;
@@ -49,8 +51,11 @@ public class super_logs extends AppCompatActivity {
         logAdapter = new LogAdapter(logList);
         recyclerViewLogs.setAdapter(logAdapter);
         buttonMenu = findViewById(R.id.buttonMenu);
+        ToolbarUtils.adjustImageButtonPadding(buttonMenu);
         drawerLayout = findViewById(R.id.drawerLayout_super_getion_usuarios);
         buttonMenu.setOnClickListener(view -> drawerLayout.open());
+
+
 
         getWindow().setStatusBarColor(ContextCompat.getColor(super_logs.this,R.color.red_boton));
         navigationView_menu = findViewById(R.id.navigationView_menu);
