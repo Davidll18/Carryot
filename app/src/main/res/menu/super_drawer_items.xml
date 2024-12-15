@@ -1,33 +1,49 @@
 <?xml version="1.0" encoding="utf-8"?>
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
 
-    <item
-        android:icon="@drawable/gestion_usuarios"
-        android:id="@+id/navGestionUsuarios"
-        android:title="Gestion de Usuarios"/>
+    <!-- Grupo 1: Administrar -->
+    <item android:title="Administrar">
+        <menu>
+            <item
+                android:id="@+id/navGestionUsuarios"
+                android:icon="@drawable/gestion_usuarios"
+                android:title="Gestión de Usuarios" />
 
-    <item
-        android:icon="@drawable/registrar_admin_rest"
-        android:id="@+id/navRegistrarAdminRest"
-        android:title="Registrar Admin de Restaurant"/>
+            <item
+                android:id="@+id/navRegistrarAdminRest"
+                android:icon="@drawable/registrar_admin_rest"
+                android:title="Registrar Admin de Restaurant" />
+        </menu>
+    </item>
 
-    <item
-        android:icon="@drawable/report_ventas_por_rest"
-        android:id="@+id/navReporteVentas_por_rest"
-        android:title="Reporte de Ventas por Restaunt"/>
-    <item
-        android:icon="@drawable/report_ventas"
-        android:id="@+id/navReporteVentas"
-        android:title="Reporte de Ventas"/>
+    <!-- Grupo 2: Estadísticas -->
+    <item android:title="Estadísticas">
+        <menu>
+            <item
+                android:id="@+id/navReporteVentas_por_rest"
+                android:icon="@drawable/report_ventas_por_rest"
+                android:title="Reporte de Ventas por Restaurante" />
 
-    <item
-        android:icon="@drawable/logs"
-        android:id="@+id/navLogs"
-        android:title="Logs"/>
-    <item
-        android:icon="@drawable/icon_logout"
-        android:id="@+id/navlogout"
-        android:title="Salir"/>
+            <item
+                android:id="@+id/navReporteVentas"
+                android:icon="@drawable/report_ventas"
+                android:title="Reporte de Ventas" />
 
+            <item
+                android:id="@+id/navLogs"
+                android:icon="@drawable/logs"
+                android:title="Logs" />
+        </menu>
+    </item>
+
+    <!-- Grupo 3: Cerrar Sesión -->
+    <item android:title="Cerrar Sesión">
+        <menu>
+            <item
+                android:id="@+id/navlogout"
+                android:icon="@drawable/icon_logout"
+                android:title="Salir" />
+        </menu>
+    </item>
 
 </menu>

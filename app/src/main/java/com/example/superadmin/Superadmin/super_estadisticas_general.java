@@ -29,7 +29,7 @@ public class super_estadisticas_general extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_super_estadisticas_general);
-        getWindow().setStatusBarColor(ContextCompat.getColor(super_estadisticas_general.this, R.color.red_boton));
+        getWindow().setStatusBarColor(ContextCompat.getColor(super_estadisticas_general.this, R.color.light_orange));
 
         saludoTextView = findViewById(R.id.saludoTextView);
         auth = FirebaseAuth.getInstance();

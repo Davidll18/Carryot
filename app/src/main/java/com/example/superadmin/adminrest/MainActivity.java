@@ -193,29 +193,36 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         } else if (menuId == R.id.nav_users) {
             startActivity(new Intent(this, StatisticsActivity.class));
         } else if (menuId == R.id.nav_logout) {
-            // Cerrar sesión
-            firebaseAuth.signOut();  // Cerrar la sesión en Firebase
-
-            // Limpiar las preferencias del usuario
-            SharedPreferences preferences = getSharedPreferences("user_session", MODE_PRIVATE);
-            SharedPreferences.Editor editor = preferences.edit();
-            editor.clear();  // Limpiar las preferencias de la sesión
-            editor.apply();
-
-            // Redirigir al login
-            Intent intent = new Intent(this, LoginActivity.class);
-            intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
-            startActivity(intent);
-
-            // Finalizar la actividad actual
-            finish();
+            mostrarDialogoCerrarSesion();
         }
 
         // Cerrar el Drawer después de seleccionar un ítem
         drawerLayout.closeDrawer(GravityCompat.START);
         return true;
     }
+    private void mostrarDialogoCerrarSesion() {
+        new androidx.appcompat.app.AlertDialog.Builder(this)
+                .setTitle("Cerrar sesión")
+                .setMessage("¿Estás seguro de que quieres cerrar sesión?")
+                .setPositiveButton("Sí", (dialog, which) -> {
+                    // Cerrar sesión con FirebaseAuth
+                    firebaseAuth.signOut();
 
+                    // Eliminar SharedPreferences
+                    SharedPreferences preferences = getSharedPreferences("user_session", MODE_PRIVATE);
+                    SharedPreferences.Editor editor = preferences.edit();
+                    editor.clear();
+                    editor.apply();
+
+                    // Redirigir al LoginActivity
+                    Intent intent = new Intent(MainActivity.this, LoginActivity.class);
+                    intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                    startActivity(intent);
+                    finish();
+                })
+                .setNegativeButton("No", null) // Cierra el diálogo sin hacer nada
+                .show();
+    }
     @Override
     public void onBackPressed() {
         if (drawerLayout.isDrawerOpen(GravityCompat.START)) {
