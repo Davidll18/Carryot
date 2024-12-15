@@ -112,15 +112,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         } else if (menu == R.id.nav_pedidos) {
             startActivity(new Intent(this, PedidosActivity.class));
         } else if (menu == R.id.nav_profile) {
-            SharedPreferences sharedPreferences = getSharedPreferences("AppPrefs", MODE_PRIVATE);
-            String uidRestaurante = sharedPreferences.getString("restaurant_uid", null);
-            if (uidRestaurante != null) {
-                Intent intent = new Intent(this, ProfileRestActivity.class);
-                intent.putExtra("uidRestaurante", uidRestaurante);
-                startActivity(intent);
-            } else {
-                Toast.makeText(this, "No se encontró el UID del restaurante", Toast.LENGTH_SHORT).show();
-            }
+            startActivity(new Intent(this, ProfileRestActivity.class));
         } else if (menu == R.id.nav_dishes) {
             startActivity(new Intent(this, DishesActivity.class));
         }else if (menu == R.id.nav_ganancia) {
