@@ -1,79 +1,76 @@
 package com.example.superadmin.adminrest;
 
 import android.content.Intent;
-import android.net.Uri;
+import android.content.SharedPreferences;
+import android.location.Address;
+import android.location.Geocoder;
 import android.os.Bundle;
 import android.util.Log;
-import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
 import androidx.appcompat.app.ActionBarDrawerToggle;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.appcompat.widget.AppCompatButton;
 import androidx.appcompat.widget.Toolbar;
 import androidx.core.view.GravityCompat;
-import androidx.core.view.ViewCompat;
-import androidx.core.view.WindowInsetsCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
 
 import com.bumptech.glide.Glide;
+import com.example.superadmin.LoginActivity;
 import com.example.superadmin.R;
-import com.example.superadmin.dtos.PlatoDTO;
-import com.example.superadmin.dtos.RestaurantDTO;
 import com.google.android.material.navigation.NavigationView;
 import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.auth.FirebaseUser;
-import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
-import com.google.firebase.storage.FirebaseStorage;
-import com.google.firebase.storage.StorageReference;
 
-import java.util.ArrayList;
-import java.util.UUID;
-
+import java.io.IOException;
+import java.util.List;
+import java.util.Locale;
 public class ProfileRestActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
 
-    private FirebaseStorage storage;
+    private FirebaseAuth firebaseAuth;
     private FirebaseFirestore db;
+
     private DrawerLayout drawerLayout;
     private NavigationView navigationView;
     private Toolbar toolbar;
-    private AppCompatButton btnGuardar, btnCancelar, btnSelectImage;
-    private ImageView selectedImageView;
-    private Uri selectedImageUri;
-    private static final int PICK_IMAGE_REQUEST = 1;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.restprofile);
 
-        btnGuardar = findViewById(R.id.btn_guardar);
-        btnCancelar = findViewById(R.id.btn_cancelar);
-        btnSelectImage = findViewById(R.id.btn_seleccionar_foto);
-        selectedImageView = findViewById(R.id.img_foto);
+        // Inicializar FirebaseAuth y Firestore
+        firebaseAuth = FirebaseAuth.getInstance();
+        db = FirebaseFirestore.getInstance();
 
-        // Configuración del DrawerLayout y NavigationView
+        // Configuración del Toolbar y DrawerLayout
         drawerLayout = findViewById(R.id.drawer_layout);
         navigationView = findViewById(R.id.nav_view);
         toolbar = findViewById(R.id.toolbar);
 
         setSupportActionBar(toolbar);
 
-        Menu menu = navigationView.getMenu();
-        navigationView.bringToFront();
-        ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(this, drawerLayout, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
+        // Configuración del ActionBarDrawerToggle
+        ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
+                this, drawerLayout, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
         drawerLayout.addDrawerListener(toggle);
         toggle.syncState();
-        navigationView.setNavigationItemSelectedListener(this);
-        navigationView.setCheckedItem(R.id.nav_home);
 
+        // Asegurar que el menú sea interactivo
+        navigationView.bringToFront();
+        navigationView.setNavigationItemSelectedListener(this);
+        navigationView.setCheckedItem(R.id.nav_profile); // Establecer el elemento actual como seleccionado
+
+        // Mostrar la información del restaurante
+        displayRestaurantProfile();
+    }
+
+    private void displayRestaurantProfile() {
         // Referencias a los campos del layout
-        ImageView imageView = findViewById(R.id.img_foto);
+        ImageView imageView = findViewById(R.id.imageView4);
         TextView tvName = findViewById(R.id.tvname);
         TextView tvCategoria = findViewById(R.id.tvCategoria);
         TextView tvRS = findViewById(R.id.tv_rs);
@@ -83,151 +80,136 @@ public class ProfileRestActivity extends AppCompatActivity implements Navigation
         TextView tvDes = findViewById(R.id.tv_des);
         TextView tvUb = findViewById(R.id.tv_ub);
 
-        db = FirebaseFirestore.getInstance();
-        storage = FirebaseStorage.getInstance();
+        // Recupera el UID desde el Intent
+        String uidRestaurante = getIntent().getStringExtra("uidRestaurante");
 
-        btnSelectImage.setOnClickListener(v -> openImagePicker());
-
-        FirebaseUser currentUser = FirebaseAuth.getInstance().getCurrentUser();
-        if (currentUser != null) {
-            String uid = currentUser.getUid();
-
-            // Obtener datos del usuario autenticado
-            db.collection("users").document(uid)
+        if (uidRestaurante != null) {
+            // Recupera el documento del restaurante desde Firestore
+            db.collection("restaurant").document(uidRestaurante)
                     .get()
                     .addOnSuccessListener(documentSnapshot -> {
                         if (documentSnapshot.exists()) {
-                            // Buscar el restaurante con el uidCreador
-                            db.collection("restaurant")
-                                    .whereEqualTo("uidCreador", uid)
-                                    .get()
-                                    .addOnSuccessListener(queryDocumentSnapshots -> {
-                                        if (!queryDocumentSnapshots.isEmpty()) {
-                                            DocumentSnapshot restauranteSnapshot = queryDocumentSnapshots.getDocuments().get(0);
-                                            String idRestaurante = restauranteSnapshot.getString("uidCreacion");
-                                            // Extraer datos del restaurante
-                                            String nombreRest = restauranteSnapshot.getString("nombreRestaurante");
-                                            String categoria = restauranteSnapshot.getString("categoria");
-                                            String razonSocial = restauranteSnapshot.getString("razonSocial");
-                                            String ruc = restauranteSnapshot.getString("ruc");
-                                            String licenciaFuncionamiento = restauranteSnapshot.getString("licenciaFuncionamiento");
-                                            String permisoSanitario = restauranteSnapshot.getString("permisoSanitario");
-                                            String descripcion = restauranteSnapshot.getString("descripcion");
-                                            String ubicacion = restauranteSnapshot.getString("location");
-                                            String urlImagen = restauranteSnapshot.getString("imageUrl"); // Ruta de la imagen en Firestore
+                            // Mapea los datos del documento al layout
+                            String nombreRest = documentSnapshot.getString("nombreRestaurante");
+                            String categoria = documentSnapshot.getString("categoria");
+                            String razonSocial = documentSnapshot.getString("razonSocial");
+                            String ruc = documentSnapshot.getString("ruc");
+                            String licenciaFuncionamiento = documentSnapshot.getString("licenciaFuncionamiento");
+                            String permisoSanitario = documentSnapshot.getString("permisoSanitario");
+                            String descripcion = documentSnapshot.getString("descripcion");
+                            Double latitud = documentSnapshot.getDouble("latitud");
+                            Double longitud = documentSnapshot.getDouble("longitud");
+                            String urlImagen = documentSnapshot.getString("imageUrl");
 
-                                            // Asignar los datos a los campos
-                                            tvName.setText(nombreRest != null ? nombreRest : "Sin nombre");
-                                            tvCategoria.setText(categoria != null ? categoria : "Sin categoría");
-                                            tvRS.setText(razonSocial != null ? razonSocial : "Sin razón social");
-                                            tvRUC.setText(ruc != null ? ruc : "Sin RUC");
-                                            tvLF.setText(licenciaFuncionamiento != null ? licenciaFuncionamiento : "Sin licencia");
-                                            tvPS.setText(permisoSanitario != null ? permisoSanitario : "Sin permiso");
-                                            tvDes.setText(descripcion != null ? descripcion : "Sin descripción");
-                                            tvUb.setText(ubicacion != null ? ubicacion : "Sin ubicación");
+                            tvName.setText(nombreRest != null ? nombreRest : "Sin nombre");
+                            tvCategoria.setText(categoria != null ? categoria : "Sin categoría");
+                            tvRS.setText(razonSocial != null ? razonSocial : "Sin razón social");
+                            tvRUC.setText(ruc != null ? ruc : "Sin RUC");
+                            tvLF.setText(licenciaFuncionamiento != null ? licenciaFuncionamiento : "Sin licencia");
+                            tvPS.setText(permisoSanitario != null ? permisoSanitario : "Sin permiso");
+                            tvDes.setText(descripcion != null ? descripcion : "Sin descripción");
 
-                                            // Cargar la imagen en el ImageView usando Glide
-                                            if (urlImagen != null && !urlImagen.isEmpty()) {
-                                                Glide.with(this)
-                                                        .load(urlImagen)
-                                                        .placeholder(R.drawable.logo) // Imagen por defecto
-                                                        .error(R.drawable.logo)      // Imagen si hay error
-                                                        .into(imageView);
-                                            }
+                            if (latitud != null && longitud != null) {
+                                String direccion = getAddressFromLatLng(latitud, longitud);
+                                if (direccion != null && direccion.length() > 35) {
+                                    tvUb.setTextSize(18);
+                                } else {
+                                    tvUb.setTextSize(22);
+                                }
+                                tvUb.setText(direccion != null ? direccion : "Ubicación no disponible");
+                            } else {
+                                tvUb.setText("Ubicación no disponible");
+                                tvUb.setTextSize(16);
+                            }
 
-                                            // Selección y subida de la imagen
-                                            if (selectedImageUri != null) {
-                                                StorageReference storageReference = storage.getReference().child("restaurant_images/" + UUID.randomUUID().toString());
-                                                storageReference.putFile(selectedImageUri)
-                                                        .addOnSuccessListener(taskSnapshot -> storageReference.getDownloadUrl()
-                                                                .addOnSuccessListener(uri -> {
-                                                                    String imageUrl = uri.toString();
-                                                                    // Ahora guardamos el restaurante con la URL de la imagen
-                                                                    btnGuardar.setOnClickListener(v -> updateImageRestaurantToFirestore(imageUrl, idRestaurante));
-                                                                }))
-                                                        .addOnFailureListener(e -> Toast.makeText(this, "Error al subir la imagen: " + e.getMessage(), Toast.LENGTH_SHORT).show());
-                                            }
-                                        } else {
-                                            Toast.makeText(this, "No se encontró un restaurante para este usuario." + uid, Toast.LENGTH_SHORT).show();
-                                        }
-                                    })
-                                    .addOnFailureListener(e ->
-                                            Toast.makeText(this, "Error al buscar el restaurante: " + e.getMessage(), Toast.LENGTH_SHORT).show());
+                            if (urlImagen != null && !urlImagen.isEmpty()) {
+                                Glide.with(this)
+                                        .load(urlImagen)
+                                        .placeholder(R.drawable.logo)
+                                        .error(R.drawable.logo)
+                                        .into(imageView);
+                            } else {
+                                imageView.setImageResource(R.drawable.logo);
+                            }
                         } else {
-                            Toast.makeText(this, "Usuario no encontrado en Firestore", Toast.LENGTH_SHORT).show();
+                            Toast.makeText(this, "El restaurante no existe", Toast.LENGTH_SHORT).show();
                         }
                     })
                     .addOnFailureListener(e ->
-                            Toast.makeText(this, "Error al obtener datos del usuario: " + e.getMessage(), Toast.LENGTH_SHORT).show());
+                            Toast.makeText(this, "Error al cargar datos: " + e.getMessage(), Toast.LENGTH_SHORT).show()
+                    );
         } else {
-            Toast.makeText(this, "No hay un usuario autenticado.", Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, "No se recibió el UID del restaurante", Toast.LENGTH_SHORT).show();
         }
-
-        // Botón "Cancelar"
-        btnCancelar.setOnClickListener(v -> finish());
-
     }
 
-    private void updateImageRestaurantToFirestore(String imageUrl, String restaurantId) {
-        // Inicializar restaurantDTO
-        RestaurantDTO restaurantDTO = new RestaurantDTO();
-        restaurantDTO.setImageUrl(imageUrl); // Asegúrate de que restaurantDTO tenga un setter para la imagen
+    private String getAddressFromLatLng(double latitude, double longitude) {
+        Geocoder geocoder = new Geocoder(this, Locale.getDefault());
+        try {
+            List<Address> addresses = geocoder.getFromLocation(latitude, longitude, 1);
+            if (addresses != null && !addresses.isEmpty()) {
+                Address address = addresses.get(0);
+                StringBuilder addressString = new StringBuilder();
 
-        // Actualizar el restaurante en Firestore
-        FirebaseFirestore db = FirebaseFirestore.getInstance();
-        db.collection("restaurant").document(restaurantId).set(restaurantDTO)
-                .addOnSuccessListener(aVoid -> {
-                    // Mostrar mensaje de éxito
-                    Toast.makeText(this, "Restaurante registrado con éxito", Toast.LENGTH_SHORT).show();
+                if (address.getThoroughfare() != null) {
+                    addressString.append(address.getThoroughfare()).append(", ");
+                }
+                if (address.getLocality() != null) {
+                    addressString.append(address.getLocality()).append(", ");
+                }
+                if (address.getAdminArea() != null) {
+                    addressString.append(address.getAdminArea()).append(", ");
+                }
+                if (address.getCountryName() != null) {
+                    addressString.append(address.getCountryName());
+                }
 
-                    // Redirigir a MainActivity
-                    Intent intent = new Intent(this,ProfileRestActivity.class);
-                    startActivity(intent);
-                    finish();
-                })
-                .addOnFailureListener(e -> {
-                    // Mostrar mensaje de error
-                    Toast.makeText(this, "Error: " + e.getMessage(), Toast.LENGTH_SHORT).show();
-                });
+                return addressString.toString();
+            } else {
+                Log.e("Geocoder", "No se encontró dirección para estas coordenadas.");
+                return "No se encontró dirección.";
+            }
+        } catch (IOException e) {
+            Log.e("Geocoder", "Error al obtener dirección: " + e.getMessage());
+            return "Error al obtener dirección.";
+        }
     }
-
 
     @Override
     public boolean onNavigationItemSelected(@NonNull MenuItem menuItem) {
-        int menu = menuItem.getItemId();
-        if (menu == R.id.nav_home) {
+        int menuId = menuItem.getItemId();
+
+        if (menuId == R.id.nav_home) {
             startActivity(new Intent(this, MainActivity.class));
-        } else if (menu == R.id.nav_pedidos) {
+        } else if (menuId == R.id.nav_pedidos) {
             startActivity(new Intent(this, PedidosActivity.class));
-        } else if (menu == R.id.nav_profile) {
-            startActivity(new Intent(this, ProfileRestActivity.class));
-        } else if (menu == R.id.nav_dishes) {
+        } else if (menuId == R.id.nav_profile) {
+            // Ya estamos en ProfileRestActivity, no hacer nada
+        } else if (menuId == R.id.nav_dishes) {
             startActivity(new Intent(this, DishesActivity.class));
-        }else if (menu == R.id.nav_ganancia) {
+        } else if (menuId == R.id.nav_ganancia) {
             startActivity(new Intent(this, GananciaActivity.class));
-        }else if (menu == R.id.nav_popular) {
+        } else if (menuId == R.id.nav_popular) {
             startActivity(new Intent(this, StatisticsActivity.class));
-        }else if (menu == R.id.nav_users) {
+        } else if (menuId == R.id.nav_users) {
             startActivity(new Intent(this, StatisticsActivity.class));
+        } else if (menuId == R.id.nav_logout) {
+            firebaseAuth.signOut();
+            SharedPreferences preferences = getSharedPreferences("user_session", MODE_PRIVATE);
+            SharedPreferences.Editor editor = preferences.edit();
+            editor.clear();
+            editor.apply();
+
+            Intent intent = new Intent(this, LoginActivity.class);
+            intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+            startActivity(intent);
+            finish();
         }
-        drawerLayout.closeDrawer(GravityCompat.START); // Cierra el Drawer después de seleccionar el ítem
+
+        drawerLayout.closeDrawer(GravityCompat.START);
         return true;
     }
-    private void openImagePicker() {
-        Intent intent = new Intent();
-        intent.setType("image/*");
-        intent.setAction(Intent.ACTION_GET_CONTENT);
-        startActivityForResult(Intent.createChooser(intent, "Selecciona una imagen"), PICK_IMAGE_REQUEST);
-    }
 
-    @Override
-    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
-        if (requestCode == PICK_IMAGE_REQUEST && resultCode == RESULT_OK && data != null && data.getData() != null) {
-            selectedImageUri = data.getData();
-            selectedImageView.setImageURI(selectedImageUri); // Mostrar la imagen seleccionada
-        }
-    }
     @Override
     public void onBackPressed() {
         if (drawerLayout.isDrawerOpen(GravityCompat.START)) {
@@ -235,6 +217,5 @@ public class ProfileRestActivity extends AppCompatActivity implements Navigation
         } else {
             super.onBackPressed();
         }
-        super.onBackPressed();
     }
 }
