@@ -223,6 +223,7 @@
                     android:layout_marginTop="5dp"
                     android:hint="Ingrese 10 dígitos"
                     android:inputType="number"
+                    android:maxLength="10"
                     android:textSize="16dp" />
             </androidx.appcompat.widget.LinearLayoutCompat>
 
@@ -257,7 +258,8 @@
                     android:layout_marginTop="5dp"
                     android:hint="Ingrese 7 dígitos"
                     android:inputType="numberDecimal"
-                    android:textSize="16dp" />
+                    android:textSize="16dp"
+                    android:maxLength="7"/>
             </androidx.appcompat.widget.LinearLayoutCompat>
 
             <!-- Campo: Permiso Sanitario -->
@@ -291,6 +293,7 @@
                     android:layout_marginTop="5dp"
                     android:hint="Ingrese 5 dígitos"
                     android:inputType="number"
+                    android:maxLength="5"
                     android:textSize="16dp" />
             </androidx.appcompat.widget.LinearLayoutCompat>
             <!-- Campo: Descripción -->

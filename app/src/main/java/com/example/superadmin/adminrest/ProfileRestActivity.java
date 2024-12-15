@@ -7,6 +7,7 @@ import android.location.Geocoder;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.MenuItem;
+import android.view.MotionEvent;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageButton;
@@ -33,7 +34,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
-
+import com.example.superadmin.util.KeyboardUtils;
 public class ProfileRestActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
 
     private FirebaseAuth firebaseAuth;
@@ -157,9 +158,16 @@ public class ProfileRestActivity extends AppCompatActivity implements Navigation
         }
     }
 
+
     private void toggleEditSaveMode() {
         if (isEditing) {
-            // Guardar cambios
+            // Validar los campos editables antes de guardar
+            if (isAnyFieldEmpty()) {
+                showCustomToast("Todos los campos deben estar completos.");
+                return;
+            }
+
+            // Guardar cambios si la validación pasa
             Map<String, Object> updates = new HashMap<>();
             updates.put("nombreRestaurante", etName.getText().toString().trim());
             updates.put("razonSocial", etRS.getText().toString().trim());
@@ -170,8 +178,6 @@ public class ProfileRestActivity extends AppCompatActivity implements Navigation
             db.collection("restaurant").document(uidRestaurante)
                     .update(updates)
                     .addOnSuccessListener(aVoid -> {
-                        showCustomToast("Cambios Actualizados.");
-
                         // Actualizar los TextView con los nuevos valores
                         tvName.setText(etName.getText().toString().trim());
                         tvRS.setText(etRS.getText().toString().trim());
@@ -179,9 +185,10 @@ public class ProfileRestActivity extends AppCompatActivity implements Navigation
                         tvLF.setText(etLF.getText().toString().trim());
                         tvDes.setText(etDes.getText().toString().trim());
 
+                        showCustomToast("Cambios guardados exitosamente.");
                         switchToViewMode(); // Cambiar a modo vista
-                    });
-            showCustomToast("Cambios guardados exitosamente.");
+                    })
+                    .addOnFailureListener(e -> showCustomToast("Error al guardar los cambios."));
 
             btnEditInfo.setImageResource(R.drawable.edit_icon); // Cambiar el ícono de nuevo a "editar"
             isEditing = false;
@@ -192,6 +199,31 @@ public class ProfileRestActivity extends AppCompatActivity implements Navigation
             isEditing = true;
         }
     }
+
+    private boolean isAnyFieldEmpty() {
+        if (etName.getText().toString().trim().isEmpty()) {
+            etName.requestFocus();
+            return true;
+        }
+        if (etRS.getText().toString().trim().isEmpty()) {
+            etRS.requestFocus();
+            return true;
+        }
+        if (etRUC.getText().toString().trim().isEmpty()) {
+            etRUC.requestFocus();
+            return true;
+        }
+        if (etLF.getText().toString().trim().isEmpty()) {
+            etLF.requestFocus();
+            return true;
+        }
+        if (etDes.getText().toString().trim().isEmpty()) {
+            etDes.requestFocus();
+            return true;
+        }
+        return false;
+    }
+
 
 
     private void switchToEditMode() {
@@ -317,5 +349,10 @@ public class ProfileRestActivity extends AppCompatActivity implements Navigation
         customToast.setDuration(Toast.LENGTH_SHORT);
         customToast.setView(toastLayout);
         customToast.show();
+    }
+
+    @Override
+    public boolean dispatchTouchEvent(MotionEvent event) {
+        return KeyboardUtils.hideKeyboardOnTouch(this, event) || super.dispatchTouchEvent(event);
     }
 }

@@ -77,7 +77,8 @@
             android:exported="false" />
         <activity
             android:name=".ProfileActivity"
-            android:exported="false" />
+            android:exported="false"
+            />
         <activity
             android:name=".ProductDetailActivity"
             android:exported="false" />
@@ -151,11 +152,11 @@
         <activity android:name=".adminrest.EditDishesActivity" android:exported="false" />
         <activity android:name=".adminrest.NewDishActivity" android:exported="false" />
         <activity android:name=".adminrest.OrderDetailsActivity" android:exported="false" />
-        <activity android:name=".adminrest.NewDishActivity" android:exported="false" />
+
         <activity android:name=".adminrest.NewRestaurantActivity"
                   android:exported="false"
                   android:windowSoftInputMode="adjustResize"/>
-        <activity android:name=".adminrest.ProfileRestActivity" android:exported="false" />
+        <activity android:name=".adminrest.ProfileRestActivity" android:exported="false"   android:windowSoftInputMode="adjustResize"/>
 
     </application>
 
