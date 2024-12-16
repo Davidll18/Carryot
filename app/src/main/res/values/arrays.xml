@@ -40,5 +40,9 @@
         <item>Postres</item>
         <item>Bebidas</item>
     </string-array>
+    <string-array name="escoger_rol">
+        <item>CLIENTE</item>
+        <item>REPARTIDOR</item>
 
+    </string-array>
 </resources>
