@@ -164,9 +164,50 @@ public class super_habilitar_usuarios extends AppCompatActivity {
                     Toast.makeText(this, "Estado actualizado correctamente.", Toast.LENGTH_SHORT).show();
                     // Lanzar la notificación al cambiar el estado
                     lanzarNotificacion(nombreEditText.getText().toString(), apellidosEditText.getText().toString(), isEnabled);
+
+                    // Enviar el correo al usuario
+                    String email = correoEditText.getText().toString();
+                    String subject = isEnabled ? "¡Tu cuenta ha sido habilitada!" : "Tu cuenta ha sido deshabilitada";
+
+                    // Construir el cuerpo del mensaje con formato HTML
+                    String message = construirCuerpoCorreo(
+                            nombreEditText.getText().toString(),
+                            isEnabled ? "Tu cuenta ha sido habilitada. Ahora tienes acceso completo." : "Tu cuenta ha sido deshabilitada. No podrás acceder a la plataforma hasta que se habilite nuevamente."
+                    );
+
+                    // Llamar al método para enviar el correo (asegurándose de usar un hilo en segundo plano)
+                    new Thread(() -> {
+                        try {
+                            EmailSender.sendEmail(email, subject, message);
+                        } catch (Exception e) {
+                            e.printStackTrace();
+                            runOnUiThread(() -> Toast.makeText(super_habilitar_usuarios.this, "Error al enviar el correo: " + e.getMessage(), Toast.LENGTH_SHORT).show());
+                        }
+                    }).start(); // Ejecutar en un hilo independiente para evitar el bloqueo del hilo principal
+
                 })
                 .addOnFailureListener(e -> Toast.makeText(this, "Error al actualizar el estado: " + e.getMessage(), Toast.LENGTH_SHORT).show());
     }
+
+    private String construirCuerpoCorreo(String nombreCompleto, String mensaje) {
+        return "<html lang='es'>\n" +
+                "<head>\n" +
+                "    <meta http-equiv='Content-Type' content='text/html; charset=UTF-8' />\n" +
+                "</head>\n" +
+                "<body style='font-family: Arial, sans-serif; color: #333; font-size: 16px;'>\n" +
+                "    <div style='background-color: #0f99ab; padding: 10px 20px; text-align: center; color: #fff;'>\n" +  // Reducir padding
+                "        <h1 style='font-size: 20px;'>Notificación de Estado de Cuenta</h1>\n" +  // Reducir tamaño de la fuente
+                "    </div>\n" +
+                "    <div style='padding: 20px; background-color: #f4f4f4;'>\n" +
+                "        <p>Estimado <strong>" + nombreCompleto + "</strong>,</p>\n" +
+                "        <p>" + mensaje + "</p>\n" +
+                "        <p>Saludos cordiales,</p>\n" +
+                "        <p>El equipo de soporte.</p>\n" +
+                "    </div>\n" +
+                "</body>\n" +
+                "</html>";
+    }
+
 
     private void mostrarDialogoCerrarSesion() {
         new androidx.appcompat.app.AlertDialog.Builder(this)

@@ -14,8 +14,10 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
+import android.widget.ArrayAdapter;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -58,6 +60,7 @@ public class Signup2Activity extends AppCompatActivity {
     private FusedLocationProviderClient fusedLocationClient;
     private Uri imageUri;
     private ImageView imageView;
+    private Spinner spinnerRole;  // Spinner para elegir el rol del usuario
 
     private static final int REQUEST_LOCATION_PERMISSION = 1;
     private static final int PICK_IMAGE_REQUEST = 1001;
@@ -80,7 +83,11 @@ public class Signup2Activity extends AppCompatActivity {
         btnSeleccionarImagen = findViewById(R.id.btn_seleccionar_foto); // Nuevo botón
         imageView = findViewById(R.id.img_foto);
         map = findViewById(R.id.map);
-
+        spinnerRole = findViewById(R.id.spinner_rol);  // Referencia al spinner de rol
+        // Configurar el Spinner con los roles
+        ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(this, R.array.escoger_rol, android.R.layout.simple_spinner_item);
+        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        spinnerRole.setAdapter(adapter);
         initMap();
         requestLocationPermission();
 
@@ -108,6 +115,9 @@ public class Signup2Activity extends AppCompatActivity {
                 return;
             }
 
+            // Obtener el rol seleccionado desde el Spinner
+            String selectedRole = spinnerRole.getSelectedItem().toString();  // Aquí obtenemos el valor del spinner
+
             firebaseAuth.createUserWithEmailAndPassword(email, password)
                     .addOnCompleteListener(this, task -> {
                         if (task.isSuccessful()) {
@@ -115,7 +125,7 @@ public class Signup2Activity extends AppCompatActivity {
                             String uid = firebaseUser.getUid();
                             String fullName = name + " " + surname;
 
-                            uploadImageAndSaveUser(name, surname, email, phone, dni, address, uid, fullName);
+                            uploadImageAndSaveUser(name, surname, email, phone, dni, address, uid, fullName, selectedRole);  // Pasamos el rol seleccionado
                         } else {
                             showCustomToast("Error al registrar el usuario.");
                         }
@@ -164,18 +174,22 @@ public class Signup2Activity extends AppCompatActivity {
     }
 
     private void uploadImageAndSaveUser(String name, String surname, String email, String phone, String dni,
-                                        String address, String uid, String fullName) {
+                                        String address, String uid, String fullName, String role) {
         StorageReference storageReference = storage.getReference().child("user_images/" + UUID.randomUUID().toString());
 
         // Subir imagen a Firebase Storage
         storageReference.putFile(imageUri)
                 .addOnSuccessListener(taskSnapshot -> storageReference.getDownloadUrl().addOnSuccessListener(uri -> {
-                    // Crear usuario con URL de la imagen de perfil
+                    // Determinar el valor de 'status' dependiendo del rol
+                    boolean status = role.equals("CLIENTE");
+
+                    // Crear usuario con URL de la imagen de perfil y el rol seleccionado
                     User user = User.registrousuario(
                             name, surname, email, dni, phone, address,
-                            Constants.ROLE_CLIENTE, uid, selectedLatitude, selectedLongitude,
+                            role, uid, selectedLatitude, selectedLongitude,
                             uid, fullName);
                     user.setProfileImage(uri.toString());
+                    user.setStatus(status);  // Asignamos el status según el rol
 
                     // Guardar datos del usuario en Firestore
                     guardarDatosEnBaseDeDatos(user);
@@ -198,6 +212,7 @@ public class Signup2Activity extends AppCompatActivity {
                 }))
                 .addOnFailureListener(e -> showCustomToast("Error al subir la imagen."));
     }
+
     // Función para mostrar el custom toast
     private void showCustomToast(String message) {
         LayoutInflater inflater = getLayoutInflater();

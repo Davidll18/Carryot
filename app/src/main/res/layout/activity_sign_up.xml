@@ -267,6 +267,7 @@
                 android:inputType="textPostalAddress" />
         </androidx.appcompat.widget.LinearLayoutCompat>
 
+
         <!-- Botón Siguiente -->
         <androidx.appcompat.widget.AppCompatButton
             android:id="@+id/btn_signup_init"
