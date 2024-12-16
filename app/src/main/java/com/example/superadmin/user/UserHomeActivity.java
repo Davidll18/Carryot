@@ -7,7 +7,9 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ImageButton;
+import android.widget.SearchView;
 import android.widget.Spinner;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.activity.EdgeToEdge;
@@ -39,6 +41,7 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 
+import java.security.PrivateKey;
 import java.util.ArrayList;
 
 public class UserHomeActivity extends AppCompatActivity {
@@ -53,6 +56,9 @@ public class UserHomeActivity extends AppCompatActivity {
     private FirebaseFirestore db;
     private Spinner tipoRestSpinner;
 
+    private TextView saludoTextView;
+    private SearchView searchView;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -63,10 +69,29 @@ public class UserHomeActivity extends AppCompatActivity {
         // Inicializar vistas
         recyclerView = findViewById(R.id.myRecyclerView);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
+        saludoTextView = findViewById(R.id.textView7);
 
         restaurantList = new ArrayList<>();
         filteredList = new ArrayList<>();
         adapter = new UserRestaurantAdapter(this, filteredList);
+
+        // Configuración del buscador
+        searchView = findViewById(R.id.searchView_restaurants);
+        searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+            @Override
+            public boolean onQueryTextSubmit(String query) {
+                // Filtrar cuando se presiona "Enter"
+                filterRestaurants(query);
+                return true;
+            }
+
+            @Override
+            public boolean onQueryTextChange(String newText) {
+                // Filtrar en tiempo real a medida que el usuario escribe
+                filterRestaurants(newText);
+                return true;
+            }
+        });
 
         // Configurar listener en el adaptador
         adapter.setOnCardClickListener(restaurant -> {
@@ -107,6 +132,20 @@ public class UserHomeActivity extends AppCompatActivity {
             drawerLayout.closeDrawers(); // Cierra el menú después de seleccionar un ítem
             return true;
         });
+
+
+        // Obtener el UID del usuario desde SharedPreferences
+        SharedPreferences preferences = getSharedPreferences("user_session", MODE_PRIVATE);
+        String userUid = preferences.getString("userId", null);
+
+        if (userUid != null) {
+            // Cargar el saludo personalizado para el superadmin
+            cargarSaludoPersonalizado(userUid);
+        } else {
+            saludoTextView.setText("No hay usuario autenticado");
+        }
+
+
 
         // Configurar Spinner para categorías
         tipoRestSpinner = findViewById(R.id.tipoRest);
@@ -159,6 +198,34 @@ public class UserHomeActivity extends AppCompatActivity {
         // Acción cuando se selecciona "Historial de Pedidos"
         Toast.makeText(this, "Historial de pedidos seleccionado", Toast.LENGTH_SHORT).show();
         startActivity(new Intent(UserHomeActivity.this, UserHistorialActivity.class));
+    }
+
+
+    private void cargarSaludoPersonalizado(String userUid) {
+        db.collection("users")
+                .document(userUid)
+                .get()
+                .addOnSuccessListener(documentSnapshot -> {
+                    if (documentSnapshot.exists()) {
+                        String nombre = documentSnapshot.getString("name");
+                        saludoTextView.setText("Buenos días, " + nombre);
+                    } else {
+                        saludoTextView.setText("Buenos días, Usuario");
+                    }
+                })
+                .addOnFailureListener(e -> saludoTextView.setText("Error al cargar saludo"));
+    }
+
+
+    private void filterRestaurants(String query) {
+        filteredList.clear(); // Limpiar la lista filtrada
+        for (RestaurantDTO restaurant : restaurantList) {
+            // Verificar si el nombre del restaurante coincide con la búsqueda
+            if (restaurant.getNombreRestaurante().toLowerCase().contains(query.toLowerCase())) {
+                filteredList.add(restaurant);
+            }
+        }
+        adapter.notifyDataSetChanged(); // Actualizar el RecyclerView
     }
 
 
