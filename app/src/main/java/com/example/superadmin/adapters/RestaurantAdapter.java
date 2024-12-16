@@ -5,15 +5,19 @@ import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.cardview.widget.CardView;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.bumptech.glide.Glide;
 import com.example.superadmin.R;
 import com.example.superadmin.dtos.RestaurantDTO;
 import com.example.superadmin.Superadmin.super_estadisticas_por_rest;
+import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.StorageReference;
 
 import java.util.ArrayList;
 
@@ -41,6 +45,19 @@ public class RestaurantAdapter extends RecyclerView.Adapter<RestaurantAdapter.Re
 
         // Asignar valores a las vistas
         holder.restaurantName.setText(restaurant.getNombreRestaurante());
+        holder.restaurantCategory.setText(restaurant.getCategoria());
+        // Cargar imagen desde la URL
+        if (restaurant.getImageUrl() != null && !restaurant.getImageUrl().isEmpty()) {
+            Glide.with(context)
+                    .load(restaurant.getImageUrl())
+                    .placeholder(R.drawable.logo) // Mientras carga
+                    .error(R.drawable.logo)       // Si hay error
+                    .into(holder.restaurantImage);
+        } else {
+            // Si no hay URL, usar imagen predeterminada
+            holder.restaurantImage.setImageResource(R.drawable.logo);
+        }
+
 
         // Configurar clic en la tarjeta
         holder.cardView.setOnClickListener(v -> {
@@ -66,12 +83,16 @@ public class RestaurantAdapter extends RecyclerView.Adapter<RestaurantAdapter.Re
 
     public static class RestaurantViewHolder extends RecyclerView.ViewHolder {
         TextView restaurantName;
+        TextView restaurantCategory;
+        ImageView restaurantImage;
         CardView cardView;
 
         public RestaurantViewHolder(@NonNull View itemView) {
             super(itemView);
             restaurantName = itemView.findViewById(R.id.restaurantName);
             cardView = itemView.findViewById(R.id.card_view_restaurant); // Asegúrate de que tu diseño tiene un CardView con este ID
+            restaurantCategory = itemView.findViewById(R.id.restaurantCategory);
+            restaurantImage = itemView.findViewById(R.id.restaurantImage);
         }
     }
 }
