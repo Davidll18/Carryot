@@ -125,7 +125,7 @@ public class Super_registro_admin_rest extends AppCompatActivity {
                                             admin.put("uid", uid);
                                             admin.put("uidCreador", uidCreador);
                                             admin.put("createdBy", nombreCreador);
-                                            admin.put("timestamp", com.google.firebase.Timestamp.now());
+                                            admin.put("createdAt", com.google.firebase.Timestamp.now());
 
 
                                             db.collection("users").document(uid).set(admin)

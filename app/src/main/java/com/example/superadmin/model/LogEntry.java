@@ -1,5 +1,6 @@
 package com.example.superadmin.model;
 
+
 public class LogEntry {
     private String username;
     private String action;
@@ -23,4 +24,5 @@ public class LogEntry {
         return timestamp;
     }
 }
+
 
