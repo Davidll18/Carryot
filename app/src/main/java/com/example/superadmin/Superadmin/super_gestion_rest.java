@@ -21,6 +21,7 @@ import com.google.android.material.navigation.NavigationView;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 
+import java.text.Normalizer;
 import java.util.ArrayList;
 
 public class super_gestion_rest extends AppCompatActivity {
@@ -108,6 +109,7 @@ public class super_gestion_rest extends AppCompatActivity {
             }
         });
     }
+
     private void fetchRestaurants(String categoria) {
         db.collection("restaurant")
                 .get()
@@ -115,11 +117,18 @@ public class super_gestion_rest extends AppCompatActivity {
                     if (task.isSuccessful()) {
                         restaurantList.clear();
                         filteredList.clear();
+
+                        // Normaliza la categoría proporcionada
+                        String normalizedCategoria = normalizeString(categoria);
+
                         for (QueryDocumentSnapshot document : task.getResult()) {
                             RestaurantDTO restaurant = document.toObject(RestaurantDTO.class);
                             restaurantList.add(restaurant);
 
-                            if (categoria == null || categoria.equals(restaurant.getCategoria())) {
+                            // Normaliza la categoría del restaurante
+                            String restaurantCategoria = normalizeString(restaurant.getCategoria());
+
+                            if (normalizedCategoria == null || normalizedCategoria.equals(restaurantCategoria)) {
                                 filteredList.add(restaurant);
                             }
                         }
@@ -129,4 +138,17 @@ public class super_gestion_rest extends AppCompatActivity {
                     }
                 });
     }
+
+    private String normalizeString(String input) {
+        if (input == null) {
+            return null;
+        }
+        return Normalizer.normalize(input, Normalizer.Form.NFD)
+                .replaceAll("\\p{M}", "") // Elimina los caracteres de acento
+                .replaceAll("\\s+", "")  // Elimina espacios
+                .toLowerCase();         // Convierte a minúsculas
+    }
+
+
+
 }
