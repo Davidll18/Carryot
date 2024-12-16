@@ -39,6 +39,7 @@
                 <!-- Título -->
 
                 <TextView
+                    android:id="@+id/name_tv"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center_horizontal"
@@ -95,46 +96,46 @@
                             android:textSize="16sp"
                             android:padding="12dp"
                             android:gravity="center_vertical|center_horizontal" />
+
+                        <androidx.appcompat.widget.LinearLayoutCompat
+                            android:id="@+id/lyt_description"
+                            android:layout_width="match_parent"
+                            android:layout_height="140dp"
+                            android:layout_marginTop="15dp"
+                            android:background="@drawable/round_corner_background_white"
+                            android:elevation="2dp"
+                            android:orientation="vertical"
+                            android:paddingTop="5dp"
+                            android:paddingBottom="5dp">
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginStart="10dp"
+                                android:layout_marginTop="8dp"
+                                android:fontFamily="@font/raleway_bold"
+                                android:text="Descripción"
+                                android:textColor="@color/black"
+                                android:textSize="15sp" />
+
+                            <EditText
+                                android:id="@+id/ed_desc"
+                                android:layout_width="match_parent"
+                                android:layout_height="90dp"
+                                android:layout_marginStart="10dp"
+                                android:layout_marginTop="5dp"
+                                android:background="@null"
+                                android:ellipsize="none"
+                                android:hint="Máximo 100 caracteres"
+                                android:inputType="textMultiLine"
+                                android:maxLength="100"
+                                android:scrollHorizontally="false"
+                                android:textSize="20dp" />
+                        </androidx.appcompat.widget.LinearLayoutCompat>
                     </LinearLayout>
                 </androidx.cardview.widget.CardView>
 
                 <!-- Campo: Descripción -->
-                <androidx.appcompat.widget.LinearLayoutCompat
-                    android:id="@+id/lyt_description"
-                    android:layout_width="match_parent"
-                    android:layout_height="140dp"
-                    android:layout_marginTop="15dp"
-                    android:background="@drawable/round_corner_background_white"
-                    android:elevation="2dp"
-                    android:orientation="vertical"
-                    android:paddingTop="5dp"
-                    android:paddingBottom="5dp">
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginStart="10dp"
-                        android:layout_marginTop="8dp"
-                        android:fontFamily="@font/raleway_bold"
-                        android:text="Descripción"
-                        android:textColor="@color/black"
-                        android:textSize="15sp" />
-
-                    <EditText
-                        android:id="@+id/ed_desc"
-                        android:layout_width="match_parent"
-                        android:layout_height="90dp"
-                        android:layout_marginStart="10dp"
-                        android:background="@null"
-                        android:layout_marginTop="5dp"
-                        android:hint="Máximo 100 caracteres"
-                        android:inputType="textMultiLine"
-                        android:maxLength="100"
-                        android:ellipsize="none"
-                        android:scrollHorizontally="false"
-                        android:textSize="20dp"
-                        />
-                </androidx.appcompat.widget.LinearLayoutCompat>
 
                 <LinearLayout
                     android:layout_width="match_parent"
@@ -165,14 +166,15 @@
                             android:textColor="@color/black"
                             android:textSize="15sp" />
 
-                        <Spinner
-                            android:id="@+id/spinner_categoria"
+                        <TextView
+                            android:id="@+id/categoria"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:layout_marginStart="10dp"
                             android:layout_marginTop="5dp"
-                            android:spinnerMode="dropdown"
-                            android:popupTheme="@style/CustomSpinnerStyle" />
+                            android:text="Categoria"
+                            android:textColor="@color/black"
+                            android:textSize="20dp"/>
                     </androidx.appcompat.widget.LinearLayoutCompat>
 
 
@@ -223,22 +225,24 @@
 
                     <!-- Botón Atras -->
                     <Button
+                        android:id="@+id/btn_cancelar"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_marginEnd="8dp"
                         android:layout_weight="1"
                         android:backgroundTint="#C2928D89"
-                        android:text="Atras"
+                        android:text="CANCELAR"
                         android:textColor="@android:color/white"
                         android:textSize="20sp" />
 
                     <!-- Botón Siguiente -->
                     <Button
+                        android:id="@+id/btn_guardar"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
                         android:backgroundTint="@color/red_app"
-                        android:text="Siguiente"
+                        android:text="Guardar"
                         android:textColor="@color/white"
                         android:textSize="20sp"/>
                 </LinearLayout>

@@ -1,7 +1,6 @@
 package com.example.superadmin.adminrest;
 
 import android.Manifest;
-import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.location.Location;
@@ -24,7 +23,9 @@ import androidx.appcompat.widget.AppCompatButton;
 import androidx.core.app.ActivityCompat;
 
 import com.example.superadmin.R;
+import com.example.superadmin.util.UtilsRandom;
 import com.example.superadmin.dtos.RestaurantDTO;
+import com.google.firebase.Timestamp;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.FirebaseFirestore;
@@ -272,6 +273,11 @@ public class NewRestaurantActivity extends AppCompatActivity {
                             String nombreCreador = (name != null ? name : "") + " " + (surname != null ? surname : "");
                             StorageReference storageReference = storage.getReference().child("restaurant_images/" + UUID.randomUUID().toString());
 
+                            String costoDelivery = UtilsRandom.generateRandomCost(5, 9);
+                            String rateRest = UtilsRandom.generateRandomCost(3, 5);
+                            String tiempoEspera = String.valueOf(UtilsRandom.generateRandomInt(20, 40));
+                            Timestamp fechaHoraCreacion = com.google.firebase.Timestamp.now();
+
 
                             storageReference.putFile(selectedImageUri)
                                     .addOnSuccessListener(taskSnapshot -> storageReference.getDownloadUrl()
@@ -280,7 +286,7 @@ public class NewRestaurantActivity extends AppCompatActivity {
                                                 // Ahora guardamos el restaurante con el nombre completo del creador
                                                 saveRestaurantToFirestore(nombreRestaurante, categoriaRestaurante, razonSocial, ruc,
                                                         licenciaFuncionamiento, permisoSanitario, descripcion, latitude, longitude,
-                                                        uidCreador, nombreCreador, imageUrl);
+                                                        uidCreador, nombreCreador, imageUrl,costoDelivery,rateRest,tiempoEspera,fechaHoraCreacion);
                                             }))
                                     .addOnFailureListener(e -> Toast.makeText(this, "Error al subir la imagen: " + e.getMessage(), Toast.LENGTH_SHORT).show());
 
@@ -299,7 +305,8 @@ public class NewRestaurantActivity extends AppCompatActivity {
     private void saveRestaurantToFirestore(String nombreRestaurante, String categoriaRestaurante, String razonSocial,
                                            String ruc, String licenciaFuncionamiento, String permisoSanitario,
                                            String descripcion, double latitude, double longitude,
-                                           String uidCreador, String nombreCreador, String imageUrl) {
+                                           String uidCreador, String nombreCreador, String imageUrl, String costoDelivery,
+                                           String rateRest, String tiempoEspera, Timestamp fechaHoraCreacion) {
 
         String restaurantId = UUID.randomUUID().toString();
 
@@ -317,7 +324,11 @@ public class NewRestaurantActivity extends AppCompatActivity {
                 uidCreador,
                 nombreCreador,
                 restaurantId,
-                imageUrl
+                imageUrl,
+                costoDelivery,
+                rateRest,
+                tiempoEspera,
+                fechaHoraCreacion
         );
 
         FirebaseFirestore db = FirebaseFirestore.getInstance();

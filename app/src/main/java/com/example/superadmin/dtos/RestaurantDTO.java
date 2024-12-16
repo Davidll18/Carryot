@@ -1,5 +1,6 @@
 package com.example.superadmin.dtos;
 
+import com.google.firebase.Timestamp;
 import com.google.firebase.firestore.IgnoreExtraProperties;
 
 @IgnoreExtraProperties
@@ -17,6 +18,10 @@ public class RestaurantDTO {
     private double latitud; // Latitud seleccionada en el mapa
     private double longitud; // Longitud seleccionada en el mapa
     private String imageUrl;
+    private String costoDelivery;
+    private String rateRest;
+    private String tiempoEspera;
+    private Timestamp fechaHoraCreacion;
     // Constructor vacío requerido por Firestore
     public RestaurantDTO() {
     }
@@ -30,7 +35,7 @@ public class RestaurantDTO {
                          String permisoSanitario, String descripcion,
                          double latitud, double longitud,
                          String uidCreador, String nombreCreador,
-                         String uidCreacion, String imageUrl) {
+                         String uidCreacion, String imageUrl, String costoDelivery, String rateRest,String tiempoEspera, Timestamp fechaHoraCreacion ) {
         this.nombreRestaurante = nombreRestaurante;
         this.categoria = categoria;
         this.razonSocial = razonSocial;
@@ -44,9 +49,45 @@ public class RestaurantDTO {
         this.nombreCreador = nombreCreador;
         this.uidCreacion = uidCreacion;
         this.imageUrl = imageUrl;
+        this.costoDelivery = costoDelivery;
+        this.rateRest = rateRest;
+        this.tiempoEspera = tiempoEspera;
+        this.fechaHoraCreacion = fechaHoraCreacion;
     }
 
     // Getters y Setters
+
+    public String getCostoDelivery() {
+        return costoDelivery;
+    }
+
+    public void setCostoDelivery(String costoDelivery) {
+        this.costoDelivery = costoDelivery;
+    }
+
+    public String getRateRest() {
+        return rateRest;
+    }
+
+    public void setRateRest(String rateRest) {
+        this.rateRest = rateRest;
+    }
+
+    public String getTiempoEspera() {
+        return tiempoEspera;
+    }
+
+    public void setTiempoEspera(String tiempoEspera) {
+        this.tiempoEspera = tiempoEspera;
+    }
+
+    public Timestamp getFechaHoraCreacion() {
+        return fechaHoraCreacion;
+    }
+
+    public void setFechaHoraCreacion(Timestamp fechaHoraCreacion) {
+        this.fechaHoraCreacion = fechaHoraCreacion;
+    }
 
     public String getImageUrl() {
         return imageUrl;
