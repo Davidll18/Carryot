@@ -145,7 +145,7 @@ public class SignUpActivity extends AppCompatActivity {
         customToast.show();
     }
 
-    // Recibir los datos de vuelta de Signup2Activity
+    // Recibir los datos de vuelta de Signup2Activitym
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);

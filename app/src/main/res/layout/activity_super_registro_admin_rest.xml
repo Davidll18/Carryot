@@ -48,6 +48,58 @@
             app:layout_constraintStart_toStartOf="@+id/guideline_start"
             app:layout_constraintTop_toBottomOf="@+id/textView20" />
 
+        <!-- Box para la imagen -->
+        <androidx.cardview.widget.CardView
+            android:id="@+id/cardViewImage"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="15dp"
+            app:cardCornerRadius="8dp"
+            app:cardElevation="4dp"
+            app:layout_constraintEnd_toStartOf="@+id/guideline_end"
+            app:layout_constraintStart_toStartOf="@+id/guideline_start"
+            app:layout_constraintTop_toBottomOf="@+id/tv_message_invitation">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:padding="12dp">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Foto"
+                    android:textColor="@color/black"
+                    android:textSize="15sp"
+                    android:fontFamily="@font/raleway_bold" />
+
+                <ImageView
+                    android:id="@+id/img_foto"
+                    android:layout_width="match_parent"
+                    android:layout_height="240dp"
+                    android:layout_marginTop="8dp"
+                    android:background="@color/gray"
+                    android:scaleType="centerCrop"
+                    android:src="@drawable/perfil_icon"
+                    android:contentDescription="Foto seleccionada" />
+
+                <androidx.appcompat.widget.AppCompatButton
+                    android:id="@+id/btn_seleccionar_foto"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Seleccionar foto"
+                    android:layout_gravity="center_horizontal"
+                    android:layout_marginTop="20dp"
+                    android:drawableLeft="@drawable/baseline_image_search"
+                    android:drawablePadding="8dp"
+                    android:background="@drawable/btn_press_selector"
+                    android:textColor="@android:color/white"
+                    android:textSize="16sp"
+                    android:padding="12dp" />
+            </LinearLayout>
+        </androidx.cardview.widget.CardView>
+
         <!-- Nombre -->
         <androidx.appcompat.widget.LinearLayoutCompat
             android:id="@+id/lyt_name"
@@ -61,7 +113,7 @@
             android:paddingBottom="5dp"
             app:layout_constraintEnd_toStartOf="@+id/guideline_end"
             app:layout_constraintStart_toStartOf="@+id/guideline_start"
-            app:layout_constraintTop_toBottomOf="@+id/tv_message_invitation">
+            app:layout_constraintTop_toBottomOf="@+id/cardViewImage">
 
             <TextView
                 android:layout_width="wrap_content"
@@ -84,7 +136,7 @@
                 android:inputType="textPersonName" />
         </androidx.appcompat.widget.LinearLayoutCompat>
 
-        <!-- Apellidos (unificado) -->
+        <!-- Apellidos -->
         <androidx.appcompat.widget.LinearLayoutCompat
             android:id="@+id/lyt_surname"
             android:layout_width="0dp"
@@ -120,7 +172,7 @@
                 android:inputType="textPersonName" />
         </androidx.appcompat.widget.LinearLayoutCompat>
 
-        <!-- Correo Electrónico -->
+        <!-- Correo -->
         <androidx.appcompat.widget.LinearLayoutCompat
             android:id="@+id/lyt_email"
             android:layout_width="0dp"
@@ -271,7 +323,7 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="27dp"
             android:layout_marginBottom="27dp"
-            android:background="@color/red_boton"
+            android:background="@color/light_orange"
             android:fontFamily="@font/raleway_bold"
             android:text="Registrar"
             android:textColor="@color/white"

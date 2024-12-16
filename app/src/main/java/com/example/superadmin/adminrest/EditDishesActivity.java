@@ -38,6 +38,9 @@ public class EditDishesActivity extends AppCompatActivity {
     private FirebaseFirestore db;
     AppCompatButton selectImageButton;
     ImageView selectedImageView;
+    EditText descripcionEditText,precioEditText;
+    TextView categoriaPlato,nombrePlatoTextView;
+    AppCompatButton guardarButton,cancelarButton;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -56,13 +59,13 @@ public class EditDishesActivity extends AppCompatActivity {
         String imageUrl = intent.getStringExtra("imageUrl");
 
         // Referenciar los elementos de la vista
-        TextView nombrePlatoTextView = findViewById(R.id.name_tv); // Asegúrate de tener este ID en tu XML
+        nombrePlatoTextView = findViewById(R.id.name_tv); // Asegúrate de tener este ID en tu XML
         selectedImageView = findViewById(R.id.img_foto);
-        EditText descripcionEditText = findViewById(R.id.ed_desc);
-        EditText precioEditText = findViewById(R.id.ed_precio);
-        TextView categoriaPlato = findViewById(R.id.categoria);
-        AppCompatButton guardarButton = findViewById(R.id.btn_guardar);
-        AppCompatButton cancelarButton = findViewById(R.id.btn_cancelar);
+        descripcionEditText = findViewById(R.id.ed_desc);
+        precioEditText = findViewById(R.id.ed_precio);
+        categoriaPlato = findViewById(R.id.categoria);
+        guardarButton = findViewById(R.id.btn_guardar);
+        cancelarButton = findViewById(R.id.btn_cancelar);
         selectImageButton = findViewById(R.id.btn_seleccionar_foto);
         // Establecer los valores en los elementos correspondientes
         nombrePlatoTextView.setText(nombrePlato);
@@ -77,15 +80,16 @@ public class EditDishesActivity extends AppCompatActivity {
 
         guardarButton.setOnClickListener(view -> {
             // Obtener los valores actuales de los campos
-            String nuevoNombrePlato = nombrePlatoTextView.getText().toString();
             String nuevaDescripcion = descripcionEditText.getText().toString();
             String nuevoPrecio = precioEditText.getText().toString();
-            String categoriaP = categoriaPlato.getText().toString();
 
-            validarDatos(nuevoNombrePlato, nuevaDescripcion, nuevoPrecio, categoriaP);
+            validarDatos(nuevaDescripcion, nuevoPrecio);
             // Subir la imagen si se seleccionó, o guardar con la imagen actual
             if (selectedImageUri != null) {
-                uploadImageAndSavePlato(nuevoNombrePlato, categoriaP, nuevaDescripcion, nuevoPrecio, uidPlato);
+                uploadImageAndSavePlato(nuevaDescripcion, nuevoPrecio, uidPlato);
+            } else{
+                // Guardar el plato en Firestore
+                savePlatoToFirestore(descripcion, precio,imageUrl, uidPlato);
             }
         });
         // Botón "Cancelar"
@@ -106,9 +110,9 @@ public class EditDishesActivity extends AppCompatActivity {
             selectedImageView.setImageURI(selectedImageUri); // Mostrar la imagen seleccionada
         }
     }
-    private void validarDatos(String platoName, String categoriaPlato, String descripcion, String price) {
+    private void validarDatos( String descripcion, String price) {
         // Validar que los campos no estén vacío
-        if (platoName.isEmpty() || categoriaPlato.isEmpty() ||descripcion.isEmpty() || price.isEmpty()) {
+        if (descripcion.isEmpty() || price.isEmpty()) {
             // Mostrar el Custom Toast
             showCustomToast("Todos los campos deben ser completados");
             return;
@@ -132,7 +136,7 @@ public class EditDishesActivity extends AppCompatActivity {
     }
 
 
-    private void uploadImageAndSavePlato(String nombrePlato, String categoriaPlato, String descripcion, String precio, String uidPlato) {
+    private void uploadImageAndSavePlato( String descripcion, String precio, String uidPlato) {
         // Crear referencia en Firebase Storage
         StorageReference storageReference = storage.getReference().child("platos_images/" + UUID.randomUUID().toString());
 
@@ -141,10 +145,10 @@ public class EditDishesActivity extends AppCompatActivity {
                 .addOnSuccessListener(taskSnapshot ->
                         // Obtener la URL de descarga
                         storageReference.getDownloadUrl().addOnSuccessListener(uri -> {
-                            String imageUrl = uri.toString();
+                            String imageUrlNew = uri.toString();
 
                             // Guardar el plato en Firestore
-                            savePlatoToFirestore(nombrePlato, categoriaPlato, descripcion, precio, imageUrl, uidPlato);
+                            savePlatoToFirestore( descripcion, precio, imageUrlNew, uidPlato);
                         })
                 )
                 .addOnFailureListener(e ->
@@ -152,20 +156,18 @@ public class EditDishesActivity extends AppCompatActivity {
                 );
     }
 
-    private void savePlatoToFirestore(String nombrePlato, String categoriaPlato, String descripcion, String precio, String imageUrl, String uidPlato) {
+    private void savePlatoToFirestore( String descripcion, String precio, String imageUrl, String uidPlato) {
         FirebaseFirestore db = FirebaseFirestore.getInstance();
 
         // Crear un mapa con los nuevos datos
         Map<String, Object> plato = new HashMap<>();
-        plato.put("nombrePlato", nombrePlato);
-        plato.put("categoria", categoriaPlato);
-        plato.put("descripcion", descripcion);
-        plato.put("precio", precio);
+        plato.put("descripcion", descripcionEditText.getText().toString());
+        plato.put("precio", precioEditText.getText().toString());
         plato.put("imageUrl", imageUrl);
 
         // Actualizar el documento en Firestore
         db.collection("platos").document(uidPlato)
-                .set(plato) // `set` sobrescribe todo el documento
+                .update(plato)
                 .addOnSuccessListener(aVoid -> {
                     Toast.makeText(this, "Plato guardado correctamente.", Toast.LENGTH_SHORT).show();
                     // Redirigir
