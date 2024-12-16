@@ -47,7 +47,7 @@ public class super_habilitar_usuarios extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_super_habilitar_usuarios);
-        getWindow().setStatusBarColor(ContextCompat.getColor(super_habilitar_usuarios.this, R.color.red_boton));
+        getWindow().setStatusBarColor(ContextCompat.getColor(super_habilitar_usuarios.this, R.color.light_orange));
 
         // Inicializar vistas
         nombreEditText = findViewById(R.id.Nombre);

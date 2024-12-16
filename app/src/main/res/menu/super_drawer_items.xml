@@ -12,7 +12,7 @@
             <item
                 android:id="@+id/navRegistrarAdminRest"
                 android:icon="@drawable/registrar_admin_rest"
-                android:title="Registrar Admin de Restaurant" />
+                android:title="Registrar Administrador " />
         </menu>
     </item>
 
@@ -22,12 +22,12 @@
             <item
                 android:id="@+id/navReporteVentas_por_rest"
                 android:icon="@drawable/report_ventas_por_rest"
-                android:title="Reporte de Ventas por Restaurante" />
+                android:title="Ventas por Restaurante" />
 
             <item
                 android:id="@+id/navReporteVentas"
                 android:icon="@drawable/report_ventas"
-                android:title="Reporte de Ventas" />
+                android:title="Ventas General" />
 
             <item
                 android:id="@+id/navLogs"

@@ -52,7 +52,7 @@ public class super_logs extends AppCompatActivity {
         cargarLogsDesdeFirestore();
 
         // Configurar el color de la barra de estado
-        getWindow().setStatusBarColor(ContextCompat.getColor(this, R.color.red_boton));
+        getWindow().setStatusBarColor(ContextCompat.getColor(this, R.color.light_orange));
     }
 
     private void cargarLogsDesdeFirestore() {
