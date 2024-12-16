@@ -71,7 +71,33 @@
                     android:layout_height="wrap_content"
                     android:text="Nombre del Restaurant"
                     android:textSize="16sp"
-                    android:textColor="#000000" />
+                    android:textColor="#000000"
+                    android:textStyle="bold" />
+
+                <!-- Agregar costo, rate y categoría debajo del nombre -->
+                <TextView
+                    android:id="@+id/restaurantCost"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Costo: $$$"
+                    android:textSize="14sp"
+                    android:textColor="#666666" />
+
+                <TextView
+                    android:id="@+id/restaurantRate"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Calificación: 4.5"
+                    android:textSize="14sp"
+                    android:textColor="#666666" />
+
+                <TextView
+                    android:id="@+id/restaurantCategory"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Categoría: Italiana"
+                    android:textSize="14sp"
+                    android:textColor="#666666" />
             </LinearLayout>
         </LinearLayout>
 
@@ -211,4 +237,5 @@
         app:menu="@menu/super_drawer_items" />
 
 </androidx.drawerlayout.widget.DrawerLayout>
+
 

@@ -51,23 +51,23 @@ public class PedidosAdapter extends RecyclerView.Adapter<PedidosAdapter.FoodView
         holder.status.setText(pedidosItem.getEstado());
 
         //holder.platoImagen.setImageResource(pedidosItem.getPlatoImagen());
-        holder.precio.setText(pedidosItem.getCostoTotal());
-        StringBuilder descripcion = new StringBuilder();
-        Map<String, Integer> productos = pedidosItem.getProductos();
-        for (Map.Entry<String, Integer> entry : productos.entrySet()) {
-            descripcion.append(entry.getValue()) // Cantidad
-                    .append("  ")            // Separador
-                    .append(entry.getKey())  // Nombre del plato
-                    .append("\n");           // Nueva línea
-        }
-        holder.descripcion.setText(descripcion.toString().trim());
-        holder.iconoVista.setOnClickListener(v ->{
-            Intent intent = new Intent(context, OrderDetailsActivity.class);
-            context.startActivity(intent);
-        });
-        holder.iconoAccept.setOnClickListener(v ->{
-            showConfirmationDialog(pedidosItem, holder, context);
-        });
+//        holder.precio.setText(pedidosItem.getCostoTotal());
+//        StringBuilder descripcion = new StringBuilder();
+//        Map<String, Integer> productos = pedidosItem.getProductos();
+//        for (Map.Entry<String, Integer> entry : productos.entrySet()) {
+//            descripcion.append(entry.getValue()) // Cantidad
+//                    .append("  ")            // Separador
+//                    .append(entry.getKey())  // Nombre del plato
+//                    .append("\n");           // Nueva línea
+//        }
+//        holder.descripcion.setText(descripcion.toString().trim());
+//        holder.iconoVista.setOnClickListener(v ->{
+//            Intent intent = new Intent(context, OrderDetailsActivity.class);
+//            context.startActivity(intent);
+//        });
+//        holder.iconoAccept.setOnClickListener(v ->{
+//            showConfirmationDialog(pedidosItem, holder, context);
+//        });
     }
 
     private void showConfirmationDialog(Pedidos pedidosItem, PedidosAdapter.FoodViewHolder holder, Context context) {
