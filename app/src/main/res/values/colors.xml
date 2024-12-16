@@ -19,7 +19,8 @@
     <color name="dark_gray_hint">#606060</color>
     <color name="light_red_app">#DEFF4140</color>
     <color name="light_red_background">#DEEB6060</color>
-
+    #f2a596
+    <color name="naranja_suave">#f2a596</color>
     <color name="button_normal_naranja">#FF8C04</color> <!-- Este es tu color original -->
 
     <!-- Color del botón cuando se presiona (más oscuro) -->

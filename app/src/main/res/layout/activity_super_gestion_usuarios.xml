@@ -52,7 +52,8 @@
                 android:layout_height="wrap_content"
                 android:orientation="horizontal"
                 android:gravity="center_vertical"
-                android:paddingBottom="16dp">
+                android:paddingBottom="16dp"
+                android:layout_marginTop="10dp">
 
                 <!-- Filtros desplegables -->
                 <Spinner
@@ -60,14 +61,21 @@
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
-                    android:entries="@array/filtro1_opciones" />
+                    android:entries="@array/filtro1_opciones"
+                    android:background="@drawable/spinner_background"
+                android:popupBackground="@drawable/spinner_background"
+                android:padding="10dp"
+                android:layout_marginEnd="8dp" />
 
                 <Spinner
                     android:id="@+id/spinnerFiltro2"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
-                    android:entries="@array/filtro2_opciones" />
+                    android:entries="@array/filtro2_opciones"
+                    android:background="@drawable/spinner_background"
+                    android:popupBackground="@drawable/spinner_background"
+                    android:padding="10dp" />
             </LinearLayout>
 
             <!-- RecyclerView para las tarjetas -->
@@ -85,7 +93,8 @@
         android:layout_height="match_parent"
         android:layout_gravity="start"
         app:headerLayout="@layout/header"
-        app:menu="@menu/super_drawer_items" />
+        app:menu="@menu/super_drawer_items"
+        android:layout_marginBottom="16dp" />
 
 </androidx.drawerlayout.widget.DrawerLayout>
 
