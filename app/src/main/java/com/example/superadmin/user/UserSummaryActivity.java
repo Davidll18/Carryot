@@ -9,20 +9,25 @@ import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Vibrator;
-import android.view.View;
+import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 import androidx.core.app.NotificationCompat;
 import androidx.core.app.NotificationManagerCompat;
+import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.superadmin.R;
-import com.google.android.material.button.MaterialButton;
 import com.example.superadmin.adapters.UserAdapterSummary;
 import com.example.superadmin.model.UserProductInCar;
+import com.google.android.material.button.MaterialButton;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.QueryDocumentSnapshot;
 
-import java.util.Arrays;
+import java.util.ArrayList;
 import java.util.List;
 
 public class UserSummaryActivity extends AppCompatActivity {
@@ -30,85 +35,138 @@ public class UserSummaryActivity extends AppCompatActivity {
     private static final String CHANNEL_ID = "order_notification_channel";
     private static final int NOTIFICATION_ID = 1001;
 
+    private FirebaseFirestore db;
+    private String uidUsuario;
+    private List<UserProductInCar> products;
+    private UserAdapterSummary adapter;
+
     private Handler handler = new Handler();
-    MaterialButton btnFinish;
+    private MaterialButton btnFinish;
+
+    private double subtotal = 0.0; // Inicializamos el subtotal
+    private double envio = 6;    // El valor del delivery
+    private TextView textSubtotal, textEnvio, textTotal;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.user_activity_summary);
 
-        // Crear el canal de notificación (solo es necesario en API 26+)
-        createNotificationChannel();
-
-        // Configurar el botón de finalizar
+        // Inicializar TextViews
+        textSubtotal = findViewById(R.id.text_subTotal);
+        textEnvio = findViewById(R.id.text_shipping_amount);
+        textTotal = findViewById(R.id.text_total_amount);
         btnFinish = findViewById(R.id.btn_return_to_home);
-        btnFinish.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                // Lanzar la primera notificación
-                showOrderCompletedNotification("Pedido completado", "Tu pedido ha sido completado con éxito.");
 
-                // Hacer vibrar el dispositivo
-                vibrateDevice();
-
-                // Iniciar la secuencia de notificaciones con 10 segundos de diferencia
-                scheduleNotifications();
-
-                // Cambiar a la pantalla de inicio
-                startActivity(new Intent(UserSummaryActivity.this, UserHomeActivity.class));
-
-                // Terminar la actividad actual
-                finish();
-            }
-        });
-
-        // Configurar el RecyclerView y cargar productos
+        // Configurar RecyclerView
         RecyclerView recyclerView = findViewById(R.id.rv_summary_order_client);
-        List<UserProductInCar> products = Arrays.asList(
-                new UserProductInCar("Alitas BBQ", 2, 45.0, R.drawable.comida),
-                new UserProductInCar("Ceviche Mixto", 3, 650.0, R.drawable.logo),
-                new UserProductInCar("Chicharrón de Calamar", 1, 350.0, R.drawable.logo),
-                new UserProductInCar("Arroz con Mariscos", 2, 800.0, R.drawable.logo),
-                new UserProductInCar("Ají de Gallina", 4, 550.0, R.drawable.logo),
-                new UserProductInCar("Causa Limeña", 1, 450.0, R.drawable.logo),
-                new UserProductInCar("Tacos de Pollo Crocante", 1, 650.0, R.drawable.logo),
-                new UserProductInCar("Leche de Tigre", 3, 350.0, R.drawable.logo),
-                new UserProductInCar("Mazamorra de Calabaza", 6, 800.0, R.drawable.logo),
-                new UserProductInCar("Tallarines Rojos", 1, 550.0, R.drawable.logo)
-        );
-        UserAdapterSummary adapter = new UserAdapterSummary(UserSummaryActivity.this, products);
+        recyclerView.setLayoutManager(new LinearLayoutManager(this));
+        List<UserProductInCar> products = new ArrayList<>();
+        UserAdapterSummary adapter = new UserAdapterSummary(this, products);
         recyclerView.setAdapter(adapter);
+
+        // Obtener productos desde Firebase
+        db = FirebaseFirestore.getInstance();
+        uidUsuario = FirebaseAuth.getInstance().getCurrentUser().getUid();
+
+        db.collection("pedidos")
+                .whereEqualTo("uidUsuario", uidUsuario)
+                .whereEqualTo("estado", "") // Solo el carrito actual
+                .get()
+                .addOnSuccessListener(querySnapshot -> {
+                    for (QueryDocumentSnapshot document : querySnapshot) {
+                        subtotal = 0.0; // Reiniciar el subtotal
+
+                        for (int i = 1; ; i++) {
+                            String uidPlatoKey = "uidplato" + i;
+                            String cantidadKey = "cantidad" + i;
+
+                            if (document.contains(uidPlatoKey) && document.contains(cantidadKey)) {
+                                String uidPlato = document.getString(uidPlatoKey);
+                                int cantidad = document.getLong(cantidadKey).intValue();
+                                cargarProducto(uidPlato, cantidad, products, adapter);
+                            } else {
+                                break; // Fin de productos
+                            }
+                        }
+
+                        // Obtener costo de envío desde el documento
+                        if (document.contains("envio")) {
+                            envio = 6;
+                        }
+                    }
+                })
+                .addOnFailureListener(e -> e.printStackTrace());
+
+
+
+        btnFinish.setOnClickListener(v -> {
+            actualizarEstadoPedido(); // Método para actualizar el estado del pedido
+        });
     }
 
-    // Método para programar las notificaciones
-    private void scheduleNotifications() {
-        // 1. Notificación: Están preparando tu pedido (10 segundos después)
-        handler.postDelayed(() -> showOrderCompletedNotification("Preparando tu pedido", "Estamos preparando tu pedido."), 10000);
+    private void cargarProducto(String uidPlato, int cantidad, List<UserProductInCar> products, UserAdapterSummary adapter) {
+        db.collection("platos").document(uidPlato)
+                .get()
+                .addOnSuccessListener(documentSnapshot -> {
+                    if (documentSnapshot.exists()) {
+                        String nombrePlato = documentSnapshot.getString("nombrePlato");
+                        double precio = Double.parseDouble(documentSnapshot.getString("precio"));
 
-        // 2. Notificación: El repartidor recogerá tu pedido (20 segundos después)
-        handler.postDelayed(() -> showOrderCompletedNotification("Repartidor en camino", "El repartidor recogerá tu pedido pronto."), 20000);
+                        // Añadir producto a la lista
+                        double totalProducto = precio * cantidad;
+                        subtotal += totalProducto; // Acumular subtotal
 
-        // 3. Notificación: El repartidor está yendo a tu dirección (30 segundos después)
-        handler.postDelayed(() -> showOrderCompletedNotification("Repartidor en camino", "El repartidor está yendo a tu dirección."), 30000);
+                        products.add(new UserProductInCar(nombrePlato, cantidad, totalProducto, R.drawable.logo));
+                        adapter.notifyDataSetChanged();
 
-        // 4. Notificación: El repartidor ha llegado (40 segundos después)
-        handler.postDelayed(() -> showOrderCompletedNotification("Repartidor ha llegado", "El repartidor ha llegado a tu dirección."), 40000);
+                        // Actualizar valores en la interfaz
+                        actualizarValores();
+                    }
+                })
+                .addOnFailureListener(e -> e.printStackTrace());
     }
 
-    // Crear un canal de notificación para Android Oreo y superiores
-    private void createNotificationChannel() {
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-            CharSequence name = "Order Notifications";
-            String description = "Notificaciones de estado del pedido.";
-            int importance = NotificationManager.IMPORTANCE_DEFAULT;
-            NotificationChannel channel = new NotificationChannel(CHANNEL_ID, name, importance);
-            channel.setDescription(description);
+    private void actualizarValores() {
+        textSubtotal.setText(String.format("Subtotal S/ %.2f", subtotal));
+        textEnvio.setText(String.format("Envío S/ %.2f", envio));
 
-            // Registrar el canal con el sistema
-            NotificationManager notificationManager = getSystemService(NotificationManager.class);
-            notificationManager.createNotificationChannel(channel);
-        }
+        double total = subtotal + envio;
+        textTotal.setText(String.format("Total S/ %.2f", total));
+    }
+
+    private void actualizarEstadoPedido() {
+        db.collection("pedidos")
+                .whereEqualTo("uidUsuario", uidUsuario) // Filtrar por el usuario actual
+                .whereEqualTo("estado", "") // Solo pedidos en estado vacío
+                .get()
+                .addOnSuccessListener(querySnapshot -> {
+                    for (QueryDocumentSnapshot document : querySnapshot) {
+                        // Actualizar el estado del pedido a "pendiente"
+                        db.collection("pedidos").document(document.getId())
+                                .update("estado", "pendiente")
+                                .addOnSuccessListener(aVoid -> {
+                                    showOrderCompletedNotification("Pedido completado", "Tu pedido ha sido completado con éxito.");
+
+                                    // Hacer vibrar el dispositivo
+                                    vibrateDevice();
+
+                                    Toast.makeText(this, "Pedido pagado con éxito", Toast.LENGTH_SHORT).show();
+                                    // Navegar a la pantalla de inicio o realizar otra acción
+                                    startActivity(new Intent(UserSummaryActivity.this, UserHomeActivity.class));
+                                    finish();
+                                })
+                                .addOnFailureListener(e -> {
+                                    Toast.makeText(this, "Error al actualizar el pedido", Toast.LENGTH_SHORT).show();
+                                    e.printStackTrace();
+                                });
+                    }
+                })
+                .addOnFailureListener(e -> {
+                    Toast.makeText(this, "Error al buscar el pedido", Toast.LENGTH_SHORT).show();
+                    e.printStackTrace();
+                });
     }
 
     // Método para mostrar la notificación
@@ -141,4 +199,6 @@ public class UserSummaryActivity extends AppCompatActivity {
             vibrator.vibrate(vibrationPattern, -1); // '-1' significa que no se repite
         }
     }
+
+
 }

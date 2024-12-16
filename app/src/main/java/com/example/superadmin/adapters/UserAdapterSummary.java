@@ -30,7 +30,7 @@ public class UserAdapterSummary extends RecyclerView.Adapter<UserAdapterSummary.
     @NonNull
     @Override
     public ProductCarViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(context).inflate(R.layout.user_item_car, parent, false);
+        View view = LayoutInflater.from(context).inflate(R.layout.user_item_summary, parent, false);
         return new ProductCarViewHolder(view);
     }
 

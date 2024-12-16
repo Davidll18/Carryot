@@ -1,77 +1,40 @@
 package com.example.superadmin.dtos;
 
-import com.google.type.DateTime;
-
-import java.lang.reflect.Array;
+import java.util.HashMap;
+import java.util.Map;
 
 public class pedidos {
 
-    private String NumeroPedido ;
-    private int cantidad1;
-    private int cantidad2;
-    private int cantidad3;
-
+    private String numeroPedido;
     private String direccion;
-
-    private Array estado;
-
-    private DateTime hora;
-
     private String uidRepartidor;
     private String uidUsuario;
+    private String uidRestaurante;
+    private int costoTotal;
 
-    private String uidplato1;
-    private String uidplato2;
-    private String uidplato3;
+    // Mapa para productos (UID del plato -> cantidad)
+    private Map<String, Integer> productos;
 
-    private int costototal;
+    public pedidos() {
+        this.productos = new HashMap<>();
+    }
 
-    public pedidos(int costototal, String uidplato3, String uidplato2, String uidplato1, String uidUsuario, String uidRepartidor, DateTime hora, Array estado, String direccion, int cantidad3, int cantidad2, int cantidad1, String numeroPedido) {
-        this.costototal = costototal;
-        this.uidplato3 = uidplato3;
-        this.uidplato2 = uidplato2;
-        this.uidplato1 = uidplato1;
-        this.uidUsuario = uidUsuario;
-        this.uidRepartidor = uidRepartidor;
-        this.hora = hora;
-        this.estado = estado;
+    public pedidos(String numeroPedido, String direccion, String uidRepartidor, String uidUsuario, String uidRestaurante, int costoTotal) {
+        this.numeroPedido = numeroPedido;
         this.direccion = direccion;
-        this.cantidad3 = cantidad3;
-        this.cantidad2 = cantidad2;
-        this.cantidad1 = cantidad1;
-        NumeroPedido = numeroPedido;
+        this.uidRepartidor = uidRepartidor;
+        this.uidUsuario = uidUsuario;
+        this.uidRestaurante = uidRestaurante;
+        this.costoTotal = costoTotal;
+        this.productos = new HashMap<>();
     }
 
     public String getNumeroPedido() {
-        return NumeroPedido;
+        return numeroPedido;
     }
 
     public void setNumeroPedido(String numeroPedido) {
-        NumeroPedido = numeroPedido;
-    }
-
-    public int getCantidad1() {
-        return cantidad1;
-    }
-
-    public void setCantidad1(int cantidad1) {
-        this.cantidad1 = cantidad1;
-    }
-
-    public int getCantidad2() {
-        return cantidad2;
-    }
-
-    public void setCantidad2(int cantidad2) {
-        this.cantidad2 = cantidad2;
-    }
-
-    public int getCantidad3() {
-        return cantidad3;
-    }
-
-    public void setCantidad3(int cantidad3) {
-        this.cantidad3 = cantidad3;
+        this.numeroPedido = numeroPedido;
     }
 
     public String getDireccion() {
@@ -80,22 +43,6 @@ public class pedidos {
 
     public void setDireccion(String direccion) {
         this.direccion = direccion;
-    }
-
-    public Array getEstado() {
-        return estado;
-    }
-
-    public void setEstado(Array estado) {
-        this.estado = estado;
-    }
-
-    public DateTime getHora() {
-        return hora;
-    }
-
-    public void setHora(DateTime hora) {
-        this.hora = hora;
     }
 
     public String getUidRepartidor() {
@@ -114,35 +61,36 @@ public class pedidos {
         this.uidUsuario = uidUsuario;
     }
 
-    public String getUidplato1() {
-        return uidplato1;
+    public String getUidRestaurante() {
+        return uidRestaurante;
     }
 
-    public void setUidplato1(String uidplato1) {
-        this.uidplato1 = uidplato1;
+    public void setUidRestaurante(String uidRestaurante) {
+        this.uidRestaurante = uidRestaurante;
     }
 
-    public String getUidplato2() {
-        return uidplato2;
+    public int getCostoTotal() {
+        return costoTotal;
     }
 
-    public void setUidplato2(String uidplato2) {
-        this.uidplato2 = uidplato2;
+    public void setCostoTotal(int costoTotal) {
+        this.costoTotal = costoTotal;
     }
 
-    public String getUidplato3() {
-        return uidplato3;
+    public Map<String, Integer> getProductos() {
+        return productos;
     }
 
-    public void setUidplato3(String uidplato3) {
-        this.uidplato3 = uidplato3;
+    public void setProductos(Map<String, Integer> productos) {
+        this.productos = productos;
     }
 
-    public int getCostototal() {
-        return costototal;
-    }
-
-    public void setCostototal(int costototal) {
-        this.costototal = costototal;
+    public void agregarProducto(String uidPlato, int cantidad) {
+        // Actualizar cantidad si ya existe
+        if (productos.containsKey(uidPlato)) {
+            productos.put(uidPlato, productos.get(uidPlato) + cantidad);
+        } else {
+            productos.put(uidPlato, cantidad);
+        }
     }
 }
