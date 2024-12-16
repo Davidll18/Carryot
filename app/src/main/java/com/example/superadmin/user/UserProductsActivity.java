@@ -1,5 +1,6 @@
 package com.example.superadmin.user;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 
@@ -72,5 +73,15 @@ public class UserProductsActivity extends AppCompatActivity implements UserProdu
     public void onItemClick(PlatoDTO plato) {
         // Acción al seleccionar un producto
         Log.d("Product", "Plato seleccionado: " + plato.getNombrePlato());
+        Intent intent = new Intent(UserProductsActivity.this, UserProductDetailActivity.class);
+
+        // Pasar datos del plato seleccionado al intent
+        intent.putExtra("nombrePlato", plato.getNombrePlato());
+        intent.putExtra("descripcion", plato.getDescripcion());
+        intent.putExtra("precio", plato.getPrecio());
+        intent.putExtra("imageUrl", plato.getImageUrl());
+        intent.putExtra("categoria", plato.getCategoriaPlato());
+
+        startActivity(intent);
     }
 }

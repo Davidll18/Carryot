@@ -1,91 +1,76 @@
 package com.example.superadmin.user;
 
-import android.content.Intent;
 import android.os.Bundle;
-import android.view.View;
+import android.widget.ImageView;
+import android.widget.TextView;
 import android.widget.ImageButton;
 
-import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.constraintlayout.widget.ConstraintLayout;
-import androidx.core.graphics.Insets;
-import androidx.core.view.ViewCompat;
-import androidx.core.view.WindowInsetsCompat;
-import androidx.recyclerview.widget.RecyclerView;
 
-import com.example.superadmin.ProfileActivity;
 import com.example.superadmin.R;
-import com.example.superadmin.adapters.AdapterDots;
-import com.example.superadmin.adapters.AdapterImageSlider;
-
-import java.util.Arrays;
-import java.util.List;
 
 public class UserProductDetailActivity extends AppCompatActivity {
-    ConstraintLayout toolbar;
-    ImageButton btnBack;
-    ImageButton btnCar;
-    ImageButton btnProfile;
-    ConstraintLayout btnPay;
+
+    private ImageView imageViewProduct, btnMinus, btnAdd;
+    private TextView textViewName, textViewModel, textViewDescription, textViewPrice, textViewAmount, textNumberProducts;
+    //private ImageButton btnMinus, btnAdd;
+
+    private int cantidad = 1; // Cantidad inicial
+    private double precioUnitario; // Precio unitario del producto
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        EdgeToEdge.enable(this);
-        setContentView(R.layout.user_activity_product_detail);
-        ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main), (v, insets) -> {
-            Insets systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars());
-            v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
-            return insets;
-        });
+        setContentView(R.layout.activity_product_detail);
 
-        toolbar = findViewById(R.id.toolbar_detail_product);
-        btnBack = toolbar.findViewById(R.id.btn_back);
-        btnCar = toolbar.findViewById(R.id.btn_shopping_bag);
-        btnProfile = toolbar.findViewById(R.id.btn_profile);
-        btnPay= findViewById(R.id.container_payment);
+        // Inicializar vistas
+        textViewName = findViewById(R.id.text_name_product);
+        textViewModel = findViewById(R.id.text_model_product);
+        textViewDescription = findViewById(R.id.textView);
+        textViewPrice = findViewById(R.id.text_amount);
+        textViewAmount = findViewById(R.id.text_amount_total);
+        textNumberProducts = findViewById(R.id.text_number_products);
+        btnMinus = findViewById(R.id.btn_minus_numbers_products);
+        btnAdd = findViewById(R.id.btn_add_numbers_producst);
 
-        btnProfile.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                startActivity(new Intent(UserProductDetailActivity.this, ProfileActivity.class));
-            }
-        });
+        // Obtener datos desde el Intent
+        String nombrePlato = getIntent().getStringExtra("nombrePlato");
+        String descripcion = getIntent().getStringExtra("descripcion");
+        String precio = getIntent().getStringExtra("precio");
 
-        btnCar.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                startActivity(new Intent(UserProductDetailActivity.this, UserCarActivity.class));
-            }
-        });
+        // Parsear el precio unitario
+        precioUnitario = Double.parseDouble(precio);
+        cantidad = 1; // Cantidad inicial
 
-        btnBack.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                finish();
-            }
-        });
+        // Asignar valores a las vistas
+        textViewName.setText(nombrePlato);
+        textViewModel.setText("Modelo Taypa");
+        textViewDescription.setText(descripcion);
+        textViewPrice.setText("S/ " + precio);
+        textNumberProducts.setText(String.valueOf(cantidad)); // Cantidad inicial
+        actualizarPrecioTotal();
 
-        btnPay.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                startActivity(new Intent(UserProductDetailActivity.this, UserCarActivity.class));
-            }
-        });
+        // Configurar botones de cantidad
+        btnAdd.setOnClickListener(v -> aumentarCantidad());
+        btnMinus.setOnClickListener(v -> disminuirCantidad());
+    }
 
+    private void aumentarCantidad() {
+        cantidad++;
+        textNumberProducts.setText(String.valueOf(cantidad));
+        actualizarPrecioTotal();
+    }
 
+    private void disminuirCantidad() {
+        if (cantidad > 1) {
+            cantidad--;
+            textNumberProducts.setText(String.valueOf(cantidad));
+            actualizarPrecioTotal();
+        }
+    }
 
-
-        RecyclerView recyclerViewImages = findViewById(R.id.rv_slide_detail_product);
-        RecyclerView recyclerViewDots = findViewById(R.id.rv_dots);
-
-        List<String> images = Arrays.asList("","","","");
-        List<String> dots = Arrays.asList("","","","");
-
-        AdapterImageSlider adapterImage = new AdapterImageSlider(UserProductDetailActivity.this,images);
-        AdapterDots adapterDots = new AdapterDots(UserProductDetailActivity.this,dots);
-
-        recyclerViewImages.setAdapter(adapterImage);
-        recyclerViewDots.setAdapter(adapterDots);
-
+    private void actualizarPrecioTotal() {
+        double precioTotal = cantidad * precioUnitario;
+        textViewAmount.setText(String.format("S/ %.2f", precioTotal));
     }
 }
