@@ -156,7 +156,7 @@ public class Super_registro_admin_rest extends AppCompatActivity {
                                     admin.put("uidCreador", uidCreador);
                                     admin.put("createdBy", nombreCreador);
                                     admin.put("createdAt", com.google.firebase.Timestamp.now());
-                                    admin.put("profileImage", uri.toString()); // URL de la imagen
+                                    admin.put("profileImage", uri.toString()); // URL de la imagenn
 
                                     db.collection("users").document(uid).set(admin)
                                             .addOnSuccessListener(aVoid -> {

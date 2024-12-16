@@ -51,7 +51,7 @@
             android:exported="false" />
         <activity
             android:name=".Superadmin.super_estadisticas_general"
-            android:exported="false" /> <!-- esta declarado pero ni idea que hace -->
+            android:exported="false" /> <!-- esta declarado pero ni idea quen hace -->
         <activity android:name=".Superadmin.SuperPrincipalActivity" />
         <activity
             android:name=".splashActivity"
