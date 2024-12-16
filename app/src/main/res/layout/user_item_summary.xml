@@ -126,6 +126,7 @@
                         android:textColor="@color/blue_dark_app"
                         android:textSize="15sp" />
                     <TextView
+                        android:id="@+id/catidadn"
                         android:layout_width="30dp"
                         android:layout_height="wrap_content"
                         android:layout_gravity="center"
