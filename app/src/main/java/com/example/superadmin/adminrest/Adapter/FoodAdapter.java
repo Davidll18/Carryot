@@ -19,6 +19,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
 import com.example.superadmin.R;
+import com.example.superadmin.adminrest.DishesActivity;
 import com.example.superadmin.adminrest.EditDishesActivity;
 import com.example.superadmin.adminrest.dto.FoodItem;
 import com.example.superadmin.adminrest.dto.PlatosEstItem;
@@ -27,7 +28,9 @@ import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 public class FoodAdapter extends RecyclerView.Adapter<FoodAdapter.FoodViewHolder> {
 
@@ -121,44 +124,29 @@ public class FoodAdapter extends RecyclerView.Adapter<FoodAdapter.FoodViewHolder
 
     private void toggleAvailability(PlatoDTO foodItem, FoodViewHolder holder, Context context) {
         String uidPlato = foodItem.getUidCreacion();
+        Map<String, Object> plato = new HashMap<>();
+        if(foodItem.isDisponible()){
+
+            plato.put("disponible", false);
+        }else{
+            plato.put("disponible", true);
+        }
+
         FirebaseFirestore db = FirebaseFirestore.getInstance();
 
-        db.collection("plaltos")
-                .whereEqualTo("uidCreacion", uidPlato)
-                .get()
-                .addOnSuccessListener(queryDocumentSnapshots -> {
-                    if (!queryDocumentSnapshots.isEmpty()) {
-                        // Obtener el documento del plato
-                        DocumentSnapshot platoSnapshot = queryDocumentSnapshots.getDocuments().get(0);
-                        String documentId = platoSnapshot.getId();
 
-                        // Obtener el estado actual de "disponible"
-                        Boolean disponibleActual = platoSnapshot.getBoolean("disponible");
-                        if (disponibleActual != null) {
-                            // Invertir el estado actual
-                            boolean nuevoEstado = !disponibleActual;
-
-                            // Actualizar el campo "disponible" en Firestore
-                            db.collection("plaltos")
-                                    .document(documentId)
-                                    .update("disponible", nuevoEstado)
-                                    .addOnSuccessListener(aVoid -> {
-                                        // Actualizar la UI del ViewHolder
-                                        foodItem.setDisponible(nuevoEstado);
-                                        holder.tvDisponible.setText(nuevoEstado ? "Disponible" : "No disponible");
-                                        holder.tvDisponible.setBackground(ContextCompat.getDrawable(context,
-                                                nuevoEstado ? R.drawable.background_green : R.drawable.background_red));
-                                        Toast.makeText(context, "Estado actualizado con éxito", Toast.LENGTH_SHORT).show();
-                                    })
-                                    .addOnFailureListener(e ->
-                                            Toast.makeText(context, "Error al actualizar: " + e.getMessage(), Toast.LENGTH_SHORT).show());
-                        }
-                    } else {
-                        Toast.makeText(context, "No se encontró el plato con el UID proporcionado.", Toast.LENGTH_SHORT).show();
-                    }
+        db.collection("platos").document(uidPlato)
+                .update(plato)
+                .addOnSuccessListener(aVoid -> {
+                    Toast.makeText(context, "Plato guardado correctamente.", Toast.LENGTH_SHORT).show();
+                    Intent intent = new Intent(context, DishesActivity.class);
+                    context.startActivity(intent);
                 })
                 .addOnFailureListener(e ->
-                        Toast.makeText(context, "Error al buscar el plato: " + e.getMessage(), Toast.LENGTH_SHORT).show());
+                        Toast.makeText(context, "Error al guardar el plato: " + e.getMessage(), Toast.LENGTH_SHORT).show()
+                );
+
+
     }
 
 

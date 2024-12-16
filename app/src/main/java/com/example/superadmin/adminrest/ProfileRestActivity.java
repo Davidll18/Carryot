@@ -25,8 +25,12 @@ import androidx.drawerlayout.widget.DrawerLayout;
 import com.bumptech.glide.Glide;
 import com.example.superadmin.LoginActivity;
 import com.example.superadmin.R;
+import com.example.superadmin.util.UtilsRandom;
 import com.google.android.material.navigation.NavigationView;
+import com.google.firebase.Timestamp;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 
 import java.io.IOException;
@@ -34,7 +38,11 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
+import java.util.UUID;
+
 import com.example.superadmin.util.KeyboardUtils;
+import com.google.firebase.storage.StorageReference;
+
 public class ProfileRestActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
 
     private FirebaseAuth firebaseAuth;
@@ -96,19 +104,47 @@ public class ProfileRestActivity extends AppCompatActivity implements Navigation
         etLF = findViewById(R.id.et_lf);
         etDes = findViewById(R.id.et_des);
 
-        // Recuperar UID del restaurante
-        uidRestaurante = getIntent().getStringExtra("uidRestaurante");
 
-        // Mostrar información del restaurante
-        displayRestaurantProfile();
+        FirebaseUser currentUser = FirebaseAuth.getInstance().getCurrentUser();
+        if (currentUser != null) {
+            String uidCreador = currentUser.getUid();
+
+            // Consultar la colección "users" en Firestore
+            FirebaseFirestore db = FirebaseFirestore.getInstance();
+            String uid = currentUser.getUid();
+            db.collection("restaurant")
+                    .whereEqualTo("uidCreador", uid) // Filtrar por uidCreador
+                    .get()
+                    .addOnSuccessListener(queryDocumentSnapshots -> {
+                        if (!queryDocumentSnapshots.isEmpty()) {
+                            // Obtener el primer restaurante que coincida
+                            DocumentSnapshot restauranteSnapshot = queryDocumentSnapshots.getDocuments().get(0);
+                            String uidRestaurante = restauranteSnapshot.getString("uidCreacion");
+                            if (uidRestaurante != null) {
+                                // Mostrar información del restaurante
+                                displayRestaurantProfile(uidRestaurante);
+                            } else {
+                                Toast.makeText(this, "No se encontró el uidRestaurante en el restaurante.", Toast.LENGTH_SHORT).show();
+                            }
+                        } else {
+                            Toast.makeText(this, "No se encontró un restaurante para este usuario." , Toast.LENGTH_SHORT).show();
+                        }
+                    })
+                    .addOnFailureListener(e ->
+                            Toast.makeText(this, "Error al buscar el restaurante: " + e.getMessage(), Toast.LENGTH_SHORT).show());
+        } else {
+            Toast.makeText(this, "No hay un usuario autenticado.", Toast.LENGTH_SHORT).show();
+        }
+
+
 
         // Configurar botón editar/guardar
-        btnEditInfo.setOnClickListener(v -> toggleEditSaveMode());
+        btnEditInfo.setOnClickListener(v -> toggleEditSaveMode(uidRestaurante));
     }
 
-    private void displayRestaurantProfile() {
-        if (uidRestaurante != null) {
-            db.collection("restaurant").document(uidRestaurante)
+    private void displayRestaurantProfile(String idRestaurante) {
+        if (idRestaurante != null) {
+            db.collection("restaurant").document(idRestaurante)
                     .get()
                     .addOnSuccessListener(documentSnapshot -> {
                         if (documentSnapshot.exists()) {
@@ -159,7 +195,7 @@ public class ProfileRestActivity extends AppCompatActivity implements Navigation
     }
 
 
-    private void toggleEditSaveMode() {
+    private void toggleEditSaveMode(String idRest) {
         if (isEditing) {
             // Validar los campos editables antes de guardar
             if (isAnyFieldEmpty()) {
@@ -175,7 +211,7 @@ public class ProfileRestActivity extends AppCompatActivity implements Navigation
             updates.put("licenciaFuncionamiento", etLF.getText().toString().trim());
             updates.put("descripcion", etDes.getText().toString().trim());
 
-            db.collection("restaurant").document(uidRestaurante)
+            db.collection("restaurant").document(idRest)
                     .update(updates)
                     .addOnSuccessListener(aVoid -> {
                         // Actualizar los TextView con los nuevos valores
