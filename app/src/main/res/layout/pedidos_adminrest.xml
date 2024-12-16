@@ -85,7 +85,7 @@
                         android:id="@+id/tabPreparacion"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text=" EN Preparación" />
+                        android:text="En Preparacion" />
 
                     <!-- Pestaña En camino -->
                     <com.google.android.material.tabs.TabItem
@@ -99,8 +99,14 @@
                         android:id="@+id/tabEntregado"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="Entregado" />
+                        android:text="Completado" />
 
+                    <!-- Pestaña Rechazado -->
+                    <com.google.android.material.tabs.TabItem
+                        android:id="@+id/tabRechazado"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Rechazado" />
                 </com.google.android.material.tabs.TabLayout>
 
             </LinearLayout>

@@ -11,12 +11,15 @@ import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
+import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.RecyclerView;
 
 
+import com.bumptech.glide.Glide;
 import com.example.superadmin.R;
 import com.example.superadmin.adminrest.DishesActivity;
 import com.example.superadmin.adminrest.OrderDetailsActivity;
+import com.example.superadmin.adminrest.PedidosActivity;
 import com.example.superadmin.dtos.Pedidos;
 import com.example.superadmin.dtos.PlatoDTO;
 import com.google.firebase.firestore.FirebaseFirestore;
@@ -50,17 +53,50 @@ public class PedidosAdapter extends RecyclerView.Adapter<PedidosAdapter.FoodView
         holder.numeroOrden.setText(pedidosItem.getNumeroPedido());
         holder.status.setText(pedidosItem.getEstado());
 
-        //holder.platoImagen.setImageResource(pedidosItem.getPlatoImagen());
-        holder.precio.setText(pedidosItem.getCostoTotal());
-        StringBuilder descripcion = new StringBuilder();
-        Map<String, Integer> productos = pedidosItem.getProductos();
-        for (Map.Entry<String, Integer> entry : productos.entrySet()) {
-            descripcion.append(entry.getValue()) // Cantidad
-                    .append("  ")            // Separador
-                    .append(entry.getKey())  // Nombre del plato
-                    .append("\n");           // Nueva línea
+        if (pedidosItem.getEstado().equals("Preparacion")) {
+            String status = "En preparación";
+            holder.status.setText(status);
+            holder.status.setBackground(ContextCompat.getDrawable(context, R.drawable.background_green));
+        } else if (pedidosItem.getEstado().equals("Rechazado")) {
+            String status = "Rechazado";
+            holder.status.setText(status);
+            holder.status.setBackground(ContextCompat.getDrawable(context, R.drawable.background_red));
+        } else if (pedidosItem.getEstado().equals("En camino")) {
+            String status = "En camino";
+            holder.status.setText(status);
+            holder.status.setBackground(ContextCompat.getDrawable(context, R.drawable.background_blue));
+        } else if (pedidosItem.getEstado().equals("Entregado")) {
+            String status = "Entregado";
+            holder.status.setText(status);
+            holder.status.setBackground(ContextCompat.getDrawable(context, R.drawable.background_default));
         }
-        holder.descripcion.setText(descripcion.toString().trim());
+
+        String descripcion = "";
+
+        if (pedidosItem.getCantidad1() != null && !pedidosItem.getCantidad1().isEmpty() &&
+                pedidosItem.getPlato1() != null && !pedidosItem.getPlato1().isEmpty()) {
+            descripcion += pedidosItem.getCantidad1() + " " + pedidosItem.getPlato1() + "\n";
+        }
+
+        if (pedidosItem.getCantidad2() != null && !pedidosItem.getCantidad2().isEmpty() &&
+                pedidosItem.getPlato2() != null && !pedidosItem.getPlato2().isEmpty()) {
+            descripcion += pedidosItem.getCantidad2() + " " + pedidosItem.getPlato2() + "\n";
+        }
+
+        if (pedidosItem.getCantidad3() != null && !pedidosItem.getCantidad3().isEmpty() &&
+                pedidosItem.getPlato3() != null && !pedidosItem.getPlato3().isEmpty()) {
+            descripcion += pedidosItem.getCantidad3() + " " + pedidosItem.getPlato3();
+        }
+
+        holder.descripcion.setText(descripcion);
+
+        Glide.with(context)
+                .load(pedidosItem.getImageUrl())  // Carga la imagen desde la URL
+                .placeholder(R.drawable.logo)  // Imagen por defecto mientras carga
+                .error(R.drawable.logo)  // Imagen en caso de error
+                .into(holder.platoImagen);
+        holder.precio.setText(pedidosItem.getCostoTotal());
+
         holder.iconoVista.setOnClickListener(v ->{
             Intent intent = new Intent(context, OrderDetailsActivity.class);
             context.startActivity(intent);
@@ -85,7 +121,7 @@ public class PedidosAdapter extends RecyclerView.Adapter<PedidosAdapter.FoodView
         // Configurar el botón "No"
         builder.setNegativeButton("No", (dialog, which) -> {
             // Cerrar el cuadro de diálogo
-            dialog.dismiss();
+            toggleUnavailability(pedidosItem, holder, context);
         });
 
         // Mostrar el cuadro de diálogo
@@ -93,8 +129,54 @@ public class PedidosAdapter extends RecyclerView.Adapter<PedidosAdapter.FoodView
         dialog.show();
     }
 
-    private void toggleAvailability(Pedidos pedidosItem, PedidosAdapter.FoodViewHolder holder, Context context) {
+    private void toggleUnavailability(Pedidos pedidosItem, FoodViewHolder holder, Context context) {
+        String uidPedido = pedidosItem.getUidCreacion();
+        FirebaseFirestore db = FirebaseFirestore.getInstance();
 
+        // Crear un mapa con la actualización
+        Map<String, Object> pedido = new HashMap<>();
+        pedido.put("estado", "Rechazado"); // 'estado' es la clave, y "En preparacion" es el valor
+
+        // Actualizar el documento en Firestore
+        db.collection("pedidos").document(uidPedido)
+                .update(pedido)
+                .addOnSuccessListener(aVoid -> {
+                    // Notificar al usuario del éxito
+                    Toast.makeText(context, "Pedido actualizado correctamente.", Toast.LENGTH_SHORT).show();
+
+                    // Redirigir a la actividad PedidosActivity
+                    Intent intent = new Intent(context, PedidosActivity.class);
+                    context.startActivity(intent);
+                })
+                .addOnFailureListener(e -> {
+                    // Notificar al usuario del error
+                    Toast.makeText(context, "Error al actualizar el pedido: " + uidPedido, Toast.LENGTH_SHORT).show();
+                });
+    }
+
+    private void toggleAvailability(Pedidos pedidosItem, PedidosAdapter.FoodViewHolder holder, Context context) {
+        String uidPedido = pedidosItem.getUidCreacion();
+        FirebaseFirestore db = FirebaseFirestore.getInstance();
+
+        // Crear un mapa con la actualización
+        Map<String, Object> pedido = new HashMap<>();
+        pedido.put("estado", "En preparacion");
+
+        // Actualizar el documento en Firestore
+        db.collection("pedidos").document(uidPedido)
+                .update(pedido)
+                .addOnSuccessListener(aVoid -> {
+                    // Notificar al usuario del éxito
+                    Toast.makeText(context, "Pedido actualizado correctamente.", Toast.LENGTH_SHORT).show();
+
+                    // Redirigir a la actividad PedidosActivity
+                    Intent intent = new Intent(context, PedidosActivity.class);
+                    context.startActivity(intent);
+                })
+                .addOnFailureListener(e -> {
+                    // Notificar al usuario del error
+                    Toast.makeText(context, "Error al actualizar el pedido: " + e.getMessage(), Toast.LENGTH_SHORT).show();
+                });
     }
 
 
