@@ -52,7 +52,7 @@
             app:layout_constraintTop_toBottomOf="@id/toolbar">
 
             <ImageView
-                android:id="@+id/restaurantImage"
+                android:id="@+id/restaurantImageView"
                 android:layout_width="50dp"
                 android:layout_height="50dp"
                 android:layout_marginEnd="16dp"
@@ -71,7 +71,36 @@
                     android:layout_height="wrap_content"
                     android:text="Nombre del Restaurant"
                     android:textSize="16sp"
-                    android:textColor="#000000" />
+                    android:textColor="#000000"
+                    android:textStyle="bold" />
+
+                <!-- Agregar costo, rate y categoría debajo del nombre -->
+                <ImageView
+                    android:id="@+id/restaurantImageCost"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                     />
+
+                <TextView
+                    android:id="@+id/costoTextView"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Costo: "
+                     />
+
+                <TextView
+                    android:id="@+id/rateTextView"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Rate: " />
+
+                <TextView
+                    android:id="@+id/restaurantCategory"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Categoría: Italiana"
+                    android:textSize="14sp"
+                    android:textColor="#666666" />
             </LinearLayout>
         </LinearLayout>
 
@@ -139,11 +168,13 @@
                     android:gravity="center">
 
                     <ImageView
+                        android:id="@+id/platoImage1"
                         android:layout_width="48dp"
                         android:layout_height="48dp"
                         android:src="@drawable/dish_placeholder" />
 
                     <TextView
+                        android:id="@+id/platoName1"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="DISH NAME"
@@ -158,11 +189,13 @@
                     android:gravity="center">
 
                     <ImageView
+                        android:id="@+id/platoImage2"
                         android:layout_width="48dp"
                         android:layout_height="48dp"
                         android:src="@drawable/dish_placeholder" />
 
                     <TextView
+                        android:id="@+id/platoName2"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="DISH NAME"
@@ -177,11 +210,13 @@
                     android:gravity="center">
 
                     <ImageView
+                        android:id="@+id/platoImage3"
                         android:layout_width="48dp"
                         android:layout_height="48dp"
                         android:src="@drawable/dish_placeholder" />
 
                     <TextView
+                        android:id="@+id/platoName3"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="DISH NAME"
@@ -211,4 +246,5 @@
         app:menu="@menu/super_drawer_items" />
 
 </androidx.drawerlayout.widget.DrawerLayout>
+
 

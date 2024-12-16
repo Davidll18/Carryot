@@ -71,7 +71,7 @@ public class UserProductDetailActivity extends AppCompatActivity {
 
         precioUnidad = Double.parseDouble(precio);
         textViewName.setText("Plato");
-        textViewModel.setText("Modelo Taypa");
+        textViewModel.setText("");
         textViewDescription.setText(descripcion);
         textViewPrice.setText("S/ " + precio);
         actualizarTotal();
@@ -128,39 +128,47 @@ public class UserProductDetailActivity extends AppCompatActivity {
                     // Verificar si el carrito ya tiene un restaurante asignado
                     if (uidRestauranteCarrito != null && !uidRestauranteCarrito.equals(uidRestaurante)) {
                         Toast.makeText(this, "No puedes agregar productos de diferentes restaurantes al mismo carrito", Toast.LENGTH_LONG).show();
-                        return; // No agregar el plato si es de otro restaurante
+                        return;
                     }
 
-                    // Si el restaurante coincide o es la primera vez, proceder con la actualización
-                    int indiceExistente = -1;
-                    int cantidadActual = 0;
+                    int platosExistentes = 0; // Contar platos existentes
+                    int indiceExistente = -1; // Indice del plato si existe
+                    int cantidadActual = 0;   // Cantidad actual del plato si existe
 
-                    // Buscar si la UID del plato ya existe
-                    for (int i = 1; i <= carrito.size() / 2; i++) {
+                    // Contar platos existentes y buscar si el plato ya está en el carrito
+                    for (int i = 1; i <= 3; i++) { // Máximo 3 platos
                         String uidKey = "uidplato" + i;
                         String cantidadKey = "cantidad" + i;
 
-                        if (carrito.containsKey(uidKey) && carrito.get(uidKey).equals(uidPlato)) {
-                            indiceExistente = i; // Guardar el índice si el plato existe
-                            cantidadActual = carrito.containsKey(cantidadKey)
-                                    ? ((Long) carrito.get(cantidadKey)).intValue() : 0;
-                            break;
+                        if (carrito.containsKey(uidKey)) {
+                            platosExistentes++;
+                            if (carrito.get(uidKey).equals(uidPlato)) { // El plato ya está en el carrito
+                                indiceExistente = i;
+                                cantidadActual = carrito.containsKey(cantidadKey)
+                                        ? ((Long) carrito.get(cantidadKey)).intValue() : 0;
+                            }
                         }
+                    }
+
+                    // Verificar si se alcanzó el límite de 3 platos
+                    if (indiceExistente == -1 && platosExistentes >= 3) {
+                        Toast.makeText(this, "No puedes agregar más de 3 platos diferentes", Toast.LENGTH_SHORT).show();
+                        return;
                     }
 
                     Map<String, Object> updates = new HashMap<>();
 
                     if (indiceExistente != -1) {
-                        // Actualizar la cantidad si el plato ya existe
-                        updates.put("cantidad" + indiceExistente, cantidadActual + cantidad);
+                        // Si el plato ya existe, actualizar la cantidad
+                        updates.put("cantidad" + indiceExistente, cantidadActual + 1);
                     } else {
-                        // Si no existe, buscar el próximo índice libre
+                        // Añadir un nuevo plato al siguiente índice disponible
                         int nuevoIndice = 1;
                         while (carrito.containsKey("uidplato" + nuevoIndice)) {
                             nuevoIndice++;
                         }
                         updates.put("uidplato" + nuevoIndice, uidPlato);
-                        updates.put("cantidad" + nuevoIndice, cantidad);
+                        updates.put("cantidad" + nuevoIndice, 1);
 
                         // Si es el primer plato, establecer el uidRestaurante
                         if (uidRestauranteCarrito == null) {
@@ -173,8 +181,11 @@ public class UserProductDetailActivity extends AppCompatActivity {
                             .update(updates)
                             .addOnSuccessListener(aVoid -> Toast.makeText(this, "Carrito actualizado", Toast.LENGTH_SHORT).show())
                             .addOnFailureListener(e -> Toast.makeText(this, "Error al actualizar el carrito", Toast.LENGTH_SHORT).show());
-                });
+                })
+                .addOnFailureListener(e -> Toast.makeText(this, "Error al obtener los datos del carrito", Toast.LENGTH_SHORT).show());
     }
+
+
 
 
 
@@ -204,6 +215,6 @@ public class UserProductDetailActivity extends AppCompatActivity {
                     );
                 }
             });
-        }, 600000); // 10 minutos
+        }, 60000); // 1 minutos
     }
 }

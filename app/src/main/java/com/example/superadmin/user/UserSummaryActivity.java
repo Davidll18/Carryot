@@ -28,7 +28,10 @@ import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+import java.util.Random;
 
 public class UserSummaryActivity extends AppCompatActivity {
 
@@ -128,12 +131,17 @@ public class UserSummaryActivity extends AppCompatActivity {
                 .addOnFailureListener(e -> e.printStackTrace());
     }
 
+    private String costoTotal;
+
     private void actualizarValores() {
         textSubtotal.setText(String.format("Subtotal S/ %.2f", subtotal));
         textEnvio.setText(String.format("Envío S/ %.2f", envio));
 
         double total = subtotal + envio;
         textTotal.setText(String.format("Total S/ %.2f", total));
+
+        // Guardar el total en formato String
+        costoTotal = String.format("%.2f", total);
     }
 
     private void actualizarEstadoPedido() {
@@ -143,9 +151,22 @@ public class UserSummaryActivity extends AppCompatActivity {
                 .get()
                 .addOnSuccessListener(querySnapshot -> {
                     for (QueryDocumentSnapshot document : querySnapshot) {
-                        // Actualizar el estado del pedido a "pendiente"
-                        db.collection("pedidos").document(document.getId())
-                                .update("estado", "pendiente")
+                        String pedidoId = document.getId(); // ID del pedido
+                        Random random = new Random();
+                        String numeroPedido = String.valueOf(random.nextInt(99999) + 10000); // Genera un número aleatorio de 5 dígitos
+
+                        // Crear un mapa con las actualizaciones necesarias
+                        Map<String, Object> updates = new HashMap<>();
+                        updates.put("estado", "pendiente");
+                        updates.put("numeroPedido", numeroPedido);
+                        updates.put("uidCreacion", pedidoId); // Asignar el ID del mismo pedido
+                        updates.put("uidRepartidor", ""); // Campo vacío para repartidor
+                        updates.put("direccion", ""); // Campo vacío para dirección
+                        updates.put("costoTotal", costoTotal); // Guardar el total calculado
+
+                        // Actualizar el pedido en Firebase
+                        db.collection("pedidos").document(pedidoId)
+                                .update(updates)
                                 .addOnSuccessListener(aVoid -> {
                                     showOrderCompletedNotification("Pedido completado", "Tu pedido ha sido completado con éxito.");
 
@@ -168,6 +189,7 @@ public class UserSummaryActivity extends AppCompatActivity {
                     e.printStackTrace();
                 });
     }
+
 
     // Método para mostrar la notificación
     private void showOrderCompletedNotification(String title, String message) {

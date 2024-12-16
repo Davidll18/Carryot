@@ -58,12 +58,16 @@ public class RestaurantAdapter extends RecyclerView.Adapter<RestaurantAdapter.Re
             holder.restaurantImage.setImageResource(R.drawable.logo);
         }
 
-
-        // Configurar clic en la tarjeta
+        // Configurar clic en la tarjeta para redirigir con datos
         holder.cardView.setOnClickListener(v -> {
-            if (listener != null) {
-                listener.onCardClick(restaurant);
-            }
+            Intent intent = new Intent(context, super_estadisticas_por_rest.class);
+            intent.putExtra("nombreRestaurante", restaurant.getNombreRestaurante());
+            intent.putExtra("categoria", restaurant.getCategoria());
+            intent.putExtra("idRestaurante", restaurant.getUidCreacion());
+            intent.putExtra("imageUrl", restaurant.getImageUrl());
+            intent.putExtra("costo", restaurant.getCostoDelivery()); // Costo del restaurante
+            intent.putExtra("rate", restaurant.getRateRest());   // Valoración del restaurante
+            context.startActivity(intent);
         });
     }
 

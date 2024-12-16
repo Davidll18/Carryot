@@ -59,7 +59,7 @@ public class UserAdapterSummary extends RecyclerView.Adapter<UserAdapterSummary.
 
             textModel = itemView.findViewById(R.id.text_model);
             textAmount = itemView.findViewById(R.id.text_amount);
-            textNumberProducts = itemView.findViewById(R.id.text_number_products);
+            textNumberProducts = itemView.findViewById(R.id.catidadn);
             imgProduct = itemView.findViewById(R.id.img_product);
         }
     }
