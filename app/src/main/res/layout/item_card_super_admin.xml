@@ -16,10 +16,11 @@
 
         <!-- Imagen del administrador -->
         <ImageView
+            android:id="@+id/imageViewProfile"
             android:layout_width="50dp"
             android:layout_height="50dp"
             android:layout_marginEnd="16dp"
-            android:src="@drawable/perfil_icon" />
+            android:src="@drawable/perfil_icon"
         android:background="#DDDDDD" />
 
         <!-- Información del administrador -->

@@ -14,6 +14,7 @@ import android.util.Log;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
+import android.widget.ImageView;
 import android.widget.Switch;
 import android.widget.Toast;
 
@@ -24,6 +25,8 @@ import androidx.core.app.NotificationManagerCompat;
 import androidx.core.content.ContextCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
 
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.example.superadmin.LoginActivity;
 import com.example.superadmin.R;
 import com.example.superadmin.dtos.User;
@@ -31,7 +34,6 @@ import com.google.android.material.navigation.NavigationView;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
-
 public class super_habilitar_usuarios extends AppCompatActivity {
     private EditText nombreEditText, apellidosEditText, dniEditText, correoEditText, telefonoEditText;
     private Switch habilitarSwitch;
@@ -42,6 +44,7 @@ public class super_habilitar_usuarios extends AppCompatActivity {
     private boolean habilitado; // Estado inicial del switch
     private final String channelId = "channelDefaultPri";
     private NavigationView navigationView_menu;
+    private ImageView imageViewProfile; // Añadido para mostrar la imagen de perfil
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -61,6 +64,7 @@ public class super_habilitar_usuarios extends AppCompatActivity {
         drawerLayout = findViewById(R.id.drawerLayout);
         buttonMenu = findViewById(R.id.buttonMenu);
         navigationView_menu = findViewById(R.id.navigationView_menu);
+        imageViewProfile = findViewById(R.id.imageViewProfile); // Referencia al ImageView
         createNotificationChannel();
 
         // Obtener el UID del usuario desde el intent
@@ -130,6 +134,15 @@ public class super_habilitar_usuarios extends AppCompatActivity {
                             correoEditText.setText(user.getEmail());
                             telefonoEditText.setText(user.getPhone());
                             habilitarSwitch.setChecked(user.getStatus() != null ? user.getStatus() : false);
+
+                            // Cargar la imagen de perfil usando Glide
+                            if (user.getProfileImage() != null && !user.getProfileImage().isEmpty()) {
+                                Glide.with(this)
+                                        .load(user.getProfileImage())
+                                        .placeholder(R.drawable.perfil_icon) // Imagen predeterminada
+                                        .diskCacheStrategy(DiskCacheStrategy.ALL)
+                                        .into(imageViewProfile);
+                            }
                         }
                     } else {
                         Toast.makeText(this, "El usuario no existe.", Toast.LENGTH_SHORT).show();
@@ -218,4 +231,3 @@ public class super_habilitar_usuarios extends AppCompatActivity {
         }
     }
 }
-

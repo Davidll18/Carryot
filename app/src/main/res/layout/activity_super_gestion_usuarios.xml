@@ -52,8 +52,8 @@
                 android:layout_height="wrap_content"
                 android:orientation="horizontal"
                 android:gravity="center_vertical"
-                android:paddingBottom="8dp"
-                android:layout_marginTop="10dp">
+                android:paddingBottom="2dp"
+                android:layout_marginTop="14dp">
 
                 <!-- Filtros desplegables -->
                 <Spinner
@@ -83,7 +83,7 @@
                 android:id="@+id/recyclerViewAdmins"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:padding="10dp"
+                android:padding="4dp"
                 android:layout_marginTop="4dp"/>
 
         </LinearLayout>
