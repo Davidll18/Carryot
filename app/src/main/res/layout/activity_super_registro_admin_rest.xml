@@ -271,7 +271,7 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="27dp"
             android:layout_marginBottom="27dp"
-            android:background="@color/red_boton"
+            android:background="@color/light_orange"
             android:fontFamily="@font/raleway_bold"
             android:text="Registrar"
             android:textColor="@color/white"

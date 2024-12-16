@@ -44,6 +44,7 @@ public class UserProductAdapter extends RecyclerView.Adapter<UserProductAdapter.
         // Configurar vistas
         holder.textName.setText(plato.getNombrePlato());
         holder.textPrice.setText("S/ " + plato.getPrecio());
+        holder.textDescripcion.setText(plato.getDescripcion());
 
         // Cargar imagen con Glide
         Glide.with(holder.itemView.getContext())
@@ -61,7 +62,7 @@ public class UserProductAdapter extends RecyclerView.Adapter<UserProductAdapter.
     }
 
     public static class ViewHolder extends RecyclerView.ViewHolder {
-        TextView textName, textPrice;
+        TextView textName, textPrice,textDescripcion;
         ImageView imageProduct;
 
         public ViewHolder(View itemView) {
@@ -69,6 +70,7 @@ public class UserProductAdapter extends RecyclerView.Adapter<UserProductAdapter.
             textName = itemView.findViewById(R.id.text_name_product);
             textPrice = itemView.findViewById(R.id.text_price);
             imageProduct = itemView.findViewById(R.id.img_menu_item);
+            textDescripcion = itemView.findViewById(R.id.text_model);
         }
     }
 }

@@ -21,6 +21,7 @@
     </string-array>
 
     <string-array name="categorias_restaurantes">
+        <item>Todos las categorias</item>
         <item>Comida rápida</item>
         <item>Criollo</item>
         <item>Carnes y Parrillas</item>
@@ -28,6 +29,10 @@
         <item>Pescados y Mariscos</item>
         <item>Pollería</item>
         <item>Sushi</item>
+    </string-array>
+    <string-array name="logs_tipos">
+        <item>Usuarios</item>
+        <item>Restaurantes</item>
     </string-array>
 
     <string-array name="categorias_platos">

@@ -188,15 +188,7 @@
                 app:layout_constraintTop_toTopOf="@+id/linearLayout15"
                 app:srcCompat="@drawable/ic_baseline_content_copy_24">
 
-                <ImageView
-                    android:layout_width="16dp"
-                    android:layout_height="16dp"
-                    android:layout_margin="4dp"
-                    app:layout_constraintBottom_toTopOf="@+id/view10"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/btn_remove"
-                    app:srcCompat="@drawable/ic_baseline_content_copy_24"
-                    app:tint="@color/blue_app" />
+
 
             </androidx.cardview.widget.CardView>
 

@@ -264,11 +264,11 @@ public class ProfileRestActivity extends AppCompatActivity implements Navigation
 
     private void switchToEditMode() {
 
-        findViewById(R.id.lyt_name).setBackgroundColor(getResources().getColor(R.color.gray));
-        findViewById(R.id.lyt_rs).setBackgroundColor(getResources().getColor(R.color.gray));
-        findViewById(R.id.lyt_ruc).setBackgroundColor(getResources().getColor(R.color.gray));
-        findViewById(R.id.lyt_licen).setBackgroundColor(getResources().getColor(R.color.gray));
-        findViewById(R.id.lyt_desc).setBackgroundColor(getResources().getColor(R.color.gray));
+        findViewById(R.id.lyt_name).setBackgroundColor(getResources().getColor(R.color.naranja_suave));
+        findViewById(R.id.lyt_rs).setBackgroundColor(getResources().getColor(R.color.naranja_suave));
+        findViewById(R.id.lyt_ruc).setBackgroundColor(getResources().getColor(R.color.naranja_suave));
+        findViewById(R.id.lyt_licen).setBackgroundColor(getResources().getColor(R.color.naranja_suave));
+        findViewById(R.id.lyt_desc).setBackgroundColor(getResources().getColor(R.color.naranja_suave));
 
         tvName.setVisibility(View.GONE);
         tvRS.setVisibility(View.GONE);

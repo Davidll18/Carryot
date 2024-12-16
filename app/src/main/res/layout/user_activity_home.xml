@@ -43,6 +43,32 @@
 
         </Toolbar>
 
+
+        <TextView
+            android:id="@+id/textView7"
+            android:layout_width="385dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            android:fontFamily="@font/raleway_regular"
+            android:text="Hola"
+            android:textColor="@color/red_boton"
+            android:textSize="24sp" />
+
+        <SearchView
+            android:id="@+id/searchView_restaurants"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:iconifiedByDefault="false"
+            android:queryHint="Buscar..."
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/container_welcome_user" />
+
+        <Space
+            android:layout_width="match_parent"
+            android:layout_height="25dp" />
+
         <Spinner
             android:id="@+id/tipoRest"
             android:layout_width="match_parent"
@@ -50,6 +76,10 @@
             android:entries="@array/categorias_restaurantes" />
 
         <!-- RecyclerView para los restaurantes -->
+        <Space
+            android:layout_width="match_parent"
+            android:layout_height="24dp" />
+
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/myRecyclerView"
             android:layout_width="match_parent"

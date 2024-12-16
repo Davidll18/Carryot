@@ -1,19 +1,18 @@
 package com.example.superadmin.adapters;
 
 import android.content.Context;
-import android.content.Intent;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
+
 import androidx.annotation.NonNull;
 import androidx.cardview.widget.CardView;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.bumptech.glide.Glide;
 import com.example.superadmin.R;
-import com.example.superadmin.Superadmin.super_habilitar_usuarios;
 import com.example.superadmin.dtos.User;
 
 import java.util.List;
@@ -58,6 +57,13 @@ public class AdminRestAdapter extends RecyclerView.Adapter<AdminRestAdapter.Admi
             holder.textViewStatus.setText("Inactivo");
         }
 
+        // Cargar la imagen de perfil usando Glide (o puedes usar Picasso)
+        Glide.with(context)
+                .load(user.getProfileImage()) // URL de la imagen
+                .placeholder(R.drawable.perfil_icon) // Imagen de placeholder
+                .error(R.drawable.perfil_icon) // Imagen si hay error al cargar
+                .into(holder.imageViewProfile);
+
         // Configurar listener para clics
         holder.itemView.setOnClickListener(v -> onUserClickListener.onUserClick(user));
     }
@@ -85,6 +91,7 @@ public class AdminRestAdapter extends RecyclerView.Adapter<AdminRestAdapter.Admi
 
     public static class AdminViewHolder extends RecyclerView.ViewHolder {
         TextView textViewName, textViewRole, textViewStatus;
+        ImageView imageViewProfile; // Agregado para la imagen
         CardView cardView;
 
         public AdminViewHolder(@NonNull View itemView) {
@@ -92,6 +99,7 @@ public class AdminRestAdapter extends RecyclerView.Adapter<AdminRestAdapter.Admi
             textViewName = itemView.findViewById(R.id.textViewName);
             textViewRole = itemView.findViewById(R.id.textViewRole);
             textViewStatus = itemView.findViewById(R.id.textViewStatus);
+            imageViewProfile = itemView.findViewById(R.id.imageViewProfile); // Referencia al ImageView
             cardView = itemView.findViewById(R.id.cardViewAdmin);
         }
     }

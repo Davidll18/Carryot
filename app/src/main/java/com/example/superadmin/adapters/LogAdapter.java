@@ -32,6 +32,7 @@ public class LogAdapter extends RecyclerView.Adapter<LogAdapter.LogViewHolder> {
     @Override
     public void onBindViewHolder(@NonNull LogViewHolder holder, int position) {
         LogEntry logEntry = logList.get(position);
+
         holder.tvUsername.setText(logEntry.getUsername());
         holder.tvAction.setText(logEntry.getAction());
         holder.tvTimestamp.setText(logEntry.getTimestamp());
