@@ -66,7 +66,7 @@ public class super_gestion_rest extends AppCompatActivity {
         // Configurar menú lateral
         buttonMenu = findViewById(R.id.buttonMenu);
         buttonMenu.setOnClickListener(view -> drawerLayout.open());
-// Inicializar DrawerLayout
+        // Inicializar DrawerLayout
         drawerLayout = findViewById(R.id.drawerLayout);
         getWindow().setStatusBarColor(ContextCompat.getColor(super_gestion_rest.this, R.color.red_boton));
 
