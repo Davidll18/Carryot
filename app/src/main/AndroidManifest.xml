@@ -142,7 +142,8 @@
         <activity android:name=".HomeRepartidorActivity" android:exported="false" />
         <activity android:name=".CategoriesFragmentRepartidor" android:exported="false" />
         <activity android:name=".ProductsRepartidorActivity" android:exported="false" />
-
+        <activity android:name=".VerMapa"
+            android:exported="false"/>
 
 
         <activity android:name=".adminrest.MainActivity" android:exported="false" />
