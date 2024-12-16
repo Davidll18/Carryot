@@ -52,7 +52,7 @@
             app:layout_constraintTop_toBottomOf="@id/toolbar">
 
             <ImageView
-                android:id="@+id/restaurantImage"
+                android:id="@+id/restaurantImageView"
                 android:layout_width="50dp"
                 android:layout_height="50dp"
                 android:layout_marginEnd="16dp"
@@ -75,21 +75,24 @@
                     android:textStyle="bold" />
 
                 <!-- Agregar costo, rate y categoría debajo del nombre -->
-                <TextView
-                    android:id="@+id/restaurantCost"
+                <ImageView
+                    android:id="@+id/restaurantImageCost"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Costo: $$$"
-                    android:textSize="14sp"
-                    android:textColor="#666666" />
+                     />
 
                 <TextView
-                    android:id="@+id/restaurantRate"
+                    android:id="@+id/costoTextView"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Calificación: 4.5"
-                    android:textSize="14sp"
-                    android:textColor="#666666" />
+                    android:text="Costo: "
+                     />
+
+                <TextView
+                    android:id="@+id/rateTextView"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Rate: " />
 
                 <TextView
                     android:id="@+id/restaurantCategory"

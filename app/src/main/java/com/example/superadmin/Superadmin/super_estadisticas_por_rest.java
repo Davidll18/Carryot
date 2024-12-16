@@ -11,6 +11,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.content.ContextCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
 
+import com.bumptech.glide.Glide;
 import com.example.superadmin.LoginActivity;
 import com.example.superadmin.R;
 import com.google.android.material.navigation.NavigationView;
@@ -21,6 +22,12 @@ public class super_estadisticas_por_rest extends AppCompatActivity {
     private NavigationView navigationView_menu;
     private DrawerLayout drawerLayout;
     private ImageButton buttonMenu;
+    private TextView nombreRestaurante;
+    private TextView categoriaRestaurante;
+    private ImageView imagenRestaurante;
+    private TextView costoRest;
+    private TextView rateRest;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -32,14 +39,50 @@ public class super_estadisticas_por_rest extends AppCompatActivity {
         String restaurantName = intent.getStringExtra("RESTAURANT_NAME");
         int restaurantImage = intent.getIntExtra("RESTAURANT_IMAGE", R.drawable.registrar_admin_rest); // Imagen por defecto si no se recibe
 
+
         // Configura los views con la información recibida
         TextView restaurantNameTextView = findViewById(R.id.restaurantName);
-        ImageView restaurantImageView = findViewById(R.id.restaurantImage);
+        ImageView restaurantImageView = findViewById(R.id.restaurantImageView);
+        if (restaurantImageView != null) {
+            restaurantImageView.setImageResource(R.drawable.logo);
+        } else {
+            System.err.println("restaurantImageView es nulo, revisa el layout");
+        }
+
         buttonMenu = findViewById(R.id.buttonMenu);
 
         restaurantNameTextView.setText(restaurantName);
         restaurantImageView.setImageResource(restaurantImage);
         drawerLayout = findViewById(R.id.drawerLayout); // Asegúrate de que el ID sea correcto
+
+
+        nombreRestaurante = findViewById(R.id.restaurantName);
+        categoriaRestaurante = findViewById(R.id.restaurantCategory);
+        costoRest = findViewById(R.id.costoTextView);
+        rateRest = findViewById(R.id.rateTextView);
+        imagenRestaurante = findViewById(R.id.restaurantImageView);
+
+
+        // Obtener los datos enviados por el Intent
+        String nombre = getIntent().getStringExtra("nombreRestaurante");
+        String categoria = getIntent().getStringExtra("categoria");
+        String imageUrl = getIntent().getStringExtra("imageUrl");
+        String costo = getIntent().getStringExtra("costo");
+        String rate = getIntent().getStringExtra("rate");
+
+        // Asignar los datos a las vistas
+        // Asignar los datos a las vistas
+        nombreRestaurante.setText(nombre);
+        categoriaRestaurante.setText(categoria);
+        costoRest.setText("Costo: " + (costo != null ? costo : "N/A")); // Añadir texto "Costo:"
+        rateRest.setText("Rate: " + (rate != null ? rate : "N/A"));     // Añadir texto "Rate:"
+
+
+
+        Glide.with(this).load(imageUrl).placeholder(R.drawable.logo).into(imagenRestaurante);
+
+
+
 
         buttonMenu.setOnClickListener(view -> drawerLayout.open());
         getWindow().setStatusBarColor(ContextCompat.getColor(super_estadisticas_por_rest.this,R.color.light_orange));
