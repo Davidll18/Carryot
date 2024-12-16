@@ -42,7 +42,7 @@ public class Super_registro_admin_rest extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_super_registro_admin_rest);
-        getWindow().setStatusBarColor(ContextCompat.getColor(Super_registro_admin_rest.this, R.color.red_boton));
+        getWindow().setStatusBarColor(ContextCompat.getColor(Super_registro_admin_rest.this, R.color.light_orange));
 
         toolbar = findViewById(R.id.toolbar_signup);
         btnBack = toolbar.findViewById(R.id.btn_back);

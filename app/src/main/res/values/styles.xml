@@ -4,6 +4,9 @@
         <item name="android:textSize">18sp</item>  <!-- Ajusta el tamaño del texto -->
         <item name="android:padding">10dp</item>  <!-- Opcional: Ajusta el padding -->
     </style>
-
+    <style name="CustomSwitchStyle">
+        <item name="colorControlActivated">@color/light_orange</item> <!-- Color cuando está activado -->
+        <item name="colorControlNormal">@color/dark_gray_hint</item> <!-- Color cuando está desactivado -->
+    </style>
 
 </resources>

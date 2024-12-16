@@ -68,7 +68,7 @@ public class super_gestion_rest extends AppCompatActivity {
         buttonMenu.setOnClickListener(view -> drawerLayout.open());
         // Inicializar DrawerLayout
         drawerLayout = findViewById(R.id.drawerLayout);
-        getWindow().setStatusBarColor(ContextCompat.getColor(super_gestion_rest.this, R.color.red_boton));
+        getWindow().setStatusBarColor(ContextCompat.getColor(super_gestion_rest.this, R.color.light_orange));
 
         navigationView_menu = findViewById(R.id.navigationView_menu);
         navigationView_menu.setNavigationItemSelectedListener(item -> {

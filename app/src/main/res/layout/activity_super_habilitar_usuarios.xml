@@ -272,6 +272,7 @@
                 android:layout_marginTop="20dp"
                 android:textSize="14sp"
                 android:padding="10dp"
+                android:theme="@style/CustomSwitchStyle"
                 android:fontFamily="@font/raleway_medium"
                 android:text="Habilitar trabajador" />
         </LinearLayout>

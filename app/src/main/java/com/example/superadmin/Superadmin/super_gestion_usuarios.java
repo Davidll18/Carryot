@@ -62,7 +62,7 @@ public class super_gestion_usuarios extends AppCompatActivity {
 
         // Configurar botón de menú
         buttonMenu.setOnClickListener(view -> drawerLayout.open());
-        getWindow().setStatusBarColor(ContextCompat.getColor(this, R.color.red_boton));
+        getWindow().setStatusBarColor(ContextCompat.getColor(this, R.color.light_orange));
 
         // Configurar menú de navegación
         navigationView_menu.setNavigationItemSelectedListener(item -> {

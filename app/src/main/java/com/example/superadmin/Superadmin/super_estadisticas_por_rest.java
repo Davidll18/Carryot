@@ -42,7 +42,7 @@ public class super_estadisticas_por_rest extends AppCompatActivity {
         drawerLayout = findViewById(R.id.drawerLayout); // Asegúrate de que el ID sea correcto
 
         buttonMenu.setOnClickListener(view -> drawerLayout.open());
-        getWindow().setStatusBarColor(ContextCompat.getColor(super_estadisticas_por_rest.this,R.color.red_boton));
+        getWindow().setStatusBarColor(ContextCompat.getColor(super_estadisticas_por_rest.this,R.color.light_orange));
         navigationView_menu = findViewById(R.id.navigationView_menu);
         navigationView_menu.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() {
             @Override
