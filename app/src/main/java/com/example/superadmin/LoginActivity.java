@@ -54,7 +54,7 @@ public class LoginActivity extends AppCompatActivity {
             String password = etPassword.getText().toString().trim();
 
             if (email.isEmpty() || password.isEmpty()) {
-                showCustomToast("Por favor, complete todos los campos");  // Usando el custom Toast
+                showCustomToast("Por favor, complete todos los campos");
                 return;
             }
 
@@ -64,27 +64,36 @@ public class LoginActivity extends AppCompatActivity {
                         if (task.isSuccessful()) {
                             FirebaseUser user = firebaseAuth.getCurrentUser();
                             if (user != null && user.isEmailVerified()) {
-                                // Consultar Firestore para obtener el rol del usuario
+                                // Consultar Firestore para obtener el rol y el estado del usuario
                                 db.collection("users").document(user.getUid()).get()
                                         .addOnCompleteListener(roleTask -> {
                                             if (roleTask.isSuccessful() && roleTask.getResult() != null) {
                                                 DocumentSnapshot document = roleTask.getResult();
                                                 if (document.exists()) {
                                                     String role = document.getString("role");
-                                                    saveUserSession(user.getUid(), role);  // Guardar sesión
-                                                    redirectToRoleSpecificActivity(role, user.getUid());
+                                                    Boolean status = document.getBoolean("status"); // Obtener el valor del status
+
+                                                    // Validar el status
+                                                    if (status != null && status) {
+                                                        // El usuario está activo
+                                                        saveUserSession(user.getUid(), role);  // Guardar sesión
+                                                        redirectToRoleSpecificActivity(role, user.getUid());
+                                                    } else {
+                                                        // El usuario no está activo
+                                                        showCustomToast("Tu cuenta está inactiva. Contacta al administrador.");
+                                                    }
                                                 } else {
-                                                    showCustomToast("Error: No se encontró el rol del usuario");  // Usando el custom Toast
+                                                    showCustomToast("Error: No se encontró el rol del usuario");
                                                 }
                                             } else {
-                                                showCustomToast("Error al obtener los datos del usuario: ");  // Usando el custom Toast
+                                                showCustomToast("Error al obtener los datos del usuario.");
                                             }
                                         });
                             } else {
-                                showCustomToast("Por favor, verifique su correo electrónico");  // Usando el custom Toast
+                                showCustomToast("Por favor, verifique su correo electrónico");
                             }
                         } else {
-                            showCustomToast("Error al iniciar sesión: ");  // Usando el custom Toast
+                            showCustomToast("Error al iniciar sesión");
                         }
                     });
         });
