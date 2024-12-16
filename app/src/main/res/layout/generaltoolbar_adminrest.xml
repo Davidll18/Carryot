@@ -7,25 +7,22 @@
     android:background="@color/light_orange"
     android:contentInsetStart="0dp"
     android:contentInsetEnd="0dp"
-    app:popupTheme="@style/ThemeOverlay.AppCompat.Light">
+    app:popupTheme="@style/ThemeOverlay.AppCompat.Light"
+    android:fitsSystemWindows="true">
+
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
 
 
 
-    <TextView
-        android:id="@+id/toolbar_title"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center"
-        android:text="MI RESTAURANTE"
-        android:textColor="#FFFFFF"
-        android:textSize="18sp"
-        android:textStyle="bold"/>
+        <ImageView
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:layout_marginLeft="160dp"
+            android:src="@drawable/logo" />
 
-    <ImageView
-        android:id="@+id/toolbar_user"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="end"
-        android:src="@drawable/ic_user"
-        android:layout_marginEnd="16dp"/>
+    </FrameLayout>
+
+
 </androidx.appcompat.widget.Toolbar>

@@ -6,12 +6,17 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.ImageView;
+import android.widget.LinearLayout;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.ActionBarDrawerToggle;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
+import androidx.core.graphics.Insets;
 import androidx.core.view.GravityCompat;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
@@ -48,82 +53,88 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     private NavigationView navigationView;
     private Toolbar toolbar;
 
-    private RecyclerView recyclerViewPedidos;
-    private RecyclerView recyclerViewGanancia;
-    private RecyclerView recyclerViewPlatosEst;
+    TextView saludo, rest,pedAct, pedPend, cantVent1, cantVent2;
+    ImageView popularDish1,popularDish2;
+    LinearLayout pp, pa, pl1,pl2;
 
     private String restaurantUid; // UID del restaurante recuperado de la sesión
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.home_adminrest);
+        setContentView(R.layout.activity_adminrest_estadisticas_general);
 
         // Inicializar FirebaseAuth y Firestore
         firebaseAuth = FirebaseAuth.getInstance();
         db = FirebaseFirestore.getInstance();
 
         // Configuración del DrawerLayout y NavigationView
-        drawerLayout = findViewById(R.id.drawer_layout);
+        drawerLayout = findViewById(R.id.drawerLayout);
         navigationView = findViewById(R.id.nav_view);
         toolbar = findViewById(R.id.toolbar);
 
+        saludo = findViewById(R.id.saludoTextView);
+        rest = findViewById(R.id.restauranteTextView);
+
+        pp = findViewById(R.id.pendientesPedidos);
+        pa = findViewById(R.id.activosPedidos);
+
+        pedPend = findViewById(R.id.pendientesText);
+        pedAct = findViewById(R.id.activosText);
+
+        cantVent1 = findViewById(R.id.cantVent1);
+        cantVent2 = findViewById(R.id.cantVent2);
+        popularDish1 = findViewById(R.id.imageView5);
+        popularDish2 = findViewById(R.id.imageView10);
+
+        pl1 = findViewById(R.id.platoVendido1);
+        pl2 = findViewById(R.id.platoVendido2);
+
         setSupportActionBar(toolbar);
 
-        // Llamamos al método estático de ToolbarUtils para ajustar el padding superior
-        ToolbarUtils.adjustToolbarPadding(toolbar);
+        pp.setOnClickListener(v ->{
+            Intent intent = new Intent(MainActivity.this, PedidosActivity.class);
+            startActivity(intent);
+        });
+        pa.setOnClickListener(v -> {
+            Intent intent = new Intent(MainActivity.this, PedidosActivity.class);
+            startActivity(intent);
+        });
+
+        pl1.setOnClickListener(v -> {
+            Intent intent = new Intent(MainActivity.this, StatisticsActivity.class);
+            startActivity(intent);
+        });
+        pl2.setOnClickListener(v -> {
+            Intent intent = new Intent(MainActivity.this, StatisticsActivity.class);
+            startActivity(intent);
+        });
+
+
 
         Menu menu = navigationView.getMenu();
+        menu.findItem(R.id.nav_logout).setVisible(false);
+
         navigationView.bringToFront();
-        ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(this, drawerLayout, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
+        ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(this, drawerLayout, toolbar,R.string.navigation_drawer_open,R.string.navigation_drawer_close);
         drawerLayout.addDrawerListener(toggle);
         toggle.syncState();
         navigationView.setNavigationItemSelectedListener(this);
+
         navigationView.setCheckedItem(R.id.nav_home);
 
 
-        ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.drawer_layout), (v, insets) -> {
-            // Convert androidx.core.graphics.Insets to android.graphics.Insets
-            android.graphics.Insets systemBars = android.graphics.Insets.of(
-                    insets.getInsets(WindowInsetsCompat.Type.systemBars()).left,
-                    insets.getInsets(WindowInsetsCompat.Type.systemBars()).top,
-                    insets.getInsets(WindowInsetsCompat.Type.systemBars()).right,
-                    insets.getInsets(WindowInsetsCompat.Type.systemBars()).bottom
-            );
+        ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.drawerLayout), (v, insets) -> {
+            Insets systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars());
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
             return insets;
         });
         // Recuperar sesión del usuario y obtener restaurante
-        retrieveSessionAndFetchRestaurant();
+        retrieveSessionAndFetchRestaurant(saludo, rest);
 
-        // Configuración de RecyclerView
-        setupRecyclerViews();
     }
 
-    private void setupRecyclerViews() {
-        recyclerViewPedidos = findViewById(R.id.recyclerViewPedidosPendientes);
-        recyclerViewPedidos.setLayoutManager(new LinearLayoutManager(this));
-        List<PedidosStatusItem> pedidoslist = new ArrayList<>();
-        pedidoslist.add(new PedidosStatusItem("PEDIDOS PENDIENTES", "08", "PEDIDOS ACTIVOS", "20"));
-        PedidosStatusAdapter pedidosStatusAdapter = new PedidosStatusAdapter(this, pedidoslist);
-        recyclerViewPedidos.setAdapter(pedidosStatusAdapter);
-
-        recyclerViewGanancia = findViewById(R.id.recyclerGananciaEstadistica);
-        recyclerViewGanancia.setLayoutManager(new LinearLayoutManager(this));
-        List<GananciaItem> gananciaList = new ArrayList<>();
-        gananciaList.add(new GananciaItem("GANANCIA TOTAL", R.drawable.statistics_image));
-        GananciaAdapter gananciaAdapter = new GananciaAdapter(this, gananciaList);
-        recyclerViewGanancia.setAdapter(gananciaAdapter);
-
-        recyclerViewPlatosEst = findViewById(R.id.recyclerViewPlatosPopulares);
-        recyclerViewPlatosEst.setLayoutManager(new LinearLayoutManager(this));
-        List<PlatosEstItem> platosEstList = new ArrayList<>();
-        platosEstList.add(new PlatosEstItem("PLATOS POPULARES", R.drawable.ceviche, "Ceviche", R.drawable.lomo, "Lomo Saltado", R.drawable.pollito, "Pollo a la brasa"));
-        PlatosEstadisticaAdapter platosEstadisticaAdapter = new PlatosEstadisticaAdapter(this, platosEstList);
-        recyclerViewPlatosEst.setAdapter(platosEstadisticaAdapter);
-    }
-
-    private void retrieveSessionAndFetchRestaurant() {
+    private void retrieveSessionAndFetchRestaurant(TextView saludo, TextView rest) {
         FirebaseUser user = firebaseAuth.getCurrentUser();
         if (user != null) {
             String userUid = user.getUid();
@@ -146,7 +157,8 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
                                     // Asignar el UID del restaurante a una variable local
                                     restaurantUid = restaurant.getUidCreacion();
-
+                                    saludo.setText(restaurant.getNombreCreador());
+                                    rest.setText(restaurant.getNombreRestaurante());
                                     Log.d("MainActivity", "Restaurante recuperado: " + restaurant.getNombreRestaurante());
                                 }
                             }
@@ -175,15 +187,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         } else if (menuId == R.id.nav_pedidos) {
             startActivity(new Intent(this, PedidosActivity.class));
         } else if (menuId == R.id.nav_profile) {
-            if (restaurantUid != null && !restaurantUid.isEmpty()) {
-                // Redirigir a ProfileRestActivity con el UID del restaurante
-                Log.d("MainActivity", "Pasando UID: " + restaurantUid);
-                Intent intent = new Intent(this, ProfileRestActivity.class);
-                intent.putExtra("uidRestaurante", restaurantUid);
-                startActivity(intent);
-            } else {
-                Toast.makeText(this, "No se encontró información del restaurante.", Toast.LENGTH_SHORT).show();
-            }
+            startActivity(new Intent(this, ProfileRestActivity.class));
         } else if (menuId == R.id.nav_dishes) {
             startActivity(new Intent(this, DishesActivity.class));
         } else if (menuId == R.id.nav_ganancia) {

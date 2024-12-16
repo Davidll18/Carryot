@@ -1,100 +1,149 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:padding="8dp">
 
-    <LinearLayout
-        android:id="@+id/linearLayout1"
+    <androidx.cardview.widget.CardView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:padding="16dp"
-        android:background="#FFFFFF"
-        android:gravity="center_vertical"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent">
+        app:cardBackgroundColor="@color/white"
+        app:cardCornerRadius="12dp"
+        app:cardElevation="4dp"
+        tools:ignore="MissingConstraints">
 
-        <!-- Imagen a la izquierda -->
-        <ImageView
-            android:id="@+id/imgFood1"
-            android:layout_width="100dp"
-            android:layout_height="80dp"
-            android:layout_marginEnd="16dp"
-            android:src="@drawable/lomo"
-            android:contentDescription="Imagen del pedido" />
-
-        <!-- Contenedor para las líneas de texto -->
-        <LinearLayout
-            android:layout_width="0dp"
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:orientation="vertical">
+            android:padding="12dp">
 
-            <!-- Número de orden y estado -->
+            <!-- Flag de disponibilidad -->
             <TextView
-                android:id="@+id/tvOrderNumber1"
+                android:id="@+id/availability_flag"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="BOL1234"
-                android:textColor="#000000"
-                android:textSize="16sp"
-                android:textStyle="bold" />
-
-            <!-- Estado del pedido -->
-            <TextView
-                android:id="@+id/tvOrderStatus1"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Pendiente"
-                android:background="@drawable/background_orange"
-                android:textColor="#FF5722"
-                android:textSize="14sp"
-                android:textStyle="bold" />
-
-            <!-- Descripción del pedido -->
-            <TextView
-                android:id="@+id/tvOrderDescription1"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="1x Lomo Saltado\n1x Inka Cola\nMás"
-                android:textColor="#000000"
-                android:textSize="14sp" />
+                android:background="@drawable/background_red"
+                android:gravity="center"
+                android:padding="4dp"
+                android:text="Disponible"
+                android:textColor="@android:color/white"
+                android:textSize="13sp"
+                android:textStyle="bold"
+                app:layout_constraintStart_toEndOf="@+id/img_menu_item"
+                app:layout_constraintTop_toBottomOf="@+id/text_name_product" />
 
 
-        </LinearLayout>
-
-        <!-- Contenedor para el icono de ojo y el precio -->
-        <LinearLayout
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:gravity="center"
-            android:orientation="vertical">
-
-            <!-- Icono de ojo -->
             <ImageView
-                android:id="@+id/imgViewDetails1"
-                android:layout_width="40dp"
-                android:layout_height="32dp"
-                android:layout_gravity="center"
-                android:src="@drawable/eye_icon"
-                android:contentDescription="Ver detalles del pedido" />
+                android:id="@+id/viewDetails"
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                android:layout_marginTop="3dp"
+                android:layout_marginEnd="8dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:srcCompat="@drawable/eye_icon" />
 
-            <!-- Precio -->
+            <ImageView
+                android:id="@+id/accept"
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                android:layout_marginTop="17dp"
+                android:layout_marginEnd="8dp"
+                app:layout_constraintBottom_toBottomOf="@+id/text_model"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="@+id/viewDetails"
+                app:srcCompat="@drawable/ic_check" />
+
+            <!-- Imagen del producto -->
+            <ImageView
+                android:id="@+id/img_menu_item"
+                android:layout_width="120dp"
+                android:layout_height="120dp"
+                android:layout_marginEnd="12dp"
+                android:padding="10dp"
+                android:contentDescription="@string/product_image"
+                android:scaleType="centerCrop"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:srcCompat="@drawable/comida" />
+
+            <!-- Nombre del producto -->
             <TextView
-                android:id="@+id/tvPrice1"
+                android:id="@+id/text_name_product"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="4dp"
+                android:fontFamily="@font/roboto_medium"
+                android:text="ORDEN"
+                android:textColor="@color/black"
+                android:textSize="18sp"
+                android:textStyle="bold"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toEndOf="@id/img_menu_item"
+                app:layout_constraintTop_toTopOf="@id/img_menu_item" />
+
+            <!-- Descripción del producto -->
+            <TextView
+                android:id="@+id/text_model"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/roboto_medium"
+                android:layout_marginTop="7dp"
+                android:text="Pedidos todos"
+                android:textColor="@color/dark_gray_hint"
+                android:textSize="14sp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="@id/text_name_product"
+                app:layout_constraintTop_toBottomOf="@+id/availability_flag" />
+
+            <!-- Línea divisoria -->
+            <View
+                android:id="@+id/divider_line"
+                android:layout_width="0dp"
+                android:layout_height="1dp"
+                android:layout_marginTop="8dp"
+                android:background="#E0E0E0"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="@id/text_name_product"
+                app:layout_constraintTop_toBottomOf="@id/text_model" />
+
+            <!-- Precio del producto -->
+            <TextView
+                android:id="@+id/text_TV"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="8dp"
-                android:text="S/ 85.00"
-                android:textColor="#000000"
-                android:textSize="16sp"
-                android:textStyle="bold" />
-        </LinearLayout>
+                android:layout_marginStart="3dp"
+                android:fontFamily="@font/roboto_medium"
+                android:text="PRECIO TOTAL: "
+                android:textColor="@color/black"
+                android:textSize="18sp"
+                android:textStyle="bold"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toEndOf="@+id/img_menu_item"
+                app:layout_constraintTop_toBottomOf="@id/divider_line" />
+            <!-- Precio del producto -->
+            <TextView
+                android:id="@+id/text_price"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:fontFamily="@font/roboto_medium"
+                android:text="S/34.00"
+                android:textColor="@color/black"
+                android:textSize="18sp"
+                android:textStyle="bold"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/divider_line" />
 
-    </LinearLayout>
+
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+    </androidx.cardview.widget.CardView>
 
 </androidx.constraintlayout.widget.ConstraintLayout>
