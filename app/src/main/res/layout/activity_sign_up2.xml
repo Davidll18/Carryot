@@ -4,110 +4,159 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <!-- Toolbar -->
-    <LinearLayout
+    <!-- ScrollView para que todo sea desplazable -->
+    <ScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:orientation="vertical"
-        android:padding="16dp"
-        android:layout_marginTop="70dp">
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent">
 
-        <!-- Título -->
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="¡Agrega tu ubicación!"
-            android:textStyle="bold"
-            android:textSize="25sp"
-            android:layout_gravity="center_horizontal"
-            android:layout_marginBottom="8dp" />
-
-        <!-- Campo: Descripción -->
-        <androidx.appcompat.widget.LinearLayoutCompat
-            android:id="@+id/lyt_direcc_latitud_longitud"
+        <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="140dp"
-            android:layout_marginTop="15dp"
-            android:background="@drawable/round_corner_background_white"
-            android:elevation="2dp"
+            android:layout_height="wrap_content"
             android:orientation="vertical"
-            android:paddingTop="5dp"
-            android:paddingBottom="5dp">
+            android:padding="16dp">
 
+            <!-- Sección de Foto -->
+            <androidx.cardview.widget.CardView
+                android:id="@+id/lyt_imagen"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                app:cardCornerRadius="8dp"
+                app:cardElevation="4dp">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:padding="12dp">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Foto"
+                        android:textColor="@color/black"
+                        android:textSize="15sp"
+                        android:fontFamily="@font/raleway_bold" />
+
+                    <ImageView
+                        android:id="@+id/img_foto"
+                        android:layout_width="match_parent"
+                        android:layout_height="240dp"
+                        android:layout_marginTop="8dp"
+                        android:background="@color/gray"
+                        android:scaleType="centerCrop"
+                        android:src="@drawable/perfil_icon"
+                        android:contentDescription="Foto seleccionada" />
+
+                    <androidx.appcompat.widget.AppCompatButton
+                        android:id="@+id/btn_seleccionar_foto"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Seleccionar foto"
+                        android:layout_gravity="center_horizontal"
+                        android:layout_marginTop="20dp"
+                        android:drawableLeft="@drawable/baseline_image_search"
+                        android:drawablePadding="8dp"
+                        android:background="@drawable/btn_press_selector"
+                        android:textColor="@android:color/white"
+                        android:textSize="16sp"
+                        android:padding="12dp" />
+                </LinearLayout>
+            </androidx.cardview.widget.CardView>
+
+            <!-- Título -->
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="10dp"
-                android:layout_marginTop="8dp"
-                android:fontFamily="@font/raleway_bold"
-                android:text="Dirección"
-                android:textColor="@color/black"
-                android:textSize="15sp" />
+                android:text="¡Agrega tu ubicación!"
+                android:textStyle="bold"
+                android:textSize="25sp"
+                android:layout_gravity="center_horizontal"
+                android:layout_marginTop="16dp" />
 
-            <!-- Cambiado de EditText a TextView -->
-            <TextView
-                android:id="@+id/ed_desc_direcc"
+            <!-- Campo: Dirección -->
+            <androidx.appcompat.widget.LinearLayoutCompat
+                android:id="@+id/lyt_direcc_latitud_longitud"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="10dp"
-                android:layout_marginTop="5dp"
-                android:textSize="20sp"
-                android:hint="@string/es_importante_completar_esta_informaci_n_puesto_que_ser_de_gran_ayuda_cuando_solicite_alg_n_pedido"
-                android:gravity="top|start"
-                android:maxLines="100"
-                android:ellipsize="none"
-                android:paddingBottom="10dp"
-                android:scrollHorizontally="false"
-                android:background="@null" />
-        </androidx.appcompat.widget.LinearLayoutCompat>
+                android:layout_marginTop="15dp"
+                android:background="@drawable/round_corner_background_white"
+                android:elevation="2dp"
+                android:orientation="vertical"
+                android:paddingTop="5dp"
+                android:paddingBottom="5dp">
 
-        <!-- Mapa -->
-        <org.osmdroid.views.MapView
-            android:id="@+id/map"
-            android:layout_width="match_parent"
-            android:layout_height="250dp"
-            android:layout_marginTop="15dp"
-            android:layout_gravity="center_horizontal"
-            android:focusable="false"
-            android:focusableInTouchMode="false" />
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="10dp"
+                    android:layout_marginTop="8dp"
+                    android:fontFamily="@font/raleway_bold"
+                    android:text="Dirección"
+                    android:textColor="@color/black"
+                    android:textSize="15sp" />
 
-        <!-- Botones: Cancelar y Siguiente -->
-        <androidx.constraintlayout.widget.ConstraintLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+                <!-- Cambiado de EditText a TextView -->
+                <TextView
+                    android:id="@+id/ed_desc_direcc"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="10dp"
+                    android:layout_marginTop="5dp"
+                    android:textSize="16sp"
+                    android:hint="@string/es_importante_completar_esta_informaci_n_puesto_que_ser_de_gran_ayuda_cuando_solicite_alg_n_pedido"
+                    android:gravity="top|start"
+                    android:maxLines="3"
+                    android:scrollHorizontally="false"
+                    android:paddingBottom="10dp"
+                    android:background="@null" />
+            </androidx.appcompat.widget.LinearLayoutCompat>
 
-            <!-- Botón Cancelar -->
-            <androidx.appcompat.widget.AppCompatButton
-                android:id="@+id/btn_cancelar"
-                android:layout_width="0dp"
+            <!-- Mapa -->
+            <org.osmdroid.views.MapView
+                android:id="@+id/map"
+                android:layout_width="match_parent"
+                android:layout_height="250dp"
+                android:layout_marginTop="15dp"
+                android:focusable="false"
+                android:focusableInTouchMode="false" />
+
+            <!-- Botones: Cancelar y Registrar -->
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginRight="5dp"
-                android:background="@drawable/round_corner_background_boton_gray"
-                android:fontFamily="@font/raleway_bold"
-                android:text="Cancelar"
-                android:textColor="@color/white"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent"
-                app:layout_constraintWidth_percent="0.5" />
+                android:layout_marginTop="15dp">
 
-            <!-- Botón Siguiente -->
-            <androidx.appcompat.widget.AppCompatButton
-                android:id="@+id/btn_siguiente"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="27dp"
-                android:layout_marginBottom="27dp"
-                android:layout_marginLeft="5dp"
-                android:background="@drawable/btn_press_selector"
-                android:fontFamily="@font/raleway_bold"
-                android:text="Registrar"
-                android:textColor="@color/white"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toEndOf="@+id/btn_cancelar"
-                app:layout_constraintTop_toTopOf="parent"
-                app:layout_constraintWidth_percent="0.5" />
-        </androidx.constraintlayout.widget.ConstraintLayout>
-    </LinearLayout>
+                <androidx.appcompat.widget.AppCompatButton
+                    android:id="@+id/btn_cancelar"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginEnd="5dp"
+                    android:background="@drawable/round_corner_background_boton_gray"
+                    android:text="Cancelar"
+                    android:textColor="@color/white"
+                    app:layout_constraintEnd_toStartOf="@+id/btn_siguiente"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintWidth_percent="0.5" />
+
+                <androidx.appcompat.widget.AppCompatButton
+                    android:id="@+id/btn_siguiente"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/btn_press_selector"
+                    android:text="Registrar"
+                    android:textColor="@color/white"
+                    app:layout_constraintStart_toEndOf="@+id/btn_cancelar"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintWidth_percent="0.5" />
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+            <!-- Espacio adicional -->
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="10dp" />
+        </LinearLayout>
+    </ScrollView>
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -1,17 +1,25 @@
+
+
 package com.example.superadmin;
 
 import android.Manifest;
+import android.content.ContentValues;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.location.Location;
+import android.net.Uri;
 import android.os.Bundle;
+import android.provider.MediaStore;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
+import android.view.View;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.AppCompatButton;
 import androidx.core.app.ActivityCompat;
@@ -19,10 +27,14 @@ import androidx.core.content.ContextCompat;
 
 import com.example.superadmin.dtos.User;
 import com.example.superadmin.util.Constants;
+import com.google.android.gms.location.FusedLocationProviderClient;
+import com.google.android.gms.location.LocationServices;
 import com.google.firebase.Timestamp;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.StorageReference;
 
 import org.osmdroid.config.Configuration;
 import org.osmdroid.tileprovider.tilesource.TileSourceFactory;
@@ -32,20 +44,24 @@ import org.osmdroid.views.Projection;
 import org.osmdroid.views.overlay.Marker;
 import org.osmdroid.views.overlay.Overlay;
 
-import com.google.android.gms.location.FusedLocationProviderClient;
-import com.google.android.gms.location.LocationServices;
+import java.util.UUID;
 
 public class Signup2Activity extends AppCompatActivity {
-    private AppCompatButton btnRegistrar, btnCancelar;
+    private AppCompatButton btnRegistrar, btnCancelar, btnSeleccionarImagen;
     private MapView map;
     private double selectedLatitude = 0.0;
     private double selectedLongitude = 0.0;
     private Marker marker;
     private FirebaseAuth firebaseAuth;
     private FirebaseFirestore db;
+    private FirebaseStorage storage;
     private FusedLocationProviderClient fusedLocationClient;
+    private Uri imageUri;
+    private ImageView imageView;
 
     private static final int REQUEST_LOCATION_PERMISSION = 1;
+    private static final int PICK_IMAGE_REQUEST = 1001;
+    private static final int CAMERA_REQUEST_CODE = 1002;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -56,10 +72,13 @@ public class Signup2Activity extends AppCompatActivity {
 
         firebaseAuth = FirebaseAuth.getInstance();
         db = FirebaseFirestore.getInstance();
+        storage = FirebaseStorage.getInstance();
         fusedLocationClient = LocationServices.getFusedLocationProviderClient(this);
 
         btnRegistrar = findViewById(R.id.btn_siguiente);
         btnCancelar = findViewById(R.id.btn_cancelar);
+        btnSeleccionarImagen = findViewById(R.id.btn_seleccionar_foto); // Nuevo botón
+        imageView = findViewById(R.id.img_foto);
         map = findViewById(R.id.map);
 
         initMap();
@@ -74,23 +93,18 @@ public class Signup2Activity extends AppCompatActivity {
         String address = intent.getStringExtra("userAddress");
         String password = intent.getStringExtra("userPassword");
 
-        // Al hacer click en Cancelar, regresamos a SignUpActivity
-        btnCancelar.setOnClickListener(v -> {
-            Intent returnIntent = new Intent();
-            returnIntent.putExtra("userName", name);
-            returnIntent.putExtra("userSurname", surname);
-            returnIntent.putExtra("userEmail", email);
-            returnIntent.putExtra("userPhone", phone);
-            returnIntent.putExtra("userDni", dni);
-            returnIntent.putExtra("userAddress", address);
-            returnIntent.putExtra("userPassword", password);
-            setResult(RESULT_CANCELED, returnIntent);
-            finish();
-        });
+        btnCancelar.setOnClickListener(v -> finish());
+
+        btnSeleccionarImagen.setOnClickListener(v -> openImageOptions());
 
         btnRegistrar.setOnClickListener(v -> {
             if (selectedLatitude == 0.0 || selectedLongitude == 0.0) {
                 showCustomToast("Por favor, selecciona una ubicación en el mapa");
+                return;
+            }
+
+            if (imageUri == null) {
+                showCustomToast("Selecciona una imagen antes de registrar");
                 return;
             }
 
@@ -99,38 +113,91 @@ public class Signup2Activity extends AppCompatActivity {
                         if (task.isSuccessful()) {
                             FirebaseUser firebaseUser = firebaseAuth.getCurrentUser();
                             String uid = firebaseUser.getUid();
-
-                            // Obtener el nombre completo para el campo createdBy
                             String fullName = name + " " + surname;
 
-                            // Crear el objeto User con los nuevos atributos
-                            User user = User.registrousuario(
-                                    name, surname, email, dni, phone, address,
-                                    Constants.ROLE_CLIENTE, uid, selectedLatitude, selectedLongitude,
-                                    uid, fullName  // Asignar uidCreador y createdBy con el mismo valor
-                            );
-
-                            // Guardar los datos en Firestore
-                            guardarDatosEnBaseDeDatos(user);
-
-                            // Enviar correo para cambiar la contraseña
-                            enviarCorreoCambioContraseña(email);
-
-                            showCustomToast("Cuenta registrada.");
-
-                            // Redirigir a Login
-                            Intent intentLogin = new Intent(Signup2Activity.this, LoginActivity.class);
-                            startActivity(intentLogin);
-                            finish();
+                            uploadImageAndSaveUser(name, surname, email, phone, dni, address, uid, fullName);
                         } else {
-                            // Si ocurre un error en la creación del usuario, lo mostramos en los logs
-                            Log.e("FirebaseAuth", "Error al registrar el usuario: " + task.getException().getMessage());
                             showCustomToast("Error al registrar el usuario.");
                         }
                     });
         });
     }
 
+    private void openImageOptions() {
+        CharSequence[] options = {"Tomar foto", "Seleccionar de galería", "Cancelar"};
+        android.app.AlertDialog.Builder builder = new android.app.AlertDialog.Builder(this);
+        builder.setTitle("Elige una opción");
+
+        builder.setItems(options, (dialog, which) -> {
+            if (which == 0) openCamera();
+            else if (which == 1) openGallery();
+        });
+
+        builder.show();
+    }
+
+    private void openCamera() {
+        Intent cameraIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+        ContentValues values = new ContentValues();
+        values.put(MediaStore.Images.Media.TITLE, "New Picture");
+        imageUri = getContentResolver().insert(MediaStore.Images.Media.EXTERNAL_CONTENT_URI, values);
+        cameraIntent.putExtra(MediaStore.EXTRA_OUTPUT, imageUri);
+        startActivityForResult(cameraIntent, CAMERA_REQUEST_CODE);
+    }
+
+    private void openGallery() {
+        Intent intent = new Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
+        startActivityForResult(intent, PICK_IMAGE_REQUEST);
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (resultCode == RESULT_OK) {
+            if (requestCode == PICK_IMAGE_REQUEST && data != null) {
+                imageUri = data.getData();
+            } else if (requestCode == CAMERA_REQUEST_CODE) {
+                // imageUri ya está asignada
+            }
+            imageView.setImageURI(imageUri);
+        }
+    }
+
+    private void uploadImageAndSaveUser(String name, String surname, String email, String phone, String dni,
+                                        String address, String uid, String fullName) {
+        StorageReference storageReference = storage.getReference().child("user_images/" + UUID.randomUUID().toString());
+
+        // Subir imagen a Firebase Storage
+        storageReference.putFile(imageUri)
+                .addOnSuccessListener(taskSnapshot -> storageReference.getDownloadUrl().addOnSuccessListener(uri -> {
+                    // Crear usuario con URL de la imagen de perfil
+                    User user = User.registrousuario(
+                            name, surname, email, dni, phone, address,
+                            Constants.ROLE_CLIENTE, uid, selectedLatitude, selectedLongitude,
+                            uid, fullName);
+                    user.setProfileImage(uri.toString());
+
+                    // Guardar datos del usuario en Firestore
+                    guardarDatosEnBaseDeDatos(user);
+
+                    // Enviar correo de cambio de contraseña
+                    firebaseAuth.sendPasswordResetEmail(email)
+                            .addOnCompleteListener(task -> {
+                                if (task.isSuccessful()) {
+                                    showCustomToast("Por favor revisa tu correo para establecer la contraseña.");
+
+                                    // Redirigir al LoginActivity
+                                    Intent intent = new Intent(Signup2Activity.this, LoginActivity.class);
+                                    intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                                    startActivity(intent);
+                                    finish();
+                                } else {
+                                    showCustomToast("Error al enviar el correo de cambio de contraseña.");
+                                }
+                            });
+                }))
+                .addOnFailureListener(e -> showCustomToast("Error al subir la imagen."));
+    }
     // Función para mostrar el custom toast
     private void showCustomToast(String message) {
         LayoutInflater inflater = getLayoutInflater();
