@@ -168,11 +168,13 @@
                     android:gravity="center">
 
                     <ImageView
+                        android:id="@+id/platoImage1"
                         android:layout_width="48dp"
                         android:layout_height="48dp"
                         android:src="@drawable/dish_placeholder" />
 
                     <TextView
+                        android:id="@+id/platoName1"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="DISH NAME"
@@ -187,11 +189,13 @@
                     android:gravity="center">
 
                     <ImageView
+                        android:id="@+id/platoImage2"
                         android:layout_width="48dp"
                         android:layout_height="48dp"
                         android:src="@drawable/dish_placeholder" />
 
                     <TextView
+                        android:id="@+id/platoName2"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="DISH NAME"
@@ -206,11 +210,13 @@
                     android:gravity="center">
 
                     <ImageView
+                        android:id="@+id/platoImage3"
                         android:layout_width="48dp"
                         android:layout_height="48dp"
                         android:src="@drawable/dish_placeholder" />
 
                     <TextView
+                        android:id="@+id/platoName3"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="DISH NAME"
