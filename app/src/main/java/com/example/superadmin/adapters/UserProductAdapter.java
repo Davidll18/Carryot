@@ -1,74 +1,75 @@
 package com.example.superadmin.adapters;
 
-
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.bumptech.glide.Glide;
 import com.example.superadmin.R;
-import com.example.superadmin.model.Product;
+import com.example.superadmin.dtos.PlatoDTO;
 
 import java.util.List;
 
-public class UserProductAdapter extends RecyclerView.Adapter<UserProductAdapter.ProductViewHolder> {
+public class UserProductAdapter extends RecyclerView.Adapter<UserProductAdapter.ViewHolder> {
 
-    private List<Product> products;
+    private List<PlatoDTO> platoList;
     private OnItemClickListener listener;
 
-    public UserProductAdapter(List<Product> products, OnItemClickListener listener) {
-        this.products = products;
+    public interface OnItemClickListener {
+        void onItemClick(PlatoDTO plato);
+    }
+
+    public UserProductAdapter(List<PlatoDTO> platoList, OnItemClickListener listener) {
+        this.platoList = platoList;
         this.listener = listener;
     }
 
+    @NonNull
     @Override
-    public ProductViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.user_item_products, parent, false);
-        return new ProductViewHolder(view);
+    public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+        View view = LayoutInflater.from(parent.getContext())
+                .inflate(R.layout.user_item_products, parent, false); // Layout del ítem
+        return new ViewHolder(view);
     }
 
     @Override
-    public void onBindViewHolder(ProductViewHolder holder, int position) {
-        Product product = products.get(position);
-        holder.textNameProduct.setText(product.getName());
-        holder.textModel.setText(product.getModel());
-        holder.textPrice.setText(product.getPrice());
-        holder.imgMenuItem.setImageResource(product.getImageResourceId());
+    public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
+        PlatoDTO plato = platoList.get(position);
 
-        holder.itemView.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if (listener != null) {
-                    listener.onItemClick(product);
-                }
-            }
-        });
+        // Configurar vistas
+        holder.textName.setText(plato.getNombrePlato());
+        holder.textPrice.setText("S/ " + plato.getPrecio());
+
+        // Cargar imagen con Glide
+        Glide.with(holder.itemView.getContext())
+                .load(plato.getImageUrl())
+                .placeholder(R.drawable.logo) // Imagen por defecto
+                .into(holder.imageProduct);
+
+        // Configurar el clic
+        holder.itemView.setOnClickListener(v -> listener.onItemClick(plato));
     }
 
     @Override
     public int getItemCount() {
-        return products.size();
+        return platoList.size();
     }
 
-    public static class ProductViewHolder extends RecyclerView.ViewHolder {
-        TextView textNameProduct;
-        TextView textModel;
-        TextView textPrice;
-        ImageView imgMenuItem;
+    public static class ViewHolder extends RecyclerView.ViewHolder {
+        TextView textName, textPrice;
+        ImageView imageProduct;
 
-        public ProductViewHolder(View itemView) {
+        public ViewHolder(View itemView) {
             super(itemView);
-            textNameProduct = itemView.findViewById(R.id.text_name_product);
-            textModel = itemView.findViewById(R.id.text_model);
+            textName = itemView.findViewById(R.id.text_name_product);
             textPrice = itemView.findViewById(R.id.text_price);
-            imgMenuItem = itemView.findViewById(R.id.img_menu_item);
+            imageProduct = itemView.findViewById(R.id.img_menu_item);
         }
     }
-
-    public interface OnItemClickListener {
-        void onItemClick(Product product);
-    }
 }
+
