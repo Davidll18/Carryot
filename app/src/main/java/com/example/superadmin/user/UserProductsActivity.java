@@ -76,6 +76,8 @@ public class UserProductsActivity extends AppCompatActivity implements UserProdu
         Intent intent = new Intent(UserProductsActivity.this, UserProductDetailActivity.class);
 
         // Pasar datos del plato seleccionado al intent
+        intent.putExtra("uidPlato", plato.getUidCreacion());
+        intent.putExtra("uidRestaurante", plato.getUidRestaurante());
         intent.putExtra("nombrePlato", plato.getNombrePlato());
         intent.putExtra("descripcion", plato.getDescripcion());
         intent.putExtra("precio", plato.getPrecio());

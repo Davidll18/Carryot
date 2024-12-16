@@ -26,6 +26,7 @@ import com.example.superadmin.adminrest.Adapter.FoodAdapter;
 import com.example.superadmin.adminrest.dto.FoodItem;
 import com.example.superadmin.dtos.PlatoDTO;
 import com.google.android.material.navigation.NavigationView;
+import com.google.android.material.tabs.TabLayout;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.DocumentSnapshot;
@@ -46,12 +47,14 @@ public class DishesActivity extends AppCompatActivity implements NavigationView.
     AppCompatButton addDishes;
     private FirebaseStorage storage;
     private FirebaseFirestore db;
+    private TabLayout tabLayoutEstados;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         EdgeToEdge.enable(this);
         setContentView(R.layout.listdishes_adminrest);
 
+        tabLayoutEstados = findViewById(R.id.tabLayoutEstados);
         addDishes = findViewById(R.id.btn_addDishes);
         addDishes.setOnClickListener(v -> {
             // Crea un Intent para ir a la actividad NewDishes
@@ -95,6 +98,21 @@ public class DishesActivity extends AppCompatActivity implements NavigationView.
                                                                 platosList.add(plato);
                                                             }
                                                             configurarRecyclerView(platosList);
+
+                                                            // Configurar filtrado por categorías
+                                                            tabLayoutEstados.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
+                                                                @Override
+                                                                public void onTabSelected(TabLayout.Tab tab) {
+                                                                    String categoriaSeleccionada = tab.getText().toString();
+                                                                    filtrarPorCategoria(categoriaSeleccionada, platosList);
+                                                                }
+
+                                                                @Override
+                                                                public void onTabUnselected(TabLayout.Tab tab) {}
+
+                                                                @Override
+                                                                public void onTabReselected(TabLayout.Tab tab) {}
+                                                            });
 
                                                             // Aquí puedes usar la lista de PlatoDTO
                                                             for (PlatoDTO plato : platosList) {
@@ -149,6 +167,20 @@ public class DishesActivity extends AppCompatActivity implements NavigationView.
             return insets;
         });
 
+    }
+
+    private void filtrarPorCategoria(String categoriaSeleccionada, List<PlatoDTO> platosList) {
+        ArrayList<PlatoDTO> platosFiltrados = new ArrayList<>();
+
+        // Filtrar platos según la categoría seleccionada
+        for (PlatoDTO plato : platosList) {
+            if (categoriaSeleccionada.equals("TODO") || categoriaSeleccionada.equalsIgnoreCase(plato.getCategoriaPlato())) {
+                platosFiltrados.add(plato);
+            }
+        }
+
+        // Actualizar el RecyclerView con los platos filtrados
+        configurarRecyclerView(platosFiltrados);
     }
 
     private void configurarRecyclerView(ArrayList<PlatoDTO> listaPlatos) {
