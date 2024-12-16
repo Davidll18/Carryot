@@ -1,5 +1,7 @@
 package com.example.superadmin.dtos;
 
+import com.google.firebase.Timestamp;
+
 public class User {
     private String name;
     private String surname;
@@ -12,15 +14,16 @@ public class User {
     private String uid;
     private double latitude;
     private double longitude;
-    private String uidCreador;  // Nuevo campo para l uid del creador
-    private String createdBy;   // Nuevo campo para el nombre completo del creador
+    private String uidCreador;  // UID del creador
+    private String createdBy;   // Nombre del creador
+    private Timestamp createdAt; // Campo para fecha y hora de creación
 
     // Constructor vacío requerido por Firestore
     public User() {
     }
 
     // Constructor con todos los parámetros
-    public User(String name, String surname, String email, String dni, String phone, String address, String role, Boolean status, String uid, double latitude, double longitude, String uidCreador, String createdBy) {
+    public User(String name, String surname, String email, String dni, String phone, String address, String role, Boolean status, String uid, double latitude, double longitude, String uidCreador, String createdBy, Timestamp createdAt) {
         this.name = name;
         this.surname = surname;
         this.email = email;
@@ -34,10 +37,12 @@ public class User {
         this.longitude = longitude;
         this.uidCreador = uidCreador;
         this.createdBy = createdBy;
+        this.createdAt = createdAt;
     }
 
     public static User registrousuario(String name, String surname, String email, String dni, String phone, String address, String role, String uid, double latitude, double longitude, String uidCreador, String createdBy) {
-        return new User(name, surname, email, dni, phone, address, role, true, uid, latitude, longitude, uidCreador, createdBy);
+        Timestamp createdAt = Timestamp.now(); // Obtener la fecha y hora actual
+        return new User(name, surname, email, dni, phone, address, role, true, uid, latitude, longitude, uidCreador, createdBy, createdAt);
     }
 
     // Getters y setters
@@ -128,6 +133,7 @@ public class User {
     public void setLongitude(double longitude) {
         this.longitude = longitude;
     }
+
     public String getUidCreador() {
         return uidCreador;
     }
@@ -142,5 +148,13 @@ public class User {
 
     public void setCreatedBy(String createdBy) {
         this.createdBy = createdBy;
+    }
+
+    public Timestamp getCreatedAt() {
+        return createdAt;
+    }
+
+    public void setCreatedAt(Timestamp createdAt) {
+        this.createdAt = createdAt;
     }
 }

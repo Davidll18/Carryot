@@ -19,6 +19,7 @@ import androidx.core.content.ContextCompat;
 
 import com.example.superadmin.dtos.User;
 import com.example.superadmin.util.Constants;
+import com.google.firebase.Timestamp;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.FirebaseFirestore;
@@ -216,6 +217,7 @@ public class Signup2Activity extends AppCompatActivity {
 
     // Función para guardar los datos en la base de datos Firestore
     private void guardarDatosEnBaseDeDatos(User user) {
+        user.setCreatedAt(Timestamp.now()); // Agrega el timestamp al objeto User
         db.collection("users").document(user.getUid())
                 .set(user)  // Guardamos el objeto 'user' en Firestore
                 .addOnSuccessListener(unused -> {

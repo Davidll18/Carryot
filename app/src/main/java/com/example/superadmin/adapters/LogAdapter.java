@@ -4,6 +4,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
+
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -23,7 +24,8 @@ public class LogAdapter extends RecyclerView.Adapter<LogAdapter.LogViewHolder> {
     @NonNull
     @Override
     public LogViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_log, parent, false);
+        View view = LayoutInflater.from(parent.getContext())
+                .inflate(R.layout.item_log, parent, false);
         return new LogViewHolder(view);
     }
 
@@ -40,8 +42,7 @@ public class LogAdapter extends RecyclerView.Adapter<LogAdapter.LogViewHolder> {
         return logList.size();
     }
 
-    public static class LogViewHolder extends RecyclerView.ViewHolder {
-
+    static class LogViewHolder extends RecyclerView.ViewHolder {
         TextView tvUsername, tvAction, tvTimestamp;
 
         public LogViewHolder(@NonNull View itemView) {
@@ -52,3 +53,4 @@ public class LogAdapter extends RecyclerView.Adapter<LogAdapter.LogViewHolder> {
         }
     }
 }
+

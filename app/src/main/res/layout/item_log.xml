@@ -16,19 +16,23 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Username"
-            android:textStyle="bold" />
+            android:textStyle="bold"
+            android:textSize="16sp" />
 
         <TextView
             android:id="@+id/tvAction"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Action" />
+            android:text="Action"
+            android:textSize="14sp" />
 
         <TextView
             android:id="@+id/tvTimestamp"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Timestamp"
-            android:textColor="@android:color/darker_gray" />
+            android:textColor="@android:color/darker_gray"
+            android:textSize="12sp" />
     </LinearLayout>
 </androidx.cardview.widget.CardView>
+

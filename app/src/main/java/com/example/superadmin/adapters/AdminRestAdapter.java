@@ -19,15 +19,12 @@ import com.example.superadmin.dtos.User;
 import java.util.List;
 
 public class AdminRestAdapter extends RecyclerView.Adapter<AdminRestAdapter.AdminViewHolder> {
-    private List<User> userList; // Lista de usuarios
+    private List<User> userList;
     private Context context;
     private OnUserClickListener onUserClickListener;
 
-
-    // Constructor para inicializar la lista de usuarios
     public AdminRestAdapter(List<User> userList, OnUserClickListener listener) {
         this.userList = userList;
-        this.context = context;
         this.onUserClickListener = listener;
     }
 
@@ -38,85 +35,64 @@ public class AdminRestAdapter extends RecyclerView.Adapter<AdminRestAdapter.Admi
     @NonNull
     @Override
     public AdminViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        context = parent.getContext(); // Guardamos el contexto para usarlo en los listeners
-        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_card_super_admin, parent, false);
+        context = parent.getContext(); // Guardamos el contexto
+        View view = LayoutInflater.from(context).inflate(R.layout.item_card_super_admin, parent, false);
         return new AdminViewHolder(view);
     }
 
     @Override
     public void onBindViewHolder(@NonNull AdminViewHolder holder, int position) {
         User user = userList.get(position);
-        holder.textViewName.setText(user.getName());
-        holder.textViewRole.setText(user.getRole());
-        holder.bind(user);
-        holder.itemView.setOnClickListener(v -> onUserClickListener.onUserClick(user));
-        Log.d("AdminRestAdapter", "User: " + user.getName() + " " + user.getSurname());
 
-        // Transformar el rol antes de mostrarlo
-        String role = user.getRole();
-        switch (role) {
-            case "ADMIN REST":
-                holder.textViewRole.setText("Administrador de Restaurants");
-                break;
-            case "CLIENTE":
-                holder.textViewRole.setText("Cliente");
-                break;
-            case "REPARTIDOR":
-                holder.textViewRole.setText("Repartidor");
-                break;
-            case "SUPERADMIN":
-                holder.textViewRole.setText("Superadministrador");
-                break;
-            default:
-                holder.textViewRole.setText("Rol desconocido");
-                break;
+        // Concatenar nombre y apellido y convertir a mayúsculas
+        String fullName = (user.getName() + " " + user.getSurname()).toUpperCase();
+
+        // Configurar vistas
+        holder.textViewName.setText(fullName);
+        holder.textViewRole.setText(transformRole(user.getRole()));
+
+        // Configurar el estado del usuario (activo o inactivo)
+        if (user.getStatus() != null && user.getStatus()) {
+            holder.textViewStatus.setText("Activo");
+        } else {
+            holder.textViewStatus.setText("Inactivo");
         }
 
-        // Asignar el estado
-        holder.textViewStatus.setText(user.getStatus() ? "Activo" : "Inactivo");
-        holder.cardView.setOnClickListener(v -> {
-            Intent intent = new Intent(context, super_habilitar_usuarios.class);
-            intent.putExtra("userId", user.getUid()); // Puedes pasar datos como el ID del usuario
-            context.startActivity(intent);
-        });
-
-        holder.itemView.setOnClickListener(v -> {
-            // Crear Intent para enviar datos a la nueva actividad
-            Intent intent = new Intent(context, super_habilitar_usuarios.class);
-            intent.putExtra("nombre", user.getName());
-            intent.putExtra("apellidos", user.getSurname());
-            intent.putExtra("dni", user.getDni());
-            intent.putExtra("correo", user.getEmail());
-            intent.putExtra("telefono", user.getPhone());
-            context.startActivity(intent);
-        });
-        // Imagen placeholder
+        // Configurar listener para clics
+        holder.itemView.setOnClickListener(v -> onUserClickListener.onUserClick(user));
     }
-
 
     @Override
     public int getItemCount() {
         return userList != null ? userList.size() : 0;
     }
 
-    public static class AdminViewHolder extends RecyclerView.ViewHolder {
+    // Transformar el rol en texto legible
+    private String transformRole(String role) {
+        switch (role) {
+            case "ADMIN REST":
+                return "Administrador de Restaurants";
+            case "CLIENTE":
+                return "Cliente";
+            case "REPARTIDOR":
+                return "Repartidor";
+            case "SUPERADMIN":
+                return "Superadministrador";
+            default:
+                return "Rol desconocido";
+        }
+    }
 
+    public static class AdminViewHolder extends RecyclerView.ViewHolder {
         TextView textViewName, textViewRole, textViewStatus;
         CardView cardView;
-
 
         public AdminViewHolder(@NonNull View itemView) {
             super(itemView);
             textViewName = itemView.findViewById(R.id.textViewName);
             textViewRole = itemView.findViewById(R.id.textViewRole);
             textViewStatus = itemView.findViewById(R.id.textViewStatus);
-            cardView = itemView.findViewById(R.id.cardViewAdmin); // ID del CardView en tu layout
+            cardView = itemView.findViewById(R.id.cardViewAdmin);
         }
-        public void bind(User user) {
-            // Vincula los datos del usuario con las vistas
-        }
-
     }
-
 }
-

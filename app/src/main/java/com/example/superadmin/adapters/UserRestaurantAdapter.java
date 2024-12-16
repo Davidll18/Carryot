@@ -1,33 +1,27 @@
 package com.example.superadmin.adapters;
 
 import android.content.Context;
-import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.cardview.widget.CardView;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.bumptech.glide.Glide;
 import com.example.superadmin.R;
 import com.example.superadmin.dtos.RestaurantDTO;
-import com.example.superadmin.Superadmin.super_estadisticas_por_rest;
-import com.google.firebase.storage.FirebaseStorage;
-import com.google.firebase.storage.StorageReference;
 
 import java.util.ArrayList;
 
-public class RestaurantAdapter extends RecyclerView.Adapter<RestaurantAdapter.RestaurantViewHolder> {
+public class UserRestaurantAdapter extends RecyclerView.Adapter<UserRestaurantAdapter.RestaurantViewHolder> {
 
     private ArrayList<RestaurantDTO> restaurantList;
     private Context context;
     private OnCardClickListener listener; // Interfaz para clics en las tarjetas
 
-    public RestaurantAdapter(Context context, ArrayList<RestaurantDTO> restaurantList) {
+    public UserRestaurantAdapter(Context context, ArrayList<RestaurantDTO> restaurantList) {
         this.context = context;
         this.restaurantList = restaurantList;
     }
@@ -35,7 +29,7 @@ public class RestaurantAdapter extends RecyclerView.Adapter<RestaurantAdapter.Re
     @NonNull
     @Override
     public RestaurantViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.super_restaurant_item, parent, false);
+        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.user_item_menu, parent, false);
         return new RestaurantViewHolder(view);
     }
 
@@ -45,19 +39,6 @@ public class RestaurantAdapter extends RecyclerView.Adapter<RestaurantAdapter.Re
 
         // Asignar valores a las vistas
         holder.restaurantName.setText(restaurant.getNombreRestaurante());
-        holder.restaurantCategory.setText(restaurant.getCategoria());
-        // Cargar imagen desde la URL
-        if (restaurant.getImageUrl() != null && !restaurant.getImageUrl().isEmpty()) {
-            Glide.with(context)
-                    .load(restaurant.getImageUrl())
-                    .placeholder(R.drawable.logo) // Mientras carga
-                    .error(R.drawable.logo)       // Si hay error
-                    .into(holder.restaurantImage);
-        } else {
-            // Si no hay URL, usar imagen predeterminada
-            holder.restaurantImage.setImageResource(R.drawable.logo);
-        }
-
 
         // Configurar clic en la tarjeta
         holder.cardView.setOnClickListener(v -> {
@@ -82,17 +63,17 @@ public class RestaurantAdapter extends RecyclerView.Adapter<RestaurantAdapter.Re
     }
 
     public static class RestaurantViewHolder extends RecyclerView.ViewHolder {
-        TextView restaurantName;
-        TextView restaurantCategory;
-        ImageView restaurantImage;
+        TextView restaurantName,calificacion,categoria,costodelivery,tiempo;
         CardView cardView;
 
         public RestaurantViewHolder(@NonNull View itemView) {
             super(itemView);
-            restaurantName = itemView.findViewById(R.id.restaurantName);
+            restaurantName = itemView.findViewById(R.id.text_menu_name);
+            calificacion = itemView.findViewById(R.id.text_stars);
+            categoria = itemView.findViewById(R.id.categoria);
+            costodelivery = itemView.findViewById(R.id.text_delivery_cost);
+            tiempo = itemView.findViewById(R.id.text_time);
             cardView = itemView.findViewById(R.id.card_view_restaurant); // Asegúrate de que tu diseño tiene un CardView con este ID
-            restaurantCategory = itemView.findViewById(R.id.restaurantCategory);
-            restaurantImage = itemView.findViewById(R.id.restaurantImage);
         }
     }
 }

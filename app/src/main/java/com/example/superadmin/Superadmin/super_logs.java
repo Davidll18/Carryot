@@ -1,36 +1,37 @@
 package com.example.superadmin.Superadmin;
 
-import android.content.Intent;
 import android.os.Bundle;
-import android.view.MenuItem;
-import android.widget.ImageButton;
+import android.util.Log;
 
 import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.content.ContextCompat;
-import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.superadmin.R;
 import com.example.superadmin.adapters.LogAdapter;
 import com.example.superadmin.model.LogEntry;
-import com.example.superadmin.util.ToolbarUtils;
-import androidx.appcompat.widget.Toolbar;
-import com.google.android.material.navigation.NavigationView;
+import com.google.firebase.Timestamp;
+import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.Query;
+import com.google.firebase.firestore.QueryDocumentSnapshot;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
+import java.util.Locale;
+import java.text.SimpleDateFormat;
+import java.util.Locale;
+import java.util.TimeZone;
 
 public class super_logs extends AppCompatActivity {
 
     private RecyclerView recyclerViewLogs;
     private LogAdapter logAdapter;
     private List<LogEntry> logList;
-    private NavigationView navigationView_menu;
-    private DrawerLayout drawerLayout;
-    private ImageButton buttonMenu;
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -38,54 +39,60 @@ public class super_logs extends AppCompatActivity {
         EdgeToEdge.enable(this);
         setContentView(R.layout.activity_super_logs);
 
+        // Inicializar RecyclerView
         recyclerViewLogs = findViewById(R.id.recyclerViewLogs);
-
         recyclerViewLogs.setLayoutManager(new LinearLayoutManager(this));
 
-
+        // Inicializar lista y adaptador
         logList = new ArrayList<>();
-        logList.add(new LogEntry("usuario1", "Inició sesión", "2024-10-22 10:30"));
-        logList.add(new LogEntry("usuario2", "Realizó un pedido", "2024-10-22 11:00"));
-        logList.add(new LogEntry("usuario3", "Cerró sesión", "2024-10-22 11:30"));
-
         logAdapter = new LogAdapter(logList);
         recyclerViewLogs.setAdapter(logAdapter);
-        buttonMenu = findViewById(R.id.buttonMenu);
-        ToolbarUtils.adjustImageButtonPadding(buttonMenu);
-        drawerLayout = findViewById(R.id.drawerLayout_super_getion_usuarios);
-        buttonMenu.setOnClickListener(view -> drawerLayout.open());
 
+        // Cargar logs desde Firestore
+        cargarLogsDesdeFirestore();
 
+        // Configurar el color de la barra de estado
+        getWindow().setStatusBarColor(ContextCompat.getColor(this, R.color.red_boton));
+    }
 
-        getWindow().setStatusBarColor(ContextCompat.getColor(super_logs.this,R.color.red_boton));
-        navigationView_menu = findViewById(R.id.navigationView_menu);
-        navigationView_menu.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() {
-            @Override
-            public boolean onNavigationItemSelected(MenuItem item) {
-                int id = item.getItemId();
-                if (id == R.id.navGestionUsuarios) {
-                    // Ir a Gestión de Usuarios
-                    startActivity(new Intent(super_logs.this, super_gestion_usuarios.class));
-                } else if (id == R.id.navRegistrarAdminRest) {
-                    // Ir a Registrar Admin de Restaurante
-                    startActivity(new Intent(super_logs.this, Super_registro_admin_rest.class));
-                } else if (id == R.id.navReporteVentas_por_rest) {
-                    // Ir a Registrar Admin de Restaurante
-                    startActivity(new Intent(super_logs.this, super_gestion_rest.class));
-                }
-                else if (id == R.id.navReporteVentas) {
-                    // Ir a Reporte de Ventas
-                    startActivity(new Intent(super_logs.this, super_estadisticas_general.class));
-                } else if (id == R.id.navLogs) {
-                    // Ir a Logs
-                    startActivity(new Intent(super_logs.this, super_logs.class));
-                }
+    private void cargarLogsDesdeFirestore() {
+        FirebaseFirestore db = FirebaseFirestore.getInstance();
+        db.collection("users")
+                .orderBy("createdAt", Query.Direction.DESCENDING) // Ordenar por fecha descendente
+                .get()
+                .addOnCompleteListener(task -> {
+                    if (task.isSuccessful()) {
+                        logList.clear(); // Limpia la lista antes de agregar nuevos datos
+                        for (QueryDocumentSnapshot document : task.getResult()) {
+                            String username = document.getString("name") + " " + document.getString("surname");
+                            String action = "Registrado";
 
-                drawerLayout.closeDrawers(); // Cierra el menú después de seleccionar un ítem
-                return true;
-            }
-        });
+                            // Formatear la fecha de Firestore a un formato legible
+                            Timestamp timestamp = document.getTimestamp("createdAt");
+                            String formattedDate = convertirFecha(timestamp);
 
+                            logList.add(new LogEntry(username, action, formattedDate));
+                        }
+                        logAdapter.notifyDataSetChanged(); // Actualiza el RecyclerView
+                    } else {
+                        Log.e("Firestore", "Error al obtener los datos", task.getException());
+                    }
+                });
+    }
 
+    private String convertirFecha(Timestamp timestamp) {
+        if (timestamp != null) {
+            Calendar calendar = Calendar.getInstance();
+            calendar.setTime(timestamp.toDate());
+
+            // Ajustar la zona horaria (por ejemplo, UTC-5)
+            calendar.add(Calendar.HOUR, -5);
+
+            // Formatear la fecha ajustada
+            SimpleDateFormat sdf = new SimpleDateFormat("dd MMM yyyy - hh:mm a", Locale.getDefault());
+            return sdf.format(calendar.getTime());
+        } else {
+            return "Fecha desconocida";
+        }
     }
 }
