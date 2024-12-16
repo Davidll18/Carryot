@@ -2,6 +2,7 @@ package com.example.superadmin.user;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
@@ -69,8 +70,11 @@ public class UserHomeActivity extends AppCompatActivity {
 
         // Configurar listener en el adaptador
         adapter.setOnCardClickListener(restaurant -> {
+            Log.d("UID_INTENT", "UID del restaurante seleccionado: " + restaurant.getUidCreacion());
+
+            // Enviar el UID a UserProductsActivity
             Intent intent = new Intent(UserHomeActivity.this, UserProductsActivity.class);
-            intent.putExtra("restaurantId", restaurant.getUidCreacion()); // Pasa el ID del restaurante
+            intent.putExtra("uidRestaurante", restaurant.getUidCreacion());
             startActivity(intent);
         });
 

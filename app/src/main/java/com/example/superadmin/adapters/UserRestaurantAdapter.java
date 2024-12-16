@@ -40,6 +40,13 @@ public class UserRestaurantAdapter extends RecyclerView.Adapter<UserRestaurantAd
         // Asignar valores a las vistas
         holder.restaurantName.setText(restaurant.getNombreRestaurante());
 
+        // Imprimir el UID del restaurante en el log para verificar
+        if (restaurant.getUidCreacion() != null) {
+            android.util.Log.d("UID_RESTAURANTE", "UID: " + restaurant.getUidCreacion());
+        } else {
+            android.util.Log.e("UID_RESTAURANTE", "El UID del restaurante es nulo");
+        }
+
         // Configurar clic en la tarjeta
         holder.cardView.setOnClickListener(v -> {
             if (listener != null) {
@@ -52,6 +59,11 @@ public class UserRestaurantAdapter extends RecyclerView.Adapter<UserRestaurantAd
     public int getItemCount() {
         return restaurantList.size();
     }
+
+
+
+
+
 
     // Configurar el listener
     public void setOnCardClickListener(OnCardClickListener listener) {

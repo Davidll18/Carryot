@@ -22,6 +22,8 @@ public class UserProductsActivity extends AppCompatActivity implements UserProdu
     private UserProductAdapter adapter;
     private List<PlatoDTO> productList;
     private FirebaseFirestore db;
+    private String uidRestauranteSeleccionado;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -31,6 +33,8 @@ public class UserProductsActivity extends AppCompatActivity implements UserProdu
         // Configurar RecyclerView
         recyclerView = findViewById(R.id.rv_prod);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
+        uidRestauranteSeleccionado = getIntent().getStringExtra("uidRestaurante");
+        Log.d("UID_INTENT", "UID del restaurante recibido: " + uidRestauranteSeleccionado);
 
         // Inicializar Firestore y la lista
         db = FirebaseFirestore.getInstance();
@@ -38,24 +42,28 @@ public class UserProductsActivity extends AppCompatActivity implements UserProdu
         adapter = new UserProductAdapter(productList, this);
         recyclerView.setAdapter(adapter);
 
+
         // Cargar los datos desde Firestore
-        fetchProductsFromFirestore();
+        fetchProductsFromFirestore(uidRestauranteSeleccionado);
     }
 
-    private void fetchProductsFromFirestore() {
-        db.collection("platos") // Nombre de tu colección en Firestore
+    private void fetchProductsFromFirestore(String uidRestaurante) {
+        Log.d("Firestore", "Consultando platos con uidRestaurante: " + uidRestaurante);
+
+        db.collection("platos")
+                .whereEqualTo("uidRestaurante", uidRestaurante)
                 .get()
                 .addOnCompleteListener(task -> {
                     if (task.isSuccessful()) {
                         productList.clear();
                         for (QueryDocumentSnapshot document : task.getResult()) {
-                            // Convertir Firestore document a PlatoDTO
+                            Log.d("Firestore", "Documento obtenido: " + document.getData());
                             PlatoDTO plato = document.toObject(PlatoDTO.class);
                             productList.add(plato);
                         }
-                        adapter.notifyDataSetChanged(); // Notificar cambios al RecyclerView
+                        adapter.notifyDataSetChanged();
                     } else {
-                        Log.e("Firestore", "Error al cargar datos", task.getException());
+                        Log.e("Firestore", "Error en la consulta Firestore", task.getException());
                     }
                 });
     }
