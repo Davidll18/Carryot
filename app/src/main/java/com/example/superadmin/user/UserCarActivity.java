@@ -89,8 +89,4 @@ public class UserCarActivity extends AppCompatActivity implements UserProductCar
 
     }
 
-    @Override
-    public void onCopyClick(int position) {
-
-    }
 }

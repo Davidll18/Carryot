@@ -1,6 +1,5 @@
 package com.example.superadmin.adapters;
 
-
 import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -42,14 +41,23 @@ public class UserProductCarAdapter extends RecyclerView.Adapter<UserProductCarAd
 
         holder.textModel.setText(product.getName());
         holder.textNumberProducts.setText(String.valueOf(product.getQuantity()));
-        holder.textAmount.setText(String.valueOf(product.getPrice()));
+        holder.textAmount.setText("S/ " + String.format("%.2f", product.getPrice()));
         holder.imgProduct.setImageResource(product.getImageResId());
 
+        // Botón más
+        holder.btnAddProduct.setOnClickListener(v -> {
+            onItemClickListener.onAddClick(position);
+            notifyItemChanged(position);
+        });
 
-        holder.btnAddProduct.setOnClickListener(v -> onItemClickListener.onAddClick(position));
-        holder.btnMinusProduct.setOnClickListener(v -> onItemClickListener.onMinusClick(position));
+        // Botón menos
+        holder.btnMinusProduct.setOnClickListener(v -> {
+            onItemClickListener.onMinusClick(position);
+            notifyItemChanged(position);
+        });
+
+        // Botón eliminar
         holder.btnRemove.setOnClickListener(v -> onItemClickListener.onRemoveClick(position));
-        holder.btnCopy.setOnClickListener(v -> onItemClickListener.onCopyClick(position));
     }
 
     @Override
@@ -61,8 +69,7 @@ public class UserProductCarAdapter extends RecyclerView.Adapter<UserProductCarAd
 
         TextView textModel, textAmount, textNumberProducts;
         ImageView imgProduct, btnAddProduct, btnMinusProduct;
-
-        CardView containerSingleProduct, btnRemoveCard, btnCopyCard, btnRemove, btnCopy;
+        CardView btnRemove;
 
         public ProductCarViewHolder(@NonNull View itemView) {
             super(itemView);
@@ -74,7 +81,6 @@ public class UserProductCarAdapter extends RecyclerView.Adapter<UserProductCarAd
             btnAddProduct = itemView.findViewById(R.id.btn_add_numbers_producst);
             btnMinusProduct = itemView.findViewById(R.id.btn_minus_numbers_products);
             btnRemove = itemView.findViewById(R.id.btn_remove);
-            btnCopy = itemView.findViewById(R.id.btn_copy);
         }
     }
 
@@ -82,6 +88,5 @@ public class UserProductCarAdapter extends RecyclerView.Adapter<UserProductCarAd
         void onAddClick(int position);
         void onMinusClick(int position);
         void onRemoveClick(int position);
-        void onCopyClick(int position);
     }
 }
